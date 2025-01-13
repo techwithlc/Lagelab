@@ -1,64 +1,42 @@
-Example plain HTML site using GitLab Pages.
+# Lagelab Project Documentation
 
-Learn more about GitLab Pages at https://pages.gitlab.io and the official
-documentation https://docs.gitlab.com/ce/user/project/pages/.
+## Project Purpose
 
----
+Lagelab is an initiative designed to help individuals learn Microsoft Azure through hands-on lab experiences. Our mission is to provide a structured, practical, and accessible way for learners to gain real-world Azure skills by working on certification-focused labs. Whether you're a beginner or an experienced professional, Lagelab aims to bridge the gap between theoretical knowledge and practical application in Azure.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+## What We Want to Achieve
 
-- [GitLab CI](#gitlab-ci)
-- [GitLab User or Group Pages](#gitlab-user-or-group-pages)
-- [Did you fork this project?](#did-you-fork-this-project)
-- [Troubleshooting](#troubleshooting)
+1. **Hands-On Learning**: Provide a platform where users can engage in practical, lab-based learning to reinforce their understanding of Azure services and concepts.
+2. **Certification Preparation**: Offer labs tailored to popular Azure certifications (e.g., AZ-900, AZ-104, AZ-305) to help users prepare effectively for their exams.
+3. **Community Collaboration**: Foster a community of learners who can share insights, troubleshoot challenges, and collaborate on lab projects.
+4. **Comprehensive Documentation**: Develop clear, step-by-step guides and documentation for each lab to ensure users can follow along and achieve their learning goals.
+5. **Accessibility**: Make Azure learning accessible to everyone, regardless of their background or experience level, by providing free or affordable resources.
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+## Key Features
 
-## GitLab CI
+- **Lab Repository**: A collection of Azure labs covering various services, scenarios, and certification paths.
+- **Step-by-Step Guides**: Detailed instructions for each lab, including setup, execution, and cleanup.
+- **Community Forum**: A space for users to ask questions, share solutions, and collaborate with others.
+- **Progress Tracking**: Tools or methods to help users track their progress through labs and certifications.
+- **Resource Library**: Additional resources such as videos, articles, and best practices to complement lab work.
 
-This project's static Pages are built by [GitLab CI][ci], following the steps
-defined in [`.gitlab-ci.yml`](.gitlab-ci.yml):
+## How to Get Started
 
-```
-image: busybox
+1. **Explore the Labs**: Browse the available labs and choose one that aligns with your learning goals or certification path.
+2. **Follow the Documentation**: Use the step-by-step guides to set up and complete the lab in your Azure environment.
+3. **Engage with the Community**: Join the Lagelab community to ask questions, share your progress, and learn from others.
+4. **Track Your Progress**: Use the provided tools to monitor your progress and identify areas for improvement.
+5. **Contribute**: If you have ideas for new labs or improvements to existing ones, feel free to contribute to the project.
 
-pages:
-  stage: deploy
-  script:
-  - echo 'Nothing to do...'
-  artifacts:
-    paths:
-    - public
-    expire_in: 1 day
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-```
+## Future Goals
 
-The above example expects to put all your HTML files in the `public/` directory.
+- Expand the lab repository to cover more Azure services and certifications.
+- Integrate automated lab setup and teardown scripts for a seamless experience.
+- Partner with Azure experts and organizations to provide mentorship and advanced learning opportunities.
+- Develop interactive learning paths to guide users from beginner to advanced levels.
 
-## GitLab User or Group Pages
+## Join Us
 
-To use this project as your user/group website, you will need one additional
-step: just rename your project to `namespace.gitlab.io`, where `namespace` is
-your `username` or `groupname`. This can be done by navigating to your
-project's **Settings**.
+Lagelab is a community-driven project, and we welcome contributions from anyone passionate about Azure and education. Whether you're interested in creating labs, improving documentation, or simply sharing feedback, your input is valuable!
 
-Read more about [user/group Pages][userpages] and [project Pages][projpages].
-
-## Did you fork this project?
-
-If you forked this project for your own use, please go to your project's
-**Settings** and remove the forking relationship, which won't be necessary
-unless you want to contribute back to the upstream project.
-
-## Troubleshooting
-
-1. CSS is missing! That means that you have wrongly set up the CSS URL in your
-   HTML files. Have a look at the [index.html] for an example.
-
-[ci]: https://about.gitlab.com/gitlab-ci/
-[index.html]: https://gitlab.com/pages/plain-html/blob/master/public/index.html
-[userpages]: https://docs.gitlab.com/ce/user/project/pages/introduction.html#user-or-group-pages
-[projpages]: https://docs.gitlab.com/ce/user/project/pages/introduction.html#project-pages
+Let's build a better way to learn Azure, one lab at a time. 🚀
