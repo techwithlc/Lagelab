@@ -40,3 +40,5 @@ Lagelab is an initiative designed to help individuals learn Microsoft Azure thro
 Lagelab is a community-driven project, and we welcome contributions from anyone passionate about Azure and education. Whether you're interested in creating labs, improving documentation, or simply sharing feedback, your input is valuable!
 
 Let's build a better way to learn Azure, one lab at a time. 🚀
+
+
