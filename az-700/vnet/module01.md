@@ -168,5 +168,5 @@ Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以
 
 ## 技術點
 
-* 什麼是 vNet?
-* 什麼是子網路遮罩？
+* [什麼是 Azure Virtual Network?](https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-virtual-networks/2-explore-azure-virtual-networks)
+* [什麼是子網路遮罩？](https://aws.amazon.com/tw/what-is/cidr/)
