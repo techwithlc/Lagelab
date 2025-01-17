@@ -87,7 +87,10 @@
 |                | 區域               | (美國) 美國東部           |
 | IP 位址   | IPv4 位址空間   | 10.20.0.0/16           |
 
+![Virtualnettype](./image/virtual-type.png)
+
 4. 使用以下表格中的信息來建立 **CoreServicesVnet** 子網路。
+
 
 | 子網路                  | 選項               | 值                  |
 |-------------------------|----------------------|------------------------|
@@ -100,9 +103,24 @@
 | PublicWebServiceSubnet  | 子網路名稱          | PublicWebServiceSubnet |
 |                         | 子網路位址範圍 | 10.20.30.0/24          |
 
-5. 要完成 **CoreServicesVnet** 及其相關子網路的建立，請選擇 **檢閱 + 建立**。
-6. 確認您的配置通過驗證，然後選擇 **建立**。
-7. 根據以下表格，重複步驟 1 - 8 為每個 VNet 建立。
+![Subnet](./image/subnet.png)
+
+> 記得先把 default subnet 刪除掉，不然等等會有 10.20.0.0 CIDR 衝突
+
+1. 要完成 **CoreServicesVnet** 及其相關子網路的建立，請選擇 **檢閱 + 建立**。
+2. 確認您的配置通過驗證，然後選擇 **建立**。
+
+![addsubnet](./image/add-subnet.png)
+
+> GatewaySubnet 比較特殊，記得點選 Add Subnet 旁邊的 button，另外選擇 IP Size 是在後面選擇，而非輸入
+
+![sharedsubnet](./image/shared-subnet.png)
+
+順利的話，你應該要看到以下的子網在你的 **CoreServicesVNnet**
+
+![corevnet](./image/corevnet.png)
+
+3. 根據以下表格，重複步驟 1 - 8 為每個 VNet 建立。
 
 ### 任務 3：建立 ManufacturingVnet 虛擬網路和子網路
 
@@ -124,6 +142,7 @@
 | SensorSubnet3           | 子網路名稱          | SensorSubnet3          |
 |                         | 子網路位址範圍 | 10.30.22.0/24          |
 
+
 ### 任務 4：建立 ResearchVnet 虛擬網路和子網路
 
 | 標籤            | 選項               | 值                  |
@@ -142,23 +161,23 @@
 
 1. 在 Azure 入口網站首頁上，選擇 **所有資源**。
 2. 確認 **CoreServicesVnet**、**ManufacturingVnet** 和 **ResearchVnet** 已列出。
-3. 選擇 **CoreServicesVnet**。
-4. 在 **CoreServicesVnet** 中，於 **設定** 下選擇 **子網路**。
-5. 在 **CoreServicesVnet | 子網路** 中，確認您建立的子網路已列出，並且 IP 位址範圍正確。
-6. 重複步驟 3 - 5 為每個 VNet 進行驗證。
 
-## 使用 Copilot 擴展學習
+![allvirtualnet](./image/allvirtualnet.png)
+
+3. 在所有的 Vnet 中，於 **設定** 下選擇 **子網路**，確認您建立的子網路已列出，並且 IP 位址範圍正確。
+4. 重複步驟 3 - 5 為每個 VNet 進行驗證。
+
+## 使用 Copilot 牛刀小試
 
 Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以協助處理實驗室未涵蓋的領域或您需要更多信息的地方。打開 Edge 瀏覽器並選擇 **Copilot**（右上角）或導航到 [copilot.microsoft.com](https://copilot.microsoft.com)。花幾分鐘嘗試以下提示：
 
 - 您能否提供一個實際場景中使用 10.30.0.0/16 IP 位址的示例？
-- 在美國東部區域建立一個名為 **CoreServicesVnet** 的虛擬網路的 Azure PowerShell 命令是什麼？該虛擬網路應使用 10.20.0.0/16 IP 位址空間。
+- 在美國東部區域建立一個名為 **CoreServicesVnet** 的虛擬網路的 Azure PowerShell 命令是什麼？該虛擬網路應使用 10.20.0.0/16 IP 位址空間，可以嘗試一下 Copilot 回的 Powershell command 能不能用
+
+![copilot](./image/copilot.png)
+
 - 在西歐區域建立一個名為 **ManufacturingVnet** 的虛擬網路的 Azure CLI 命令是什麼？該虛擬網路應使用 10.30.0.0/16 IP 位址空間。
 
-## 通過自學培訓了解更多
-
-- **為您的 Azure 部署設計 IP 位址方案。** 在此模組中，識別 Azure 虛擬網路的公共和私有 IP 位址功能。
-- **Azure 虛擬網路簡介。** 在此模組中，您將學習如何設計和實施 Azure 網路服務。您將了解虛擬網路、公共和私有 IP、DNS、虛擬網路對等互連、路由和 Azure 虛擬 NAT。
 
 ## 關鍵要點
 
@@ -166,7 +185,7 @@ Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以
 - 虛擬網路中的所有 Azure 資源都部署到虛擬網路內的子網路中。子網路使您能夠將虛擬網路分割成一個或多個子網路，並為每個子網路分配虛擬網路位址空間的一部分。您的子網路不應覆蓋虛擬網路的整個位址空間。提前計劃並為未來保留一些位址空間。
 
 
-## 技術點
+## 技術學習補充
 
 * [什麼是 Azure Virtual Network?](https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-virtual-networks/2-explore-azure-virtual-networks)
 * [什麼是子網路遮罩？](https://aws.amazon.com/tw/what-is/cidr/)
