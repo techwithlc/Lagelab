@@ -132,6 +132,7 @@
    ```
 
 3.測試連線應該會失敗，您將看到類似以下內容的結果：
+
 ![vm_connect_failed](./image/m1u8/18_Task3_Test%20the%20connection%20between%20the%20VMs.jpg)
 
 ### 任務 4：在 CoreServicesVnet 和 ManufacturingVnet 之間建立 VNet 對等互連
@@ -155,25 +156,26 @@
    | 對等連結名稱  | `ManufacturingVnet-to-CoreServicesVnet` |
    | 虛擬網路 | ManufacturingVnet |
 
-    **遠端虛擬網路對等設定**
    
+   **遠端虛擬網路對等設定** 
+
    | **選項**                                    | **輸入值**                             |
    | ------------------------------------ | --------------------------------------------- | 
    | 允許 'ManufacturingVnet' 存取 'CoreServicesVnet' | 啟用 |
    |'ManufacturingVnet' 接收來自 'CoreServicesVnet'的轉送流量 | 啟用 |
  
-    **本地虛擬網路摘要**
+   **本地虛擬網路摘要**
 
-    | **選項**                                    | **輸入值**                             |
-    | ------------------------------------ | --------------------------------------------- | 
-    | 對等連結名稱 | `CoreServicesVnet-to-ManufacturingVnet` |
+   | **選項**                                    | **輸入值**                             |
+   | ------------------------------------ | --------------------------------------------- | 
+   | 對等連結名稱 | `CoreServicesVnet-to-ManufacturingVnet` |
  
-    **遠端虛擬網路對等設定**
+   **遠端虛擬網路對等設定**
    
-    | **選項**                                    | **輸入值**                             |
-    | ------------------------------------ | --------------------------------------------- | 
-    | 允許 'CoreServicesVnet' to access 'ManufacturingVnet' | 啟用
-    | 允許 'CoreServicesVnet' 接收來自 from 'ManufacturingVnet' | 啟用 |
+   | **選項**                                    | **輸入值**                             |
+   | ------------------------------------ | --------------------------------------------- | 
+   | 允許 'CoreServicesVnet' to access 'ManufacturingVnet' | 啟用
+   | 允許 'CoreServicesVnet' 接收來自 from 'ManufacturingVnet' | 啟用 |
 
 **如以下附圖**
 
