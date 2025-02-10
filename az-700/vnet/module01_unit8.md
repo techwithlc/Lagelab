@@ -59,7 +59,7 @@
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
-   + 再上傳前需修改**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**內vmsize value為 **Standard_D2ls_v5**
+   + 上傳前需修改**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**內vmsize value為 **Standard_D2ls_v5**
     
    部署以下 ARM 範本來建立此練習所需的 VM： (複製以下code至powershell執行)
 
@@ -228,11 +228,9 @@ Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以
 
 透過自主學習培訓了解更多訊息
 
--Azure 虛擬網路簡介。在本模組中，您將學習如何設計和實作 Azure 網路服務。您將了解虛擬網路、公有和私人 IP、DNS、虛擬網路對等、路由和 Azure 虛擬 NAT。 
-https://learn.microsoft.com/training/modules/introduction-to-azure-virtual-networks/
+* [Azure 虛擬網路簡介](https://learn.microsoft.com/training/modules/introduction-to-azure-virtual-networks/)。在本模組中，您將學習如何設計和實作 Azure 網路服務。您將了解虛擬網路、公有和私人 IP、DNS、虛擬網路對等、路由和 Azure 虛擬 NAT。 
 
--在 Azure 虛擬網路中分發您的服務，並使用虛擬網路對等互連將它們整合。在本模組中，您將學習如何設定虛擬網路對等。
-https://learn.microsoft.com/training/modules/integrate-vnets-with-vnet-peering/
+-在 Azure 虛擬網路中分發您的服務，並使用* [虛擬網路對等互連](https://learn.microsoft.com/training/modules/integrate-vnets-with-vnet-peering/)將它們整合。在本模組中，您將學習如何設定虛擬網路對等。
 
 
 ## 關鍵要點
