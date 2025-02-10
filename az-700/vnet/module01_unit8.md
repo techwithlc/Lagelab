@@ -77,11 +77,17 @@
 ### 任務 2：使用 RDP 連接到測試虛擬機
 
 1.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+
 2.選擇 **ManufacturingVM**。
+
 ![select_ManufacturingVM](./image/m1u8/11_vm_lists.jpg)
+
 3.在 ManufacturingVM 上，選擇 **「連線」>「RDP」**。
+
 4.關於 ManufacturingVM |連接，選擇 **下載 RDP 檔案**。
+
 ![download_ManufacturingVM_rdpfile](./image/m1u8/12_click_manufacturingvm.jpg)
+
 5.將 RDP 檔案儲存到您的桌面。
 
 6.使用 RDP 檔案以及部署期間提供的使用者名稱TestUser和密碼連線到 ManufacturingVM。
@@ -89,10 +95,15 @@
    >**注意**: 密碼為先前建立VM時設定之密碼。
 
 7.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+
 8.選擇 **TestVM1**。
+
 9.在 TestVM1 上，選擇 **「連線」>「RDP」**。
+
 10.在 TestVM1 上|連接，選擇 **下載 RDP 檔案**。
+
 ![download_TestVM1_rdpfile](./image/m1u8/13_download_testvm1_rdpfile.jpg)
+
 11.將 RDP 檔案儲存到您的桌面。
 
 12.使用 RDP 檔案以及您在部署期間提供的使用者名稱TestUser和密碼連線到 TestVM1。
@@ -100,10 +111,13 @@
    >**注意**: 密碼為先前建立VM時設定之密碼。
 
 13.在兩台虛擬機器上的「選擇裝置的隱私設定」中，選擇「接受」。
+
 14.在兩台虛擬機器上的「網路」中，選擇「是」。
 
 15.分別在ManufacturingVM、TestVM1 上，開啟 PowerShell 提示字元並執行下列命令：ipconfig
+
 ![Both_VM_ipconfig](./image/m1u8/17_vm_ipconfig_powershell.jpg)
+
 16.記下 IPv4 位址。
 
 
@@ -123,10 +137,15 @@
 ### 任務 4：在 CoreServicesVnet 和 ManufacturingVnet 之間建立 VNet 對等互連
 
 1.在 Azure 主頁上，選擇「虛擬網路」，然後選擇「CoreServicesVnet」。
+
 ![CoreServicesVnet](./image/m1u8/20_vnet_peering.jpg)
+
 2.在 CoreServicesVnet 中的「設定」下，選擇「Peerings」。
+
 3.在 CoreServicesVnet 上 |對等連接，選擇+ 新增。
+
 ![peering_add](./image/m1u8/21_peering_add.jpg)
+
 4.使用此資訊來建立對等。完成後，選擇新增。
    
    **遠端虛擬網路摘要**
@@ -155,11 +174,17 @@
     | ------------------------------------ | --------------------------------------------- | 
     | 允許 'CoreServicesVnet' to access 'ManufacturingVnet' | 啟用
     | 允許 'CoreServicesVnet' 接收來自 from 'ManufacturingVnet' | 啟用 |
+
 **如以下附圖**
+
 ![peering_setting](./image/m1u8/22_vnet_peering_setting1.jpg)
+
 ![peering_setting](./image/m1u8/23_vnet_peering_setting2.jpg)
+
 5.在 CoreServicesVnet 中 |對等連接，驗證CoreServicesVnet 到 ManufacturingVnet 對等連接是否已連接。
+
 6.在「虛擬網路」下，選擇ManufacturingVnet，並驗證ManufacturingVnet-to-CoreServicesVnet 對等連線是否已連線。
+
 ![peering_connected](./image/m1u8/24_peering_connected.jpg)
 
 
