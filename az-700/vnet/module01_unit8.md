@@ -10,11 +10,10 @@
 
 **ManufacturingVnet** (10.30.0.0/16) 虛擬網路部署在 **西歐** 區域，為新公司區域。此虛擬網路將包含用於製造設施運營的系統。該組織預計會有大量內部連接設備。此虛擬網路內有ManufactorungVM (10.30.10.4)。
 
-## 架構圖
+### 公司的網路佈局 ### 架構圖 
 
 ![架構圖](./image/m1u8/8-exercise-connect-two-azure-virtual-networks-global.png)
 
-### 公司的網路佈局
 ### 您將建立以下資源：
 **TestVM1(美東)**、**ManufactoringVM(西歐)**、**Peering對等連接**
 
