@@ -6,11 +6,11 @@
 
 **預計時間：** 20 分鐘
 
+### 公司的網路佈局 
 **CoreServicesVnet** (10.20.0.0/16) 虛擬網路部署在 **美國東部** 區域，為公司總部區域。此虛擬網路內有TestVM1 (10.20.20.4)。
 
 **ManufacturingVnet** (10.30.0.0/16) 虛擬網路部署在 **西歐** 區域，為新公司區域。此虛擬網路將包含用於製造設施運營的系統。該組織預計會有大量內部連接設備。此虛擬網路內有ManufactorungVM (10.30.10.4)。
 
-### 公司的網路佈局 
 ### 架構圖 
 
 ![架構圖](./image/m1u8/8-exercise-connect-two-azure-virtual-networks-global.png)
