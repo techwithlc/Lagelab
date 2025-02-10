@@ -129,7 +129,7 @@
 
    ```powershell
     Test-NetConnection 10.20.20.4 -port 3389
-    ```
+   ```
 
 3.測試連線應該會失敗，您將看到類似以下內容的結果：
 ![vm_connect_failed](./image/m1u8/18_Task3_Test%20the%20connection%20between%20the%20VMs.jpg)
