@@ -1,5 +1,5 @@
-#### Module 01 Unit 8 Connect two Azure Virtual Networks using global virtual network peering 
-#### 使用全域虛擬網路對等連接兩個 Azure 虛擬網絡
+# Module 01 Unit 8 Connect two Azure Virtual Networks using global virtual network peering 
+# 使用全域虛擬網路對等連接兩個 Azure 虛擬網絡
 
 ## 情境模擬
 
@@ -12,14 +12,14 @@
 
 **ManufacturingVnet** (10.30.0.0/16) 虛擬網路部署在 **西歐** 區域，為新公司區域。此虛擬網路將包含用於製造設施運營的系統。該組織預計會有大量內部連接設備。此虛擬網路內有ManufactorungVM (10.30.10.4)。
 
-### 架構圖 
+## 架構圖 
 
 ![架構圖](./image/m1u8/8-exercise-connect-two-azure-virtual-networks-global.png)
 
 ### 您將建立以下資源：
 **TestVM1(美東)**、**ManufactoringVM(西歐)**、**Peering對等連接**
 
-### 在此練習中，您將：
+## 在此練習中，您將：
 
 **任務 1：** 建立虛擬機器來測試配置
 
@@ -227,7 +227,7 @@ Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以
 
 ![copilot](./image/copilot.png)
 
-透過自主學習培訓了解更多訊息
+### 透過自主學習培訓了解更多訊息
 
 * [Azure 虛擬網路簡介](https://learn.microsoft.com/training/modules/introduction-to-azure-virtual-networks/)。在本模組中，您將學習如何設計和實作 Azure 網路服務。您將了解虛擬網路、公有和私人 IP、DNS、虛擬網路對等、路由和 Azure 虛擬 NAT。 
 * 在 Azure 虛擬網路中分發您的服務，並使用[虛擬網路對等互連](https://learn.microsoft.com/training/modules/integrate-vnets-with-vnet-peering/)將它們整合。在本模組中，您將學習如何設定虛擬網路對等。
