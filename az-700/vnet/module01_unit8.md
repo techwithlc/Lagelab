@@ -17,7 +17,7 @@
 
 ## 架構圖
 
-![架構圖](./image/8-exercise-connect-two-azure-virtual-networks-global.png)
+![架構圖](./image/m1u8/8-exercise-connect-two-azure-virtual-networks-global.png)
 
 
 ### 公司的網路佈局
@@ -34,24 +34,38 @@
 
 ### 任務 1：建立虛擬機器來測試配置
 
-### 建立 ManufacturingVM
 1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。 如果有必要，請配置 shell。 
-    ![Cloud Shell](./image/unit8_1_cloud_shell_icon.jpg)
+    ![Cloud Shell](./image/m1u8/unit8_1_cloud_shell_icon.jpg)
     + 選擇 **PowerShell**。
-    ![Powershell](./image/unit8_2_select_powershell.jpg)
+    ![Powershell](./image/m1u8/unit8_2_select_powershell.jpg)
     + 選擇 **「不需要儲存帳戶」** 和您的 **訂閱**，然後選擇 **「套用」**。
-    ![](./image/unit8_3_select_powershell.jpg)
+    ![Setting](./image/m1u8/unit8_3_select_powershell.jpg)
     + 等待終端機建立並顯示提示。 
 
-2. 在 Cloud Shell 窗格的工具列上，選擇「管理檔案」圖標，在下拉式選單中選擇 **「上傳」** ，並將下列檔案**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**從來源資料夾**F:\Allfiles\Exercises\M011**上傳至 Cloud Shell 主目錄。
+### 建立 TestVM1 
+2. 在 Cloud Shell 窗格的工具列上，選擇「管理檔案」圖標，在下拉式選單中選擇 **「上傳」** ，並將下列檔案**azuredeploy.json**和**azuredeploy.parameters.json**從來源資料夾**F:\Allfiles\Exercises\M01**上傳至 Cloud Shell 主目錄。
+
+   >**注意**: 
+   + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
+    
+   部署以下 ARM 範本來建立此練習所需的 VM： (複製以下code至powershell執行)
+
+   >**注意**: 系統將提示您提供管理員密碼。 (需要 **設定大小寫特殊符號**之密碼，ex:Admin1234!) 
+   ```powershell
+   $RGName = "ContosoResourceGroup"
+   New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.json
+   ```
+
+### 建立 ManufacturingVM
+3. 在 Cloud Shell 窗格的工具列上，選擇「管理檔案」圖標，在下拉式選單中選擇 **「上傳」** ，並將下列檔案**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**從來源資料夾**F:\Allfiles\Exercises\M011**上傳至 Cloud Shell 主目錄。
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
    + 再上傳前需修改**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**內vmsize value為 **Standard_D2ls_v5**
     
-3. 部署以下 ARM 範本來建立此練習所需的 VM： (複製以下code至powershell執行)
+   部署以下 ARM 範本來建立此練習所需的 VM： (複製以下code至powershell執行)
 
-   >**注意**: 系統將提示您提供管理員密碼。
+   >**注意**: 系統將提示您提供管理員密碼。 (需要 **設定大小寫特殊符號**之密碼，ex:Admin1234!) 
    ```powershell
    $RGName = "ContosoResourceGroup"
    New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile ManufacturingVMazuredeploy.json -TemplateParameterFile ManufacturingVMazuredeploy.parameters.json
@@ -60,59 +74,34 @@
 4. 部署完成後，請前往 Azure 入口網站主頁，然後選擇 **「虛擬機器」**。
 5. 驗證虛擬機器是否已建立。
 
-
-![Resourcegroup](./image/resoure.png)
-
 ### 任務 2：使用 RDP 連接到測試虛擬機
 
-1. 在 Azure 入口網站首頁上，導航到 **全域搜尋欄** 並搜尋 **虛擬網路**，然後在服務下選擇 **虛擬網路**。
+1.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+2.選擇 **ManufacturingVM**。
+![select_ManufacturingVM](./image/m1u8/11_vm_lists.jpg)
+3.在 ManufacturingVM 上，選擇 **「連線」>「RDP」**。
+4.關於 ManufacturingVM |連接，選擇 **下載 RDP 檔案**。
+![download_ManufacturingVM_rdpfile](./image/m1u8/12_click_manufacturingvm.jpg)
+5.將 RDP 檔案儲存到您的桌面。
+6.使用 RDP 檔案以及部署期間提供的使用者名稱TestUser和密碼連線到 ManufacturingVM。
+   >**注意**: 密碼為先前建立VM時設定之密碼。
 
-![Virtualnetwork](./image/virtual.png)
+7.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+8.選擇 **TestVM1**。
+9.在 TestVM1 上，選擇 **「連線」>「RDP」**。
+10.在 TestVM1 上|連接，選擇 **下載 RDP 檔案**。
+![download_TestVM1_rdpfile](./image/m1u8/13_download_testvm1_rdpfile.jpg)
+11.將 RDP 檔案儲存到您的桌面。
+12.使用 RDP 檔案以及您在部署期間提供的使用者名稱TestUser和密碼連線到 TestVM1。
+   >**注意**: 密碼為先前建立VM時設定之密碼。
 
-2. 在虛擬網路頁面上選擇 **建立**。
-3. 使用以下表格中的信息來建立 **CoreServicesVnet** 虛擬網路。
+13.在兩台虛擬機器上的「選擇裝置的隱私設定」中，選擇「接受」。
+14.在兩台虛擬機器上的「網路」中，選擇「是」。
 
-| 標籤            | 選項               | 值                  |
-|----------------|----------------------|------------------------|
-| 基本         | 資源群組       | ContosoResourceGroup   |
-|                | 名稱                 | CoreServicesVnet       |
-|                | 區域               | (美國) 美國東部           |
-| IP 位址   | IPv4 位址空間   | 10.20.0.0/16           |
+15.分別在ManufacturingVM、TestVM1 上，開啟 PowerShell 提示字元並執行下列命令：ipconfig
+![Both_VM_ipconfig](./image/m1u8/17_vm_ipconfig_powershell.jpg)
+16.記下 IPv4 位址。
 
-![Virtualnettype](./image/virtual-type.png)
-
-4. 使用以下表格中的信息來建立 **CoreServicesVnet** 子網路。
-
-
-| 子網路                  | 選項               | 值                  |
-|-------------------------|----------------------|------------------------|
-| GatewaySubnet           | 子網路名稱          | GatewaySubnet          |
-|                         | 子網路位址範圍 | 10.20.0.0/27           |
-| SharedServicesSubnet    | 子網路名稱          | SharedServicesSubnet   |
-|                         | 子網路位址範圍 | 10.20.10.0/24          |
-| DatabaseSubnet          | 子網路名稱          | DatabaseSubnet         |
-|                         | 子網路位址範圍 | 10.20.20.0/24          |
-| PublicWebServiceSubnet  | 子網路名稱          | PublicWebServiceSubnet |
-|                         | 子網路位址範圍 | 10.20.30.0/24          |
-
-![Subnet](./image/subnet.png)
-
-> 記得先把 default subnet 刪除掉，不然等等會有 10.20.0.0 CIDR 衝突
-
-1. 要完成 **CoreServicesVnet** 及其相關子網路的建立，請選擇 **檢閱 + 建立**。
-2. 確認您的配置通過驗證，然後選擇 **建立**。
-
-![addsubnet](./image/add-subnet.png)
-
-> GatewaySubnet 比較特殊，記得點選 Add Subnet 旁邊的 button，另外選擇 IP Size 是在後面選擇，而非輸入
-
-![sharedsubnet](./image/shared-subnet.png)
-
-順利的話，你應該要看到以下的子網在你的 **CoreServicesVNnet**
-
-![corevnet](./image/corevnet.png)
-
-3. 根據以下表格，重複步驟 1 - 8 為每個 VNet 建立。
 
 ### 任務 3：測試虛擬機器之間的連接
 
