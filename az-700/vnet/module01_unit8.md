@@ -36,11 +36,11 @@
 
 ### 建立 ManufacturingVM
 1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。 如果有必要，請配置 shell。 
-    (./image/unit8_1_cloud_shell_icon.jpg)
+    ![Cloud Shell](./image/unit8_1_cloud_shell_icon.jpg)
     + 選擇 **PowerShell**。
-    (./image/unit8_2_select_powershell.jpg)
+    ![Powershell](./image/unit8_2_select_powershell.jpg)
     + 選擇 **「不需要儲存帳戶」** 和您的 **訂閱**，然後選擇 **「套用」**。
-    (./image/unit8_3_select_powershell.jpg)
+    ![](./image/unit8_3_select_powershell.jpg)
     + 等待終端機建立並顯示提示。 
 
 2. 在 Cloud Shell 窗格的工具列上，選擇「管理檔案」圖標，在下拉式選單中選擇 **「上傳」** ，並將下列檔案**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**從來源資料夾**F:\Allfiles\Exercises\M011**上傳至 Cloud Shell 主目錄。
