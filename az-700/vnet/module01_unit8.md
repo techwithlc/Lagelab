@@ -15,19 +15,14 @@
 
 **ManufacturingVnet** (10.30.0.0/16) 虛擬網路部署在 **西歐** 區域，為新公司區域。此虛擬網路將包含用於製造設施運營的系統。該組織預計會有大量內部連接設備。此虛擬網路內有ManufactorungVM (10.30.10.4)。
 
-
 ## 架構圖
 
-![架構圖](./image/design-implement-vnet-peering.png)
+![架構圖](./image/8-exercise-connect-two-azure-virtual-networks-global.png)
 
 
-### Lagelab 公司的網路佈局
-
-
-
+### 公司的網路佈局
 ### 您將建立以下資源：
-
-
+**TestVM1(美東)**、**ManufactoringVM(西歐)**、**Peering對等連接**
 
 ### 在此練習中，您將：
 
@@ -41,22 +36,24 @@
 
 ### 建立 ManufacturingVM
 1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。 如果有必要，請配置 shell。 
+    (./image/unit8_1_cloud_shell_icon.jpg)
     + 選擇 **PowerShell**。
+    (./image/unit8_2_select_powershell.jpg)
     + 選擇 **「不需要儲存帳戶」** 和您的 **訂閱**，然後選擇 **「套用」**。
+    (./image/unit8_3_select_powershell.jpg)
     + 等待終端機建立並顯示提示。 
 
 2. 在 Cloud Shell 窗格的工具列上，選擇「管理檔案」圖標，在下拉式選單中選擇 **「上傳」** ，並將下列檔案**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**從來源資料夾**F:\Allfiles\Exercises\M011**上傳至 Cloud Shell 主目錄。
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
-   + 再上傳前需修改**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**內vmsize value為 Standard_D2ls_v5
+   + 再上傳前需修改**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**內vmsize value為 **Standard_D2ls_v5**
     
 3. 部署以下 ARM 範本來建立此練習所需的 VM： (複製以下code至powershell執行)
 
    >**注意**: 系統將提示您提供管理員密碼。
    ```powershell
    $RGName = "ContosoResourceGroup"
-   
    New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile ManufacturingVMazuredeploy.json -TemplateParameterFile ManufacturingVMazuredeploy.parameters.json
    ```
 
