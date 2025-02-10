@@ -83,7 +83,9 @@
 4.關於 ManufacturingVM |連接，選擇 **下載 RDP 檔案**。
 ![download_ManufacturingVM_rdpfile](./image/m1u8/12_click_manufacturingvm.jpg)
 5.將 RDP 檔案儲存到您的桌面。
+
 6.使用 RDP 檔案以及部署期間提供的使用者名稱TestUser和密碼連線到 ManufacturingVM。
+
    >**注意**: 密碼為先前建立VM時設定之密碼。
 
 7.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
@@ -92,7 +94,9 @@
 10.在 TestVM1 上|連接，選擇 **下載 RDP 檔案**。
 ![download_TestVM1_rdpfile](./image/m1u8/13_download_testvm1_rdpfile.jpg)
 11.將 RDP 檔案儲存到您的桌面。
+
 12.使用 RDP 檔案以及您在部署期間提供的使用者名稱TestUser和密碼連線到 TestVM1。
+
    >**注意**: 密碼為先前建立VM時設定之密碼。
 
 13.在兩台虛擬機器上的「選擇裝置的隱私設定」中，選擇「接受」。
@@ -105,38 +109,59 @@
 
 ### 任務 3：測試虛擬機器之間的連接
 
-| 標籤            | 選項               | 值                  |
-|----------------|----------------------|------------------------|
-| 基本         | 資源群組       | ContosoResourceGroup   |
-|                | 名稱                 | ManufacturingVnet      |
-|                | 區域               | (歐洲) 西歐   |
-| IP 位址   | IPv4 位址空間   | 10.30.0.0/16           |
+1.在 ManufacturingVM 上，開啟 PowerShell 提示字元。
 
-| 子網路                  | 選項               | 值                  |
-|-------------------------|----------------------|------------------------|
-| ManufacturingSystemSubnet | 子網路名稱          | ManufacturingSystemSubnet |
-|                         | 子網路位址範圍 | 10.30.10.0/24          |
-| SensorSubnet1           | 子網路名稱          | SensorSubnet1          |
-|                         | 子網路位址範圍 | 10.30.20.0/24          |
-| SensorSubnet2           | 子網路名稱          | SensorSubnet2          |
-|                         | 子網路位址範圍 | 10.30.21.0/24          |
-| SensorSubnet3           | 子網路名稱          | SensorSubnet3          |
-|                         | 子網路位址範圍 | 10.30.22.0/24          |
+2.使用下列命令驗證沒有與 CoreServicesVnet 上的 TestVM1 的連線。確保使用 TestVM1 的 IPv4 位址。
 
+   ```powershell
+    Test-NetConnection 10.20.20.4 -port 3389
+    ```
+
+3.測試連線應該會失敗，您將看到類似以下內容的結果：
+![vm_connect_failed](./image/m1u8/18_Task3_Test%20the%20connection%20between%20the%20VMs.jpg)
 
 ### 任務 4：在 CoreServicesVnet 和 ManufacturingVnet 之間建立 VNet 對等互連
 
-| 標籤            | 選項               | 值                  |
-|----------------|----------------------|------------------------|
-| 基本         | 資源群組       | ContosoResourceGroup   |
-|                | 名稱                 | ResearchVnet           |
-|                | 區域               | 東南亞         |
-| IP 位址   | IPv4 位址空間   | 10.40.0.0/16           |
+1.在 Azure 主頁上，選擇「虛擬網路」，然後選擇「CoreServicesVnet」。
+![CoreServicesVnet](./image/m1u8/20_vnet_peering.jpg)
+2.在 CoreServicesVnet 中的「設定」下，選擇「Peerings」。
+3.在 CoreServicesVnet 上 |對等連接，選擇+ 新增。
+![peering_add](./image/m1u8/21_peering_add.jpg)
+4.使用此資訊來建立對等。完成後，選擇新增。
+   
+   **遠端虛擬網路摘要**
 
-| 子網路                  | 選項               | 值                  |
-|-------------------------|----------------------|------------------------|
-| ResearchSystemSubnet    | 子網路名稱          | ResearchSystemSubnet   |
-|                         | 子網路位址範圍 | 10.40.0.0/24           |
+   | **選項**                                    | **輸入值**                             |
+   | ------------------------------------ | --------------------------------------------- | 
+   | 對等連結名稱  | `ManufacturingVnet-to-CoreServicesVnet` |
+   | 虛擬網路 | ManufacturingVnet |
+
+    **遠端虛擬網路對等設定**
+   
+   | **選項**                                    | **輸入值**                             |
+   | ------------------------------------ | --------------------------------------------- | 
+   | 允許 'ManufacturingVnet' 存取 'CoreServicesVnet' | 啟用 |
+   |'ManufacturingVnet' 接收來自 'CoreServicesVnet'的轉送流量 | 啟用 |
+ 
+    **本地虛擬網路摘要**
+
+    | **選項**                                    | **輸入值**                             |
+    | ------------------------------------ | --------------------------------------------- | 
+    | 對等連結名稱 | `CoreServicesVnet-to-ManufacturingVnet` |
+ 
+    **遠端虛擬網路對等設定**
+   
+    | **選項**                                    | **輸入值**                             |
+    | ------------------------------------ | --------------------------------------------- | 
+    | 允許 'CoreServicesVnet' to access 'ManufacturingVnet' | 啟用
+    | 允許 'CoreServicesVnet' 接收來自 from 'ManufacturingVnet' | 啟用 |
+**如以下附圖**
+![peering_setting](./image/m1u8/22_vnet_peering_setting1.jpg)
+![peering_setting](./image/m1u8/23_vnet_peering_setting2.jpg)
+5.在 CoreServicesVnet 中 |對等連接，驗證CoreServicesVnet 到 ManufacturingVnet 對等連接是否已連接。
+6.在「虛擬網路」下，選擇ManufacturingVnet，並驗證ManufacturingVnet-to-CoreServicesVnet 對等連線是否已連線。
+![peering_connected](./image/m1u8/24_peering_connected.jpg)
+
 
 ### 任務 5：測試虛擬機器之間的連接
 
