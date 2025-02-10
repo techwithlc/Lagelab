@@ -1,13 +1,8 @@
-### 小試身手 - 在 Azure 中設計和實施虛擬網路
-
-> **辣個通知** 請先確保您有看過這個影片註冊 Azure Free Account - https://youtu.be/ZsfllNRuErk?si=3q2RHUsL9vrX3ltB
+### Module 01 Unit 8 Connect two Azure Virtual Networks using global virtual network peering - 使用全域虛擬網路對等連接兩個 Azure 虛擬網絡
 
 ## 情境模擬
 
-現在您已經準備好在 Azure 入口網站中部署虛擬網路。
-
-考慮到不同區域公司分部即將開張，該公司正在將基礎設施和應用程序遷移到 Azure。你身為網絡工程師，你必須計劃並實施兩個虛擬網路進行peering對等連接
-
+不同區域公司分部即將開張，該公司正在將基礎設施和應用程序遷移到 Azure。你身為網絡工程師，你必須計劃並實施兩個虛擬網路進行peering對等連接
 
 **預計時間：** 20 分鐘
 
@@ -18,7 +13,6 @@
 ## 架構圖
 
 ![架構圖](./image/m1u8/8-exercise-connect-two-azure-virtual-networks-global.png)
-
 
 ### 公司的網路佈局
 ### 您將建立以下資源：
@@ -192,33 +186,60 @@
 
 ### 任務 5：測試虛擬機器之間的連接
 
-1. 在 Azure 入口網站首頁上，選擇 **所有資源**。
-2. 確認 **CoreServicesVnet**、**ManufacturingVnet** 和 **ResearchVnet** 已列出。
+1.在 ManufacturingVM 上，開啟 PowerShell 提示字元。
 
-![allvirtualnet](./image/allvirtualnet.png)
+2.使用下列命令驗證現在是否存在與 CoreServicesVnet 上的 TestVM1 的連線。確保使用 TestVM1 的 IPv4 位址。
 
-3. 在所有的 Vnet 中，於 **設定** 下選擇 **子網路**，確認您建立的子網路已列出，並且 IP 位址範圍正確。
-4. 重複步驟 3 - 5 為每個 VNet 進行驗證。
+   ```powershell
+    Test-NetConnection 10.20.20.4 -port 3389
+   ```
+
+3.測試連線應該會成功，您將看到類似以下內容的結果：
+
+![vm_connect_success](./image/m1u8/25%20Task%205%20Test%20the%20connection%20between%20the%20VMs.jpg)
+
+## 清理資源Clean up resources
+
+   >**注意**: 請記得刪除任何不再使用的新建立的 Azure 資源。刪除未使用的資源可確保您不會看到意外的費用。
+
+1.在 Azure 入口網站上，開啟Cloud Shell窗格內的PowerShell工作階段。 （如果需要，請使用預設設定建立 Cloud Shell 儲存體。）
+
+2.透過執行以下命令刪除您在本模組的實驗中所建立的所有資源組：
+
+   ```powershell
+   Remove-AzResourceGroup -Name 'ContosoResourceGroup' -Force -AsJob
+   ```
+
+   >**注意**: 此命令非同步執行（由 -AsJob 參數決定），因此雖然您可以在同一個 PowerShell 會話中立即執行另一個 PowerShell 命令，但實際刪除資源群組之前需要幾分鐘。
 
 ## 使用 Copilot 牛刀小試
 
-Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以協助處理實驗室未涵蓋的領域或您需要更多信息的地方。打開 Edge 瀏覽器並選擇 **Copilot**（右上角）或導航到 [copilot.microsoft.com](https://copilot.microsoft.com)。花幾分鐘嘗試以下提示：
+Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以協助處理實驗室未涵蓋的領域或您需要更多訊息的地方。打開 Edge 瀏覽器並選擇 **Copilot**（右上角）或導航到 [copilot.microsoft.com](https://copilot.microsoft.com)。花幾分鐘嘗試以下提示：
 
-- 您能否提供一個實際場景中使用 10.30.0.0/16 IP 位址的示例？
-- 在美國東部區域建立一個名為 **CoreServicesVnet** 的虛擬網路的 Azure PowerShell 命令是什麼？該虛擬網路應使用 10.20.0.0/16 IP 位址空間，可以嘗試一下 Copilot 回的 Powershell command 能不能用
+- 配置 Azure 虛擬網路對等時最常見的錯誤有哪些？
+- 在 Azure 中，如果我將 Vnet1 與 Vnet2 對等，然後將 Vnet2 與 Vnet3 對等，那麼 Vnet1 是否與 Vnet3 對等？
+- 防火牆和閘道會影響 Azure 虛擬網路對等互連嗎？
 
 ![copilot](./image/copilot.png)
 
-- 在西歐區域建立一個名為 **ManufacturingVnet** 的虛擬網路的 Azure CLI 命令是什麼？該虛擬網路應使用 10.30.0.0/16 IP 位址空間。
+透過自主學習培訓了解更多訊息
+
+-Azure 虛擬網路簡介。在本模組中，您將學習如何設計和實作 Azure 網路服務。您將了解虛擬網路、公有和私人 IP、DNS、虛擬網路對等、路由和 Azure 虛擬 NAT。 
+https://learn.microsoft.com/training/modules/introduction-to-azure-virtual-networks/
+
+-在 Azure 虛擬網路中分發您的服務，並使用虛擬網路對等互連將它們整合。在本模組中，您將學習如何設定虛擬網路對等。
+https://learn.microsoft.com/training/modules/integrate-vnets-with-vnet-peering/
 
 
 ## 關鍵要點
 
-- **Azure 虛擬網路** 是一項服務，為您在 Azure 中的私有網路提供基礎構建塊。該服務的實例（虛擬網路）使許多類型的 Azure 資源能夠安全地相互通信、與互聯網通信以及與本地網路通信。確保不重疊的位址空間。確保您的虛擬網路位址空間（CIDR 塊）不與您組織的其他網路範圍重疊。
-- 虛擬網路中的所有 Azure 資源都部署到虛擬網路內的子網路中。子網路使您能夠將虛擬網路分割成一個或多個子網路，並為每個子網路分配虛擬網路位址空間的一部分。您的子網路不應覆蓋虛擬網路的整個位址空間。提前計劃並為未來保留一些位址空間。
+- **虛擬網路對等互連 VNET Peering**可讓您無縫連接兩個 Azure 虛擬網路。為了實現連接目的，虛擬網路作為一個整體出現。
+- Azure 支援連接相同 Azure 區域內以及跨 Azure 區域（全域）的虛擬網路。
+- 對等虛擬網路中虛擬機器之間的流量直接透過 Microsoft 主幹基礎架構路由，而不是透過網關或公共 Internet。
+- 您可以調整對等互連的 Azure 虛擬網路的位址空間大小，而不會導致目前對等互連的位址空間停機。
 
 
 ## 技術學習補充
 
 * [什麼是 Azure Virtual Network?](https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-virtual-networks/2-explore-azure-virtual-networks)
-* [什麼是子網路遮罩？](https://aws.amazon.com/tw/what-is/cidr/)
+* [什麼是 Azure Virtual Network Peering?](https://learn.microsoft.com/training/modules/integrate-vnets-with-vnet-peering/)
