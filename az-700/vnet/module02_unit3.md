@@ -32,7 +32,6 @@
 | CoreServicesVnet      | 美國東部        | 10.20.0.0/16                  | GatewaySubnet           | 10.20.0.0/27         |
 |                       |                |                               | DatabaseSubnet          | 10.20.20.0/24        |
 | ManufacturingVnet     | 北歐    | 10.30.0.0/16                  | GatewaySubnet | 10.30.0.0/27        |
-|
 |                       |                |                               | Manu*SystemSubnet   | 10.30.10.0/24   |
 
 這些虛擬網路和子網路的結構既能容納現有資源，又能適應預期的增長。讓我們建立這些虛擬網路和子網路，為我們的網路基礎設施奠定基礎。
