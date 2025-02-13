@@ -17,7 +17,7 @@
 
 ## 架構圖
 
-![架構圖](./image/m02-Create-and-configure-a-virtual-network-gateway.png)
+![架構圖](./image/Create-and-configure-a-virtual-network-gateway.png)
 
 
 ### Lagelab 公司的網路佈局
@@ -33,7 +33,7 @@
 |                       |                |                               | DatabaseSubnet          | 10.20.20.0/24        |
 | ManufacturingVnet     | 北歐    | 10.30.0.0/16                  | GatewaySubnet | 10.30.0.0/27        |
 |
-|                       |                |                               | ManufacturingSystemSubnet           | 10.30.10.0/24        |
+|                       |                |                               | Manu*SystemSubnet           | 10.30.10.0/24        |
 
 這些虛擬網路和子網路的結構既能容納現有資源，又能適應預期的增長。讓我們建立這些虛擬網路和子網路，為我們的網路基礎設施奠定基礎。
 
@@ -60,8 +60,12 @@
 - * 選 No Storage Account required 與你的訂閱，點套用(Apply)。
 - * 等待指令介面建立，出現提示字元。
 
+
+2. 上傳 azuredeploy.json 和 azuredeploy.parameters.json，檔案下載處請參考下圖。
+![下載連結](./image/m2u3/where-download-json-file.png)
+
+
 ### 以下待更新
-2. 在首頁上，於 Azure 服務下選擇 **資源群組**。
 3. 在資源群組中，選擇 **+ 建立**。
 4. 使用以下表格中的信息來建立資源群組。
 
