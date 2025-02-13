@@ -17,7 +17,7 @@
 
 ## 架構圖
 
-![架構圖](./image/Create-and-configure-a-virtual-network-gateway.png)
+![架構圖](./image/m2u3/Create-and-configure-a-virtual-network-gateway.png)
 
 
 ### Lagelab 公司的網路佈局
