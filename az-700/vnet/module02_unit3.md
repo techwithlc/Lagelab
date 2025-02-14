@@ -52,7 +52,7 @@
 
 ### 預估時間 70 分鐘 (包含 ~45 分鐘等待佈建)
 
-### 1：建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
+### 作業 1：建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
 
 1. 前往 [Azure 入口網站] 點選 Cloud Shell 按鈕(在畫面右上)，如果需要設定 Shell。
 - * 選 PowerShell
@@ -67,11 +67,22 @@
 
 3. 使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬網路與子網路。
 ```powershell
-$RGName = "ContosoResourceGroup"
+$RGName = "LagelabResourceGroup"
 #create resource group if it doesnt exist
 New-AzResourceGroup -Name $RGName -Location "eastus"
 New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.json
-```markdown
+
+```
+指令跑完會告訴你建立了三個 VNET，分別是 ResearchVnet, CoreServicesVnet 和 ManufacturingVnet。
+若不想建立 ResearchVnet 可修改上傳 json 檔內容。
+![執行結果](./image/m2u3/create-corevnet-manufactvnet-researchvnet.png)
+
+### 作業 2: 建立名為 CoreServicesVM 的虛擬機
+與作業 1 步驟相同，上傳 CoreServicesVMazuredeploy.json 和 CoreServicesVMazuredeploy.parameters.json 範本。
+使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬機。
+
+
+markdown
 
 ### 以下待更新
 3. 在資源群組中，選擇 **+ 建立**。
