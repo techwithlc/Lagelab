@@ -71,7 +71,7 @@ $RGName = "ContosoResourceGroup"
 #create resource group if it doesnt exist
 New-AzResourceGroup -Name $RGName -Location "eastus"
 New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.json
-```powershell
+powershell```
 
 ### 以下待更新
 3. 在資源群組中，選擇 **+ 建立**。
