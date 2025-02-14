@@ -11,7 +11,7 @@
 
 **CoreServicesVnet** 。
 
-**ManufacturingVnet** 
+**ManufacturingVnet** 。
 
 **ResearchVnet** 。
 
@@ -56,13 +56,22 @@
 
 1. 前往 [Azure 入口網站] 點選 Cloud Shell 按鈕(在畫面右上)，如果需要設定 Shell。
 - * 選 PowerShell
-- * 選 No Storage Account required 與你的訂閱，點套用(Apply)。
+- * 選 不需要任何儲存體帳戶 與你的訂用帳戶名稱，點套用。
+![儲存體](./image/m2u3/no-storage-account-required.png)
 - * 等待指令介面建立，出現提示字元。
-
+![提示字元](./image/m2u3/wait-for-prompt.png)
 
 2. 上傳 azuredeploy.json 和 azuredeploy.parameters.json，檔案下載處請參考下圖。
+- * 檔案路徑 Allfiles\Exercises\M02
 ![下載連結](./image/m2u3/where-download-json-file.png)
 
+3. 使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬網路與子網路。
+```powershell
+$RGName = "ContosoResourceGroup"
+#create resource group if it doesnt exist
+New-AzResourceGroup -Name $RGName -Location "eastus"
+New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.json
+```powershell
 
 ### 以下待更新
 3. 在資源群組中，選擇 **+ 建立**。
