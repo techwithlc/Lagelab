@@ -80,13 +80,27 @@ $RGName = "LagelabResourceGroup"
 New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile CoreServicesVMazuredeploy.json -TemplateParameterFile CoreServicesVMazuredeploy.parameters.json
 ```
 
+>**說明**:
++ 上傳前需修改**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**內vmsize value為 **Standard_D2ls_v5**
 
+第一次執行出現紅字錯誤訊息，範本檔案沒有上傳。上傳後執行，會要求輸入admin密碼。
+
+![執行結果](./image/m2u3/create-vm-coreservicevm.png)
+
+結果裡可以看到 admin 的使用者名稱是 TestUser
+![執行結果](./image/m2u3/create-vm-coreservicevm-result.png)
 
 2. 當佈建完成，到 Azure Portal 首頁，選擇虛擬機，驗證虛擬機已被建立。
 
-### 作業 3: 建立 ManufacturingVM 虛擬機
+點首頁的虛擬機可以看到虛擬機 CoreServicesVM。
+![執行結果](./image/m2u3/vm-on-azure-portal.png)
 
-1. 與作業 1 步驟相同，上傳 ManufacturingVMazuredeploy.json 和 ManufacturingVMazuredeploy.parameters.json 範本。
+點虛擬機，點連線-->連線，可以看到連線 IP，與系統管理員使用者名稱。
+![執行結果](./image/m2u3/vm-connection-information.png)
+
+### 任務 3: 建立 ManufacturingVM 虛擬機
+
+1. 與任務 1 步驟相同，上傳 ManufacturingVMazuredeploy.json 和 ManufacturingVMazuredeploy.parameters.json 範本。
 使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬機。
 ```powershell
 $RGName = "LagelabResourceGroup"
@@ -95,6 +109,7 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 2. 當佈建完成，到 Azure Portal 首頁，選擇虛擬機，驗證虛擬機已被建立。
 
+### 以下待更新
 ### 任務 4: 使用 RDP 連線到虛擬機
 
 1.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
@@ -151,7 +166,7 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 markdown
 
-### 以下待更新
+
 3. 在資源群組中，選擇 **+ 建立**。
 4. 使用以下表格中的信息來建立資源群組。
 
