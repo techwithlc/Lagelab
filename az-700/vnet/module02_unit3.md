@@ -6,15 +6,6 @@
 
 連接 Lagelab 科技公司的核心服務 VNET 與 製造商 LageMan 的 VNET。
 
-**預計時間：** x0 分鐘
-
-
-**CoreServicesVnet** 。
-
-**ManufacturingVnet** 。
-
-**ResearchVnet** 。
-
 ## 架構圖
 
 ![架構圖](./image/m2u3/Create-and-configure-a-virtual-network-gateway.png)
@@ -34,53 +25,129 @@
 | ManufacturingVnet     | 北歐    | 10.30.0.0/16                  | GatewaySubnet | 10.30.0.0/27        |
 |                       |                |                               | ManufacturingSystemSubnet   | 10.30.10.0/24   |
 
-這些虛擬網路和子網路的結構既能容納現有資源，又能適應預期的增長。讓我們建立這些虛擬網路和子網路，為我們的網路基礎設施奠定基礎。
 
 ### 在此練習中，您將：
 
-1. **任務 1：** 建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
-2. **任務 2：** 建立 CoreServicesVM 虛擬機
-3. **任務 3：** 建立 ManufacturingVM 虛擬機
-4. **任務 4：** 使用 RDP 連線到虛擬機
-5. **任務 5：** 測試虛擬機之間的連線
-6. **任務 6：** 建立 CoreServicesVnet Gateway
-7. **任務 7：** 建立 ManufacturingVnet Gateway
-8. **任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
-9. **任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
-10. **任務 10：** 驗證連線是成功的
-11. **任務 11：** 測試虛擬機之間的連線
+**任務 1：** 建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
+**任務 2：** 建立 CoreServicesVM 虛擬機
+**任務 3：** 建立 ManufacturingVM 虛擬機
+**任務 4：** 使用 RDP 連線到虛擬機
+**任務 5：** 測試虛擬機之間的連線
+**任務 6：** 建立 CoreServicesVnet Gateway
+**任務 7：** 建立 ManufacturingVnet Gateway
+**任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
+**任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
+**任務 10：** 驗證連線是成功的
+**任務 11：** 測試虛擬機之間的連線
 
 ### 預估時間 70 分鐘 (包含 ~45 分鐘等待佈建)
 
-### 作業 1：建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
+### 任務 1：建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
 
 1. 前往 [Azure 入口網站] 點選 Cloud Shell 按鈕(在畫面右上)，如果需要設定 Shell。
-- * 選 PowerShell
-- * 選 不需要任何儲存體帳戶 與你的訂用帳戶名稱，點套用。
+- * 選擇 PowerShell
+- * 選擇 不需要任何儲存體帳戶 與你的訂用帳戶名稱，點套用。
 ![儲存體](./image/m2u3/no-storage-account-required.png)
-- * 等待指令介面建立，出現提示字元。
+- * 等待終端機建立，出現提示字元。
 ![提示字元](./image/m2u3/wait-for-prompt.png)
 
-2. 上傳 azuredeploy.json 和 azuredeploy.parameters.json，檔案下載處請參考下圖。
+2. 上傳 azuredeploy.json 和 azuredeploy.parameters.json，檔案下面連結取得。
 - * 檔案路徑 Allfiles\Exercises\M02
-![下載連結](./image/m2u3/where-download-json-file.png)
+
+>**注意**: 
+   + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
 
 3. 使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬網路與子網路。
+
 ```powershell
 $RGName = "LagelabResourceGroup"
 #create resource group if it doesnt exist
 New-AzResourceGroup -Name $RGName -Location "eastus"
 New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.json
-
 ```
+
 指令跑完會告訴你建立了三個 VNET，分別是 ResearchVnet, CoreServicesVnet 和 ManufacturingVnet。
 若不想建立 ResearchVnet 可修改上傳 json 檔內容。
 ![執行結果](./image/m2u3/create-corevnet-manufactvnet-researchvnet.png)
 
-### 作業 2: 建立名為 CoreServicesVM 的虛擬機
-與作業 1 步驟相同，上傳 CoreServicesVMazuredeploy.json 和 CoreServicesVMazuredeploy.parameters.json 範本。
+### 任務 2: 建立 CoreServicesVM 虛擬機
+
+1. 與作業 1 步驟相同，上傳 CoreServicesVMazuredeploy.json 和 CoreServicesVMazuredeploy.parameters.json 範本。
 使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬機。
 
+```powershell
+$RGName = "LagelabResourceGroup"
+New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile CoreServicesVMazuredeploy.json -TemplateParameterFile CoreServicesVMazuredeploy.parameters.json
+```
+
+
+
+2. 當佈建完成，到 Azure Portal 首頁，選擇虛擬機，驗證虛擬機已被建立。
+
+### 作業 3: 建立 ManufacturingVM 虛擬機
+
+1. 與作業 1 步驟相同，上傳 ManufacturingVMazuredeploy.json 和 ManufacturingVMazuredeploy.parameters.json 範本。
+使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬機。
+```powershell
+$RGName = "LagelabResourceGroup"
+New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile ManufacturingVMazuredeploy.json -TemplateParameterFile ManufacturingVMazuredeploy.parameters.json
+```
+
+2. 當佈建完成，到 Azure Portal 首頁，選擇虛擬機，驗證虛擬機已被建立。
+
+### 任務 4: 使用 RDP 連線到虛擬機
+
+1.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+
+2.選擇 **ManufacturingVM**。
+
+![select_ManufacturingVM](./image/m1u8/11_vm_lists.jpg)
+
+3.在 ManufacturingVM 上，選擇 **「連線」>「RDP」**。
+
+4.關於 ManufacturingVM |連接，選擇 **下載 RDP 檔案**。
+
+![download_ManufacturingVM_rdpfile](./image/m1u8/12_click_manufacturingvm.jpg)
+
+5.將 RDP 檔案儲存到您的桌面。
+
+6.使用 RDP 檔案以及部署期間提供的使用者名稱TestUser和密碼連線到 ManufacturingVM。
+
+   >**注意**: 密碼為先前建立VM時設定之密碼。
+
+7.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+
+8.選擇 **TestVM1**。
+
+9.在 TestVM1 上，選擇 **「連線」>「RDP」**。
+
+10.在 TestVM1 上|連接，選擇 **下載 RDP 檔案**。
+
+![download_TestVM1_rdpfile](./image/m1u8/13_download_testvm1_rdpfile.jpg)
+
+11.將 RDP 檔案儲存到您的桌面。
+
+12.使用 RDP 檔案以及您在部署期間提供的使用者名稱TestUser和密碼連線到 TestVM1。
+
+   >**注意**: 密碼為先前建立VM時設定之密碼。
+
+13.在兩台虛擬機器上的「選擇裝置的隱私設定」中，選擇「接受」。
+
+14.在兩台虛擬機器上的「網路」中，選擇「是」。
+
+15.分別在ManufacturingVM、TestVM1 上，開啟 PowerShell 提示字元並執行下列命令：ipconfig
+
+![Both_VM_ipconfig](./image/m1u8/17_vm_ipconfig_powershell.jpg)
+
+16.記下 IPv4 位址。
+
+### 任務 5: 測試虛擬機之間的連線
+**任務 6：** 建立 CoreServicesVnet Gateway
+**任務 7：** 建立 ManufacturingVnet Gateway
+**任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
+**任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
+**任務 10：** 驗證連線是成功的
+**任務 11：** 測試虛擬機之間的連線
 
 markdown
 
