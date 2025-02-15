@@ -28,17 +28,17 @@
 
 ### 在此練習中，您將：
 
-**任務 1：** 建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
-**任務 2：** 建立 CoreServicesVM 虛擬機
-**任務 3：** 建立 ManufacturingVM 虛擬機
-**任務 4：** 使用 RDP 連線到虛擬機
-**任務 5：** 測試虛擬機之間的連線
-**任務 6：** 建立 CoreServicesVnet Gateway
-**任務 7：** 建立 ManufacturingVnet Gateway
-**任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
-**任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
-**任務 10：** 驗證連線是成功的
-**任務 11：** 測試虛擬機之間的連線
+1. **任務 1：** 建立 CoreServicesVnet 與 ManufacturingVnet 虛擬網路
+2. **任務 2：** 建立 CoreServicesVM 虛擬機
+3. **任務 3：** 建立 ManufacturingVM 虛擬機
+4. **任務 4：** 使用 RDP 連線到虛擬機
+5. **任務 5：** 測試虛擬機之間的連線
+6. **任務 6：** 建立 CoreServicesVnet Gateway
+7. **任務 7：** 建立 ManufacturingVnet Gateway
+8. **任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
+9. **任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
+10. **任務 10：** 驗證連線是成功的
+11. **任務 11：** 測試虛擬機之間的連線
 
 ### 預估時間 70 分鐘 (包含 ~45 分鐘等待佈建)
 
@@ -54,7 +54,7 @@
 2. 上傳 azuredeploy.json 和 azuredeploy.parameters.json，檔案下面連結取得。
 - * 檔案路徑 Allfiles\Exercises\M02
 
->**注意**: 
+>**提示**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
 
 3. 使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬網路與子網路。
@@ -72,7 +72,7 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredepl
 
 ### 任務 2: 建立 CoreServicesVM 虛擬機
 
-1. 與作業 1 步驟相同，上傳 CoreServicesVMazuredeploy.json 和 CoreServicesVMazuredeploy.parameters.json 範本。
+1. 與任務 1 步驟相同，上傳 CoreServicesVMazuredeploy.json 和 CoreServicesVMazuredeploy.parameters.json 範本。
 使用下面的 ARM (Azure Resource Manager) 範本，為這個練習建立虛擬機。
 
 ```powershell
@@ -81,7 +81,9 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile CoreServi
 ```
 
 >**說明**:
-+ 上傳前需修改**ManufacturingVMazuredeploy.json**和**ManufacturingVMazuredeploy.parameters.json**內vmsize value為 **Standard_D2ls_v5**
++ 上傳前需修改**CoreServicesVMazuredeploy.json**和**CoreServicesVMazuredeploy.parameters.json**內vmsize value為 **Standard_D2ls_v5**
+
++ 虛擬機價格查詢網址: https://azure.microsoft.com/zh-tw/pricing/details/virtual-machines/windows/#pricing
 
 第一次執行出現紅字錯誤訊息，範本檔案沒有上傳。上傳後執行，會要求輸入admin密碼。
 
@@ -109,40 +111,40 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 2. 當佈建完成，到 Azure Portal 首頁，選擇虛擬機，驗證虛擬機已被建立。
 
-### 以下待更新
+
 ### 任務 4: 使用 RDP 連線到虛擬機
 
 1.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
 
-2.選擇 **ManufacturingVM**。
+2.選擇 **CoreServicesVM**。
 
-![select_ManufacturingVM](./image/m1u8/11_vm_lists.jpg)
+![圖文不符僅供參考](./image/m1u8/11_vm_lists.jpg)
 
-3.在 ManufacturingVM 上，選擇 **「連線」>「RDP」**。
+3.在 CoreServicesVM 上，選擇 **「連線」>「RDP」**。
 
-4.關於 ManufacturingVM |連接，選擇 **下載 RDP 檔案**。
+4.關於 CoreServicesVM |連接，選擇 **下載 RDP 檔案**。
 
-![download_ManufacturingVM_rdpfile](./image/m1u8/12_click_manufacturingvm.jpg)
+![圖文不符僅供參考](./image/m1u8/12_click_manufacturingvm.jpg)
 
 5.將 RDP 檔案儲存到您的桌面。
 
-6.使用 RDP 檔案以及部署期間提供的使用者名稱TestUser和密碼連線到 ManufacturingVM。
+6.使用 RDP 檔案以及部署期間提供的使用者名稱TestUser和密碼連線到 CoreServicesVM。
 
    >**注意**: 密碼為先前建立VM時設定之密碼。
 
 7.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
 
-8.選擇 **TestVM1**。
+8.選擇 **ManufacturingVM**。
 
-9.在 TestVM1 上，選擇 **「連線」>「RDP」**。
+9.在 ManufacturingVM 上，選擇 **「連線」>「RDP」**。
 
-10.在 TestVM1 上|連接，選擇 **下載 RDP 檔案**。
+10.在 ManufacturingVM 上|連接，選擇 **下載 RDP 檔案**。
 
-![download_TestVM1_rdpfile](./image/m1u8/13_download_testvm1_rdpfile.jpg)
+![圖文不符僅供參考](./image/m1u8/13_download_testvm1_rdpfile.jpg)
 
 11.將 RDP 檔案儲存到您的桌面。
 
-12.使用 RDP 檔案以及您在部署期間提供的使用者名稱TestUser和密碼連線到 TestVM1。
+12.使用 RDP 檔案以及您在部署期間提供的使用者名稱TestUser和密碼連線到 ManufacturingVM。
 
    >**注意**: 密碼為先前建立VM時設定之密碼。
 
@@ -150,14 +152,29 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 14.在兩台虛擬機器上的「網路」中，選擇「是」。
 
-15.分別在ManufacturingVM、TestVM1 上，開啟 PowerShell 提示字元並執行下列命令：ipconfig
+15.分別在ManufacturingVM、CoreServicesVM 上，開啟 PowerShell 提示字元並執行下列命令：ipconfig
 
-![Both_VM_ipconfig](./image/m1u8/17_vm_ipconfig_powershell.jpg)
+![圖文不符僅供參考](./image/m1u8/17_vm_ipconfig_powershell.jpg)
 
 16.記下 IPv4 位址。
 
+
 ### 任務 5: 測試虛擬機之間的連線
-**任務 6：** 建立 CoreServicesVnet Gateway
+
+1.在 ManufacturingVM 上，開啟 PowerShell 提示字元。
+
+2.使用下列命令驗證沒有與 CoreServicesVnet 上的 CoreServicesVM 的連線。確保使用 CoreServicesVM 的 IPv4 位址。
+
+   ```powershell
+    Test-NetConnection 10.20.20.4 -port 3389
+   ```
+
+3.測試連線應該會失敗，您將看到類似以下內容的結果：
+
+![圖文不符僅供參考](./image/m1u8/18_Task3_Test%20the%20connection%20between%20the%20VMs.jpg)
+
+### 以下待更新
+### 任務 6：** 建立 CoreServicesVnet Gateway
 **任務 7：** 建立 ManufacturingVnet Gateway
 **任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
 **任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
