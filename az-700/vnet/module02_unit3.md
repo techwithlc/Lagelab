@@ -61,7 +61,7 @@
 
 ```powershell
 $RGName = "LagelabResourceGroup"
-#create resource group if it doesnt exist
+#如果資源群組不存在，會建立它。
 New-AzResourceGroup -Name $RGName -Location "eastus"
 New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile azuredeploy.json -TemplateParameterFile azuredeploy.parameters.json
 ```
@@ -111,6 +111,8 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 2. 當佈建完成，到 Azure Portal 首頁，選擇虛擬機，驗證虛擬機已被建立。
 
+>**說明**:
++ 上傳前需修改**若使用 Powershell 建立有問題，可使用一般介面建立虛擬機**
 
 ### 任務 4: 使用 RDP 連線到虛擬機
 
@@ -154,7 +156,8 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 15.分別在ManufacturingVM、CoreServicesVM 上，開啟 PowerShell 提示字元並執行下列命令：ipconfig
 
-![圖文不符僅供參考](./image/m1u8/17_vm_ipconfig_powershell.jpg)
+![CoreServicesVMip](./image/m2u3/CoreServicesVMip.jpg)
+![ManufacturingVMip](./image/m2u3/ManufacturingVMip.jpg)
 
 16.記下 IPv4 位址。
 
@@ -171,11 +174,68 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 3.測試連線應該會失敗，您將看到類似以下內容的結果：
 
-![圖文不符僅供參考](./image/m1u8/18_Task3_Test%20the%20connection%20between%20the%20VMs.jpg)
+![test-connection](./image/m2u3/test-connection-should-fail.jpg)
+
+
+### 任務 6：** 建立 CoreServicesVnet Gateway
+1. 在上方的**搜尋資源、服務及文件 (G+/)**, 輸入 **Virtual network gateway**, 在結果中選擇**Virtual network gateways**。
+
+![virtual network gateway](./image/m2u3/Virtual-network-gateways.jpg)
+
+2. 在 Virtual network gateways, 點**+ 建立**。
+
+![+建立](./image/m2u3/virtual-network-gateways-create.jpg)
+
+3. 使用下表中資訊，建立 Virtual network gateway。
+
+| 標籤            | 段落               | 選項                  | 值                  |
+|----------------|----------------------|------------------------|------------------------|
+| 基本         |專案詳細資料                |訂用帳戶  |無需更改 |
+|       |      | 資源群組       | LagelabResourceGroup   |
+|       |執行個體詳細資料    |名稱       | CoreServicesVnetGateway  |
+|       |                | 區域               | (美國) 美國東部  East US       |
+|       |                | SKU               | VpnGw1 |
+|       |                | 世代               | Generation1 |
+|       |                | 虛擬網路            | CoreServicesVnet |
+|       |                | 子網路             | GatewaySubnet (10.20.0.0/27) |
+|       |                | 公用 IP 位址 SKU    | 標準 |
+|       |公用 IP 位址      | 公用 IP 位址      | 建立新的 |
+|       |                | 公用 IP 位址 名稱    | CoreServicesVnetGateway-ip |
+|       |                | 啟用主動 - 主動模式   | 己停用 |
+|       |                | 設定 BGP            | 己停用 |
+| 檢閱 + 建立  |    | 檢閱您的設定並選擇 **建立** | |
+
+![輸入畫面參考](./image/m2u3/create-virtual-network-gateway-input.jpg)
+
+![檢閱 + 建立](./image/m2u3/virtual-network-gateway-review-create.jpg)
+
+>**說明**: 建立虛擬網路閘道需要15到30分鐘。您不需要等待佈建完成。繼續建立下一個閘道。
+
+**任務 7：** 建立 ManufacturingVnet Gateway
+
+建立閘道子網路
+
+>**說明**: 本實驗已於任務 1 中，建立 CoreServicesVnet 的閘道子網路，在此手動建立閘道子網路。
+
+1. 在上方的**搜尋資源、服務及文件 (G+/)**, 輸入 **ManufacturingVnet**, 點選 ManufacturingVnet 虛擬網路。
+
+2. 於左方點**設定**, 點**子網路**, 點**+ 子網路**。
+
+3. 點**新增**。
+
+![新增子網路](./image/m2u3/add-subnet-manually.jpg)
+
+| 參數            | 值                  |
+|----------------|------------------------|
+| 子網路用途       | **Virtual network gateway**       |
+| 大小            | **/27 (32 個位址)**               |
+
+![子網路用途](./image/m2u3/subnet-purpose.jpg)
+
+![大小](./image/m2u3/subnet-size.jpg)
+
 
 ### 以下待更新
-### 任務 6：** 建立 CoreServicesVnet Gateway
-**任務 7：** 建立 ManufacturingVnet Gateway
 **任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
 **任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
 **任務 10：** 驗證連線是成功的
@@ -311,6 +371,12 @@ Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以
 - **Azure 虛擬網路** 是一項服務，為您在 Azure 中的私有網路提供基礎構建塊。該服務的實例（虛擬網路）使許多類型的 Azure 資源能夠安全地相互通信、與互聯網通信以及與本地網路通信。確保不重疊的位址空間。確保您的虛擬網路位址空間（CIDR 塊）不與您組織的其他網路範圍重疊。
 - 虛擬網路中的所有 Azure 資源都部署到虛擬網路內的子網路中。子網路使您能夠將虛擬網路分割成一個或多個子網路，並為每個子網路分配虛擬網路位址空間的一部分。您的子網路不應覆蓋虛擬網路的整個位址空間。提前計劃並為未來保留一些位址空間。
 
+### 以下補充資訊
+## 障礙排除
+任務 2 與 3，建立虛擬機
+
+
+https://learn.microsoft.com/en-us/azure/quotas/per-vm-quota-requests
 
 ## 技術學習補充
 
