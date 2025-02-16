@@ -177,12 +177,12 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 ![test-connection](./image/m2u3/test-connection-should-fail.jpg)
 
 
-### 任務 6：** 建立 CoreServicesVnet Gateway
+### 任務 6：** 建立 CoreServicesVnet Gateway**
 1. 在上方的**搜尋資源、服務及文件 (G+/)**, 輸入 **Virtual network gateway**, 在結果中選擇**Virtual network gateways**。
 
 ![virtual network gateway](./image/m2u3/Virtual-network-gateways.jpg)
 
-2. 在 Virtual network gateways, 點**+ 建立**。
+2. 在 Virtual network gateways, 點 ** + 建立 **。
 
 ![+建立](./image/m2u3/virtual-network-gateways-create.jpg)
 
@@ -234,6 +234,28 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 ![大小](./image/m2u3/subnet-size.jpg)
 
+建立虛擬網路閘道
+
+與任務 6 相同，使用下表中資訊，建立 ManufacturingVnet 的 Virtual network gateway。
+
+| 標籤            | 段落               | 選項                  | 值                  |
+|----------------|----------------------|------------------------|------------------------|
+| 基本         |專案詳細資料                |訂用帳戶  |無需更改 |
+|       |      | 資源群組       | LagelabResourceGroup   |
+|       |執行個體詳細資料    |名稱       | ManufacturingVnetGateway  |
+|       |                | 區域               | North Europe       |
+|       |                | SKU               | VpnGw1 |
+|       |                | 世代               | Generation1 |
+|       |                | 虛擬網路            | ManufacturingVnet |
+|       |                | 子網路             | GatewaySubnet (10.30.0.0/27) |
+|       |                | 公用 IP 位址 SKU    | 標準 |
+|       |公用 IP 位址      | 公用 IP 位址      | 建立新的 |
+|       |                | 公用 IP 位址 名稱    | ManufacturingVnetGateway-ip |
+|       |                | 啟用主動 - 主動模式   | 己停用 |
+|       |                | 設定 BGP            | 己停用 |
+| 檢閱 + 建立  |    | 檢閱您的設定並選擇 **建立** | |
+
+>**說明**: 建立虛擬網路閘道需要15到30分鐘。
 
 ### 以下待更新
 **任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
