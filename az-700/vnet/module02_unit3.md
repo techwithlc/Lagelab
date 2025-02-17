@@ -257,150 +257,96 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 
 >**說明**: 建立虛擬網路閘道需要15到30分鐘。
 
-### 以下待更新
+
 **任務 8：** 從 CoreServicesVnet 連線到 ManufacturingVnet
+
+1. 在上方的**搜尋資源、服務及文件 (G+/)**, 輸入 **Virtual network gateway**, 在結果中選擇**Virtual network gateways**。
+
+2. 在 Virtual network gateways, 點先前任務建立的 ** CoreServicesVnetGateway **。
+
+![+建立](./image/m2u3/VirtualNetworkGateways-list.jpg)
+
+3. 在 CoreServicesVnetGateway ，先選連接，再選**新增**
+
+![新增連接](./image/m2u3/CoreServicesVnetGateway-connections-add.jpg)
+
+>**注意**: 虛擬網路閘道完全建立完成，才能完成連接設定。
+
+4. 使用下面表格資訊與設定分頁來建立虛擬網路閘道。
+
+| 選項                  | 值                  |
+|----------------|----------------------|
+|名稱|CoreServicesGW-to-ManufacturingGW|
+|連接類型|Vnet對Vnet|
+|區域|East US|
+|第一個虛擬網路閘道|CoreServicesVnetGateway|
+|第二個虛擬網路閘道|ManufacturingVnetGateway|
+|共用金鑰(PSK)| abc123 |
+|使用 Azure 私人 IP 地址|不選|
+|啟用 BGP|不選|
+|IKE 通訊協定|IKEv2|
+|訂用帳戶|不變|
+|資源群組|不變|
+
+![基本](./image/m2u3/CoreServicesVnetGateway-connections-basic.jpg)
+
+![設定](./image/m2u3/CoreServicesVnetGateway-connections-setting.jpg)
+
+5. 點**檢閱 + 建立**檢查設定後，按建立。
+
+![檢閱](./image/m2u3/CoreServicesVnetGateway-connections-review.jpg)
+
 **任務 9：** 從 ManufacturingVnet 連線到 CoreServicesVnet
+
+1. 在上方的**搜尋資源、服務及文件 (G+/)**, 輸入 **Virtual network gateway**, 在結果中選擇**Virtual network gateways**。
+
+2. 在 Virtual network gateways, 點先前任務建立的 ** ManufacturingVnetGateway **。
+
+3. 在 ManufacturingServicesVnetGateway ，先選連接，再選**新增**
+
+>**注意**: 虛擬網路閘道完全建立完成，才能完成連接設定。
+
+4. 使用下面表格資訊與設定分頁來建立虛擬網路閘道。
+
+| 選項                  | 值                  |
+|----------------|----------------------|
+|名稱|ManufacturingGW-to-CoreServicesGW|
+|連接類型|Vnet對Vnet|
+|區域|North Europe|
+|第一個虛擬網路閘道|ManufacturingVnetGateway|
+|第二個虛擬網路閘道|CoreServicesVnetGateway|
+|共用金鑰(PSK)| abc123 |
+|使用 Azure 私人 IP 地址|不選|
+|啟用 BGP|不選|
+|IKE 通訊協定|IKEv2|
+|訂用帳戶|不變|
+|資源群組|不變|
+
+![設定](./image/m2u3/ManufacturingServicesVnetGateway-connections-setting.jpg)
+
+5. 點**檢閱 + 建立**檢查設定後，按建立。 
+
 **任務 10：** 驗證連線是成功的
+
+1. 在上方的**搜尋資源、服務及文件 (G+/)**, 輸入 **vpn**, 從結果中選擇 connections。
+
+2. 等待兩個 connections Status 都變成 connected
+
+![connections](./image/m2u3/vpn-connections.jpg)
+
 **任務 11：** 測試虛擬機之間的連線
 
-markdown
+1. 因為我的 ManufacturingVM 連不上，所以我從 CoreServicesVM 打開 Powershell。
 
+2. 使用下面指令驗證有一個新的連線到 ManufacturingVnet 上的 ManufacturingVM。確認下面的 IP 是 ManufacturingVM 的 IP。
 
-3. 在資源群組中，選擇 **+ 建立**。
-4. 使用以下表格中的信息來建立資源群組。
+   ```powershell
+    Test-NetConnection 10.20.20.4 -port 3389
+   ```
 
-| 標籤            | 選項               | 值                  |
-|----------------|----------------------|------------------------|
-| 基本         | 資源群組       | ContosoResourceGroup   |
-|                | 區域               | (美國) 美國東部           |
-| 標籤           | 無需更改  |                        |
-| 檢閱 + 建立| 檢閱您的設定並選擇 **建立** | |
+3. 測試連線應該會成功，您將看到類似以下內容的結果：
 
-5. 在資源群組中，確認 **ContosoResourceGroup** 出現在列表中。
+![測試成功](./image/m2u3/test-connection-successful.jpg)
 
-![Resourcegroup](./image/resoure.png)
+4. 關閉遠端連線。
 
-### 任務 2：建立 CoreServicesVnet 虛擬網路和子網路
-
-1. 在 Azure 入口網站首頁上，導航到 **全域搜尋欄** 並搜尋 **虛擬網路**，然後在服務下選擇 **虛擬網路**。
-
-![Virtualnetwork](./image/virtual.png)
-
-2. 在虛擬網路頁面上選擇 **建立**。
-3. 使用以下表格中的信息來建立 **CoreServicesVnet** 虛擬網路。
-
-| 標籤            | 選項               | 值                  |
-|----------------|----------------------|------------------------|
-| 基本         | 資源群組       | ContosoResourceGroup   |
-|                | 名稱                 | CoreServicesVnet       |
-|                | 區域               | (美國) 美國東部           |
-| IP 位址   | IPv4 位址空間   | 10.20.0.0/16           |
-
-![Virtualnettype](./image/virtual-type.png)
-
-4. 使用以下表格中的信息來建立 **CoreServicesVnet** 子網路。
-
-
-| 子網路                  | 選項               | 值                  |
-|-------------------------|----------------------|------------------------|
-| GatewaySubnet           | 子網路名稱          | GatewaySubnet          |
-|                         | 子網路位址範圍 | 10.20.0.0/27           |
-| SharedServicesSubnet    | 子網路名稱          | SharedServicesSubnet   |
-|                         | 子網路位址範圍 | 10.20.10.0/24          |
-| DatabaseSubnet          | 子網路名稱          | DatabaseSubnet         |
-|                         | 子網路位址範圍 | 10.20.20.0/24          |
-| PublicWebServiceSubnet  | 子網路名稱          | PublicWebServiceSubnet |
-|                         | 子網路位址範圍 | 10.20.30.0/24          |
-
-![Subnet](./image/subnet.png)
-
-> 記得先把 default subnet 刪除掉，不然等等會有 10.20.0.0 CIDR 衝突
-
-1. 要完成 **CoreServicesVnet** 及其相關子網路的建立，請選擇 **檢閱 + 建立**。
-2. 確認您的配置通過驗證，然後選擇 **建立**。
-
-![addsubnet](./image/add-subnet.png)
-
-> GatewaySubnet 比較特殊，記得點選 Add Subnet 旁邊的 button，另外選擇 IP Size 是在後面選擇，而非輸入
-
-![sharedsubnet](./image/shared-subnet.png)
-
-順利的話，你應該要看到以下的子網在你的 **CoreServicesVNnet**
-
-![corevnet](./image/corevnet.png)
-
-3. 根據以下表格，重複步驟 1 - 8 為每個 VNet 建立。
-
-### 任務 3：建立 ManufacturingVnet 虛擬網路和子網路
-
-| 標籤            | 選項               | 值                  |
-|----------------|----------------------|------------------------|
-| 基本         | 資源群組       | ContosoResourceGroup   |
-|                | 名稱                 | ManufacturingVnet      |
-|                | 區域               | (歐洲) 西歐   |
-| IP 位址   | IPv4 位址空間   | 10.30.0.0/16           |
-
-| 子網路                  | 選項               | 值                  |
-|-------------------------|----------------------|------------------------|
-| ManufacturingSystemSubnet | 子網路名稱          | ManufacturingSystemSubnet |
-|                         | 子網路位址範圍 | 10.30.10.0/24          |
-| SensorSubnet1           | 子網路名稱          | SensorSubnet1          |
-|                         | 子網路位址範圍 | 10.30.20.0/24          |
-| SensorSubnet2           | 子網路名稱          | SensorSubnet2          |
-|                         | 子網路位址範圍 | 10.30.21.0/24          |
-| SensorSubnet3           | 子網路名稱          | SensorSubnet3          |
-|                         | 子網路位址範圍 | 10.30.22.0/24          |
-
-
-### 任務 4：建立 ResearchVnet 虛擬網路和子網路
-
-| 標籤            | 選項               | 值                  |
-|----------------|----------------------|------------------------|
-| 基本         | 資源群組       | ContosoResourceGroup   |
-|                | 名稱                 | ResearchVnet           |
-|                | 區域               | 東南亞         |
-| IP 位址   | IPv4 位址空間   | 10.40.0.0/16           |
-
-| 子網路                  | 選項               | 值                  |
-|-------------------------|----------------------|------------------------|
-| ResearchSystemSubnet    | 子網路名稱          | ResearchSystemSubnet   |
-|                         | 子網路位址範圍 | 10.40.0.0/24           |
-
-### 任務 5：驗證 VNet 和子網路的建立
-
-1. 在 Azure 入口網站首頁上，選擇 **所有資源**。
-2. 確認 **CoreServicesVnet**、**ManufacturingVnet** 和 **ResearchVnet** 已列出。
-
-![allvirtualnet](./image/allvirtualnet.png)
-
-3. 在所有的 Vnet 中，於 **設定** 下選擇 **子網路**，確認您建立的子網路已列出，並且 IP 位址範圍正確。
-4. 重複步驟 3 - 5 為每個 VNet 進行驗證。
-
-## 使用 Copilot 牛刀小試
-
-Copilot 可以幫助您學習如何使用 Azure 腳本工具。Copilot 還可以協助處理實驗室未涵蓋的領域或您需要更多信息的地方。打開 Edge 瀏覽器並選擇 **Copilot**（右上角）或導航到 [copilot.microsoft.com](https://copilot.microsoft.com)。花幾分鐘嘗試以下提示：
-
-- 您能否提供一個實際場景中使用 10.30.0.0/16 IP 位址的示例？
-- 在美國東部區域建立一個名為 **CoreServicesVnet** 的虛擬網路的 Azure PowerShell 命令是什麼？該虛擬網路應使用 10.20.0.0/16 IP 位址空間，可以嘗試一下 Copilot 回的 Powershell command 能不能用
-
-![copilot](./image/copilot.png)
-
-- 在西歐區域建立一個名為 **ManufacturingVnet** 的虛擬網路的 Azure CLI 命令是什麼？該虛擬網路應使用 10.30.0.0/16 IP 位址空間。
-
-
-## 關鍵要點
-
-- **Azure 虛擬網路** 是一項服務，為您在 Azure 中的私有網路提供基礎構建塊。該服務的實例（虛擬網路）使許多類型的 Azure 資源能夠安全地相互通信、與互聯網通信以及與本地網路通信。確保不重疊的位址空間。確保您的虛擬網路位址空間（CIDR 塊）不與您組織的其他網路範圍重疊。
-- 虛擬網路中的所有 Azure 資源都部署到虛擬網路內的子網路中。子網路使您能夠將虛擬網路分割成一個或多個子網路，並為每個子網路分配虛擬網路位址空間的一部分。您的子網路不應覆蓋虛擬網路的整個位址空間。提前計劃並為未來保留一些位址空間。
-
-### 以下補充資訊
-## 障礙排除
-任務 2 與 3，建立虛擬機
-
-
-https://learn.microsoft.com/en-us/azure/quotas/per-vm-quota-requests
-
-## 技術學習補充
-
-* [什麼是 Azure Virtual Network?](https://learn.microsoft.com/en-us/training/modules/introduction-to-azure-virtual-networks/2-explore-azure-virtual-networks)
-* [什麼是子網路遮罩？](https://aws.amazon.com/tw/what-is/cidr/)
