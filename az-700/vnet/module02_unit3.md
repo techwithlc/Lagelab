@@ -341,7 +341,7 @@ New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile Manufactu
 2. 使用下面指令驗證有一個新的連線到 ManufacturingVnet 上的 ManufacturingVM。確認下面的 IP 是 ManufacturingVM 的 IP。
 
    ```powershell
-    Test-NetConnection 10.20.20.4 -port 3389
+    Test-NetConnection 10.30.10.4 -port 3389
    ```
 
 3. 測試連線應該會成功，您將看到類似以下內容的結果：
