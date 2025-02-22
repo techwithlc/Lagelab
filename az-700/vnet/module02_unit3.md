@@ -49,7 +49,7 @@
 - * 選擇 不需要任何儲存體帳戶 與你的訂用帳戶名稱，點套用。
 ![儲存體](./image/m2u3/no-storage-account-required.png)
 - * 等待終端機建立，出現提示字元。
-![提示字元](./image/m2u3/wait-for-prompt.png)
+![提示字元](./image/m2u3/wait-for-prompt.jpg)
 
 2. 上傳 azuredeploy.json 和 azuredeploy.parameters.json，檔案下面連結取得。
 - * 檔案路徑 Allfiles\Exercises\M02
