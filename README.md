@@ -42,3 +42,4 @@ Lagelab is a community-driven project, and we welcome contributions from anyone 
 Let's build a better way to learn Azure, one lab at a time. 🚀
 
 
+# Lagelab
