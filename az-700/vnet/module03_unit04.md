@@ -8,7 +8,7 @@ Lagelab 想要透過 ExpressRoute 連線 Azure 虛擬網路和內部部署網路
 
 
 ## 架構圖
-![虛擬網路閘道圖表。](../vnet/image/m304/architecture)
+![虛擬網路閘道圖表。](../vnet/image/m304/architecture.png)
 
 
    >**注意**：提供**[互動式實驗室模擬](https://mslabs.cloudguides.com/guides/AZ-700%20Lab%20Simulation%20-%20Configure%20an%20ExpressRoute%20gateway)**，讓您可以按照自己的步調點選完成此實驗室。您可能會發現互動式模擬與託管實驗室之間略有差異，但所展示的核心概念和想法是相同的。
