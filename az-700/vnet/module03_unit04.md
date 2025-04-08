@@ -17,7 +17,7 @@ Lagelab 想要透過 ExpressRoute 連線 Azure 虛擬網路和內部部署網路
 
 **閘道類型**
 
-當您建立虛擬網路閘道時，您需要指定數個設定。其中一個必要的設定 '-GatewayType'，指定閘道是用於 ExpressRoute 還是 VPN 流量。兩種閘道類型為：
+當您建立虛擬網路閘道時，您需要指定數個設定。其中一個必要的設定 'GatewayType'，指定閘道是用於 ExpressRoute 還是 VPN 流量。兩種閘道類型為：
 
 - **VPN** - 若要透過公用網際網路傳送加密流量，您可以使用閘道類型 'VPN'。這也稱為 VPN 閘道。站對站、點對站和 VNet 對 VNet 連線都使用 VPN 閘道。
 - **ExpressRoute** - 若要在私人連線上傳送網路流量，您可以使用閘道類型 'ExpressRoute'。這也稱為 ExpressRoute 閘道，是在設定 ExpressRoute 時使用的閘道類型。
@@ -29,7 +29,7 @@ Lagelab 想要透過 ExpressRoute 連線 Azure 虛擬網路和內部部署網路
 - 工作 1：建立 VNet 和閘道子網路
 - 工作 2：建立虛擬網路閘道
 
-## 工作 1：建立 VNet 和閘道子網路
+## 任務 1：建立 VNet 和閘道子網路
 
 1. 在任何 Azure 入口網站頁面中，於**搜尋資源、服務和文件**中輸入 virtual network，然後從結果中選取**虛擬網路**。
 
@@ -60,9 +60,9 @@ Lagelab 想要透過 ExpressRoute 連線 Azure 虛擬網路和內部部署網路
 
 1. 在建立虛擬網路頁面上，選取**檢閱 + 建立**。
 
-   ![Azure 入口網站 - 新增閘道子網路](../media/add-gateway-subnet.png)
+   ![Azure 入口網站 - 新增閘道子網路](../vnet/image/m304/add-gateway-subnet.png)
 
-1. 確認 VNet 通過驗證，然後選取**建立**。
+2. 確認 VNet 通過驗證，然後選取**建立**。
 
    >**注意**：如果您使用雙堆疊虛擬網路，並計劃透過 ExpressRoute 使用 IPv6 型私人對等互連，請選取新增 IP6 位址空間並輸入 IPv6 位址範圍值。
 
@@ -98,7 +98,7 @@ Lagelab 想要透過 ExpressRoute 連線 Azure 虛擬網路和內部部署網路
    >**注意**：部署閘道最多可能需要 45 分鐘。
 
 
-## 使用 Copilot 擴展您的學習
+## 使用 Copilot 牛刀小試
 
 Copilot 可以協助您學習如何使用 Azure 指令碼工具。Copilot 也可以在實驗室未涵蓋或您需要更多資訊的領域提供協助。開啟 Edge 瀏覽器並選擇 Copilot（右上角）或瀏覽至 *copilot.microsoft.com*。花幾分鐘嘗試這些提示。
 + Azure ExpressRoute 與虛擬 WAN 有何不同？您可以一起使用這些技術嗎？提供範例。
@@ -110,10 +110,30 @@ Copilot 可以協助您學習如何使用 Azure 指令碼工具。Copilot 也可
 + [Azure ExpressRoute 簡介](https://learn.microsoft.com/training/modules/intro-to-azure-expressroute/)。在此模組中，您將了解 Azure ExpressRoute 是什麼以及它提供的功能。
 + [設計和實作 ExpressRoute](https://learn.microsoft.com/training/modules/design-implement-azure-expressroute/)。在此模組中，您將學習如何設計和實作 Azure ExpressRoute、ExpressRoute Global Reach、ExpressRoute FastPath。
 
-## 主要重點
+## 關鍵要點
 
-恭喜您完成實驗室。以下是此實驗室的主要重點。
-+ Azure ExpressRoute 允許組織將其內部部署網路直接連線到 Microsoft Azure 和 Microsoft 365 雲端。Azure ExpressRoute 使用由 Microsoft 合作夥伴提供的高頻寬專用連線。
-+ Microsoft 保證 ExpressRoute 專用連線的最低可用性為 99.95%。此連線是私密的，並透過專用線路傳輸，第三方無法攔截流量。
-+ 您可以透過四種不同的方式在您的內部部署網路和 Microsoft 雲端之間建立連線：CloudExchange 主機代管、點對點乙太網路連線、任意對任意 (IPVPN) 連線和 ExpressRoute Direct。
-+ ExpressRoute 功能取決於 SKU：本地、標準和進階。
+1. **Azure ExpressRoute 的功能與用途**
+Azure ExpressRoute 提供專用的高頻寬連線，允許企業將內部部署網路直接連接到 Microsoft Azure 和 Microsoft 365 雲端服務。這種私密連線避免了使用公共網路，提升了安全性和可靠性。
+2. **高可用性與安全性**
+Microsoft 保證 ExpressRoute 的最低可用性為 99.95%。由於流量透過專用線路傳輸，第三方無法攔截流量，確保數據傳輸的安全性。
+3. **連線方式**
+用戶可以透過以下四種方式建立內部部署網路與 Microsoft 雲端之間的連線：
+    - CloudExchange 主機代管
+    - 點對點乙太網路連線
+    - 任意對任意 (IPVPN) 連線
+    - ExpressRoute Direct
+4. **ExpressRoute 的功能 SKU**
+ExpressRoute 提供三種功能級別（SKU）：本地、標準和進階。每種級別適用於不同的需求，例如本地化操作、區域內連線或全球連線。
+5. **主要優勢**
+    - **低延遲與高頻寬**：提供穩定的低延遲和高頻寬，適合需要快速響應的應用程式。
+    - **增強的安全性與合規性**：避免公共網路風險，滿足嚴格的數據隱私和合規要求。
+    - **內建冗餘**：每個 ExpressRoute 電路都包含雙重連線，確保高可靠性。
+6. **適用場景**
+    - 混合雲部署：將內部部署環境擴展至 Azure，實現混合雲架構。
+    - 大規模數據遷移：快速、安全地遷移大量數據。
+    - 災難恢復與業務持續性：利用專用連線進行高效備份與複製。
+
+
+## 技術學習補充
+
+[關鍵技術要點以及 SKU 說明](https://www.perplexity.ai/search/gai-yi-gai-xue-xi-azure-expres-ZkETXZKJRZqmy0q3.ZPRSw#1)
