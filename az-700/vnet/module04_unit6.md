@@ -8,7 +8,7 @@
 
 ## 架構圖
 
-![架構圖](./image/m4u6/Create-and-configure-a-virtual-network-gateway.png)
+![架構圖](./image/m4u6/Create a Traffic Manager profile.jpg)
 
 ### Lagelab 公司的網頁應用程式區域
 
