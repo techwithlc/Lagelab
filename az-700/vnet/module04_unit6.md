@@ -8,7 +8,7 @@
 
 ## 架構圖
 
-![架構圖](./image/m4u6/Create a Traffic Manager profile.jpg)
+![架構圖](./image/m4u6/Create-a-Traffic-Manager-profile.jpg)
 
 ### Lagelab 公司的網頁應用程式區域
 
@@ -39,7 +39,9 @@
 
 ![應用程式服務](./image/m4u6/1-1-1-application-servcies.jpg)
 
-2. 點 建立，選 Web 應用程式。於基本頁面，依照下表設定 。
+2. 點 **建立**，選 Web 應用程式。於基本頁面，依照下表設定 。
+
+![Web應用程式服務](./image/m4u6/1-1-2-application-servcies.jpg)
 
 | Setting | Value |
 | 訂用帳戶 | 選你的訂用帳戶 |
@@ -53,6 +55,7 @@
 | 定價方案 | Standard S1 100 total ACU, 1.75-GB memory |
 
 ![基本頁面](./image/m4u6/1-2-1-web-application-basic.jpg)
+![基本頁面2](./image/m4u6/1-2-2-web-application-basic.jpg)
 
 3. 點 **監視器+安全** 頁面，選 **否**，啟用 Application Insights。
 
@@ -61,6 +64,7 @@
 4. 點 **檢閱+建立**
 
 ![Review](./image/m4u6/1-4-1-web-application-review.jpg)
+![Review2](./image/m4u6/1-4-2-web-application-review.jpg)
 
 5. 點 **建立**，當 Web 應用程式成功佈建，會建立一個預設網站。
 
@@ -75,6 +79,7 @@
 | Windows 方案 (Canada Central) | 建立新項目，名稱 ContosoAppServicePlanWestEurope |
 
 ![Review](./image/m4u6/1-6-1-web-application-review.jpg)
+![Review2](./image/m4u6/1-4-2-web-application-review.jpg)
 
 ![應用程式服務](./image/m4u6/1-6-2-web-application-service-list.jpg)
 
