@@ -72,7 +72,7 @@
 
 6. 重複 **步驟1~5**，建立第二個 Web 應用程式。
 
-| Setting | Value |
+| Setting | Value 
 | 資源群組 | 選新建，名稱 Contoso-RG-TM2 |
 | 名稱 | ContosoWebAppWestEuropexx (xx 使用你的姓名縮寫讓名稱獨一無二) |
 | 地區 | West Europe |
