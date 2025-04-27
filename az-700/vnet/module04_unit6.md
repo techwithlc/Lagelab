@@ -43,9 +43,9 @@
 
 ![Web應用程式服務](./image/m4u6/1-1-2-application-servcies.jpg)
 
-| Setting | Value |
-| 訂用帳戶 | 選你的訂用帳戶 |
-| 資源群組 | 選新建，名稱 Contoso-RG-TM1 |
+| Setting | Value 
+| 訂用帳戶 | 選你的訂用帳戶 
+| 資源群組 | 選新建，名稱 Contoso-RG-TM1 
 | 名稱 | ContosoWebAppEastUSxx (xx 使用你的姓名縮寫讓名稱獨一無二) |
 | 發佈 | 代碼 |
 | 執行階段堆疊 | ASP.NET V4.8 |
