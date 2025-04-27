@@ -123,7 +123,7 @@
 | 類型 | Azure 端點 |
 | 名稱 | myPrimaryEndpoint |
 | 目標資源類型 | App Service |
-| 目標資源 | ContosoWebAppEastUS (East US) |
+| 目標資源 | ContosoWebAppEastUSxx (East US) |
 | 優先順序 | 1 |
 
 ![端點](./image/m4u6/3-3-1-traffic-manager-profiles.jpg)
@@ -134,8 +134,10 @@
 
 | Setting | Value |
 | 名稱 | myFailoverEndpoint |
-| 目標資源 | ContosoWebAppWestEurope (West Europe) |
+| 目標資源 | ContosoWebAppWestEuropexx (West Europe) |
 | 優先順序 | 2 |
+
+![端點](./image/m4u6/3-5-1-traffic-manager-profiles.jpg)
 
 6. 優先順序 2 指當設定的主要端點不建康時，流量會轉送到 failover 端點。
 
@@ -147,56 +149,63 @@
 
 ![監視狀態](./image/m4u6/3-8-2-traffic-manager-profiles.jpg)
 
->**說明**:
-+ **若使用 Powershell 建立有問題，可使用一般介面建立虛擬機**
 
 ### 任務 4: 測試 流量管理員設定檔
 
-1.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+1. 在 Contoso-TMProfile 頁面，選擇 ** 概觀。 **
 
-2.選擇 **CoreServicesVM**。
+2. 在 概觀 頁面，複製 DNS 名稱(或保存在某處)。
 
-![圖文不符僅供參考](./image/m1u8/11_vm_lists.jpg)
+![概觀](./image/m4u6/4-2-1-traffic-manager-overview.jpg)
 
-3.在 CoreServicesVM 上，選擇 **「連線」>「RDP」**。
+3. 打開一個瀏覽器分頁貼上 DNS 名稱到網址列，按下 Enter。
 
-4.關於 CoreServicesVM |連接，選擇 **下載 RDP 檔案**。
+4. 預設的網頁應用程式應該會顯示出來。如果你看到 404 網址沒有找到的訊息，從 Contoso-TMProfilexx 流量管理員的概觀頁面，先 Disable profile 再 Enable profile。然後重新整理網頁。
 
-![圖文不符僅供參考](./image/m1u8/13_download_testvm1_rdpfile.jpg)
+![概觀](./image/m4u6/4-4-1-traffic-manager-overview.jpg)
 
-5.將 RDP 檔案儲存到您的桌面。
+5. 因為網頁沒有使用安全憑證，所以你會看到 chrome 警告你「你的連線不是私人連線」。
 
-6.使用 RDP 檔案以及部署期間提供的使用者名稱TestUser和密碼連線到 CoreServicesVM。
+![不安全網站](./image/m4u6/4-5-1-web-page.jpg)
 
-   >**注意**: 密碼為先前建立VM時設定之密碼。
+6. 此時點進階後，點下方的 繼續前往 (你的DNS名稱) 網站(不安全)。即可看到畫面。
 
-7.在 Azure 入口網站首頁上，選擇 **「虛擬機器」**。
+![不安全網站](./image/m4u6/4-6-1-web-page.jpg)
 
-8.選擇 **ManufacturingVM**。
+7. 目前所有的流量都被送到設定優先順序設定為 1 的 主要端點。
 
-9.在 ManufacturingVM 上，選擇 **「連線」>「RDP」**。
+![Web應用程式](./image/m4u6/4-7-1-web-application.jpg)
 
-10.在 ManufacturingVM 上|連接，選擇 **下載 RDP 檔案**。
+8. 為了測試 failover 端點正常運作，你需要停用主網站端點。
 
-![圖文不符僅供參考](./image/m1u8/12_click_manufacturingvm.jpg)
+9. 在 Contoso-TMProfileabc 頁面上的 Setting 下的端點，選擇 myPrimaryEndpoint 最右邊的筆編輯。
 
-11.將 RDP 檔案儲存到您的桌面。
+![Web應用程式](./image/m4u6/4-9-1-web-application.jpg)
 
-12.使用 RDP 檔案以及您在部署期間提供的使用者名稱TestUser和密碼連線到 ManufacturingVM。
+10. 在 myPrimaryEndpoint 頁面，取消勾選啟用端點，接著按儲存。
 
-   >**注意**: 密碼為先前建立VM時設定之密碼。
+![Web應用程式](./image/m4u6/4-10-1-web-application.jpg)
 
-13.在兩台虛擬機器上的「選擇裝置的隱私設定」中，選擇「接受」。
+11. 關閉 myPrimaryEndpoint 頁面。
 
-14.在兩台虛擬機器上的「網路」中，選擇「是」。
+12. 在 Contoso-TMProfileabc 頁面上的 Setting 下的端點，應可以看到 myPrimaryEndpoint 的監視狀態是 Disabled。
 
-15.分別在ManufacturingVM、CoreServicesVM 上，開啟 PowerShell 提示字元並執行下列命令：ipconfig
+![Web應用程式](./image/m4u6/4-12-1-web-application.jpg)
 
-![CoreServicesVMip](./image/m4u6/CoreServicesVMip.jpg)
-![ManufacturingVMip](./image/m4u6/ManufacturingVMip.jpg)
+13. 打開一個新的瀏覽器分頁，貼上同樣的 DNS 名稱到網址列，按下 Enter。
 
-16.記下 IPv4 位址。
+14. 驗證你的 Web應用程式仍然有回應。在你的主要端點不可用的情況下，流量都會被導到 failover 端點持續提供服務。
 
+![Web應用程式](./image/m4u6/4-7-1-web-application.jpg)
 
+### **清除資源**。
 
+1. 前往 [Azure 入口網站] 打開在 Cloud Shell 裡的 PowerShell session。
+
+2. 刪除所有此實驗的資源，使用下面的指令。
+
+```powershell
+Remove-AzResourceGroup -Name 'Contoso-RG-TM1' -Force -AsJob
+Remove-AzResourceGroup -Name 'Contoso-RG-TM2' -Force -AsJob
+```
 
