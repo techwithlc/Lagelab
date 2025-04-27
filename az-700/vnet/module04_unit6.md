@@ -43,9 +43,10 @@
 
 ![Web應用程式服務](./image/m4u6/1-1-2-application-servcies.jpg)
 
-| Setting | Value 
-| 訂用帳戶 | 選你的訂用帳戶 
-| 資源群組 | 選新建，名稱 Contoso-RG-TM1 
+| Setting | Value |
+|---------|--------|
+| 訂用帳戶 | 選你的訂用帳戶 |
+| 資源群組 | 選新建，名稱 Contoso-RG-TM1 |
 | 名稱 | ContosoWebAppEastUSxx (xx 使用你的姓名縮寫讓名稱獨一無二) |
 | 發佈 | 代碼 |
 | 執行階段堆疊 | ASP.NET V4.8 |
@@ -72,7 +73,8 @@
 
 6. 重複 **步驟1~5**，建立第二個 Web 應用程式。
 
-| Setting | Value 
+| Setting | Value |
+|---------|--------|
 | 資源群組 | 選新建，名稱 Contoso-RG-TM2 |
 | 名稱 | ContosoWebAppWestEuropexx (xx 使用你的姓名縮寫讓名稱獨一無二) |
 | 地區 | West Europe |
@@ -96,6 +98,7 @@
 3. 使用下表建立流量管理員設定檔
 
 | Setting | Value |
+|---------|--------|
 | 名稱 | Contoso-TMProfilexx (xx 使用你的姓名縮寫讓名稱獨一無二)|
 | Routing method | 優先順序 |
 | 訂用帳戶 | 你的帳戶 |
@@ -120,6 +123,7 @@
 3. 點選新增，依照下表資訊新增端點。
 
 | Setting | Value |
+|---------|--------|
 | 類型 | Azure 端點 |
 | 名稱 | myPrimaryEndpoint |
 | 目標資源類型 | App Service |
@@ -133,6 +137,7 @@
 5. 重復步驟 2~4 建立 failover 端點。使用相同設定，除下表之資訊。
 
 | Setting | Value |
+|---------|--------|
 | 名稱 | myFailoverEndpoint |
 | 目標資源 | ContosoWebAppWestEuropexx (West Europe) |
 | 優先順序 | 2 |
