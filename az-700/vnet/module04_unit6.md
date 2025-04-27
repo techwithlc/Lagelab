@@ -46,12 +46,12 @@
 | Setting | Value |
 | 訂用帳戶 | 選你的訂用帳戶 |
 | 資源群組 | 選新建，名稱 Contoso-RG-TM1 |
-| 名稱 | ContosoWebAppEastUSxx (xx 使用你的姓名縮寫讓名稱獨一無二) |
+| 名稱 | ContosoWebAppEastUSxx xx 使用你的姓名縮寫讓名稱獨一無二 |
 | 發佈 | 代碼 |
 | 執行階段堆疊 | ASP.NET V4.8 |
 | 作業系統 | Windows |
 | 地區 | East US |
-| Windows 方案 (Canada Central) | 建立新項目，名稱 ContosoAppServicePlanEastUS |
+| Windows 方案 Canada Central)| 建立新項目，名稱 ContosoAppServicePlanEastUS |
 | 定價方案 | Standard S1 100 total ACU, 1.75-GB memory |
 
 ![基本頁面](./image/m4u6/1-2-1-web-application-basic.jpg)
