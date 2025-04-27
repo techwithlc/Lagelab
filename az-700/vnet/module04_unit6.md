@@ -51,7 +51,6 @@
 | 執行階段堆疊 | ASP.NET V4.8 |
 | 作業系統 | Windows |
 | 地區 | East US |
-| Windows 方案 (Canada Central) | 建立新項目，名稱 ContosoAppServicePlanEastUS |
 | 定價方案 | Standard S1 100 total ACU, 1.75-GB memory |
 
 ![基本頁面](./image/m4u6/1-2-1-web-application-basic.jpg)
