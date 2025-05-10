@@ -33,15 +33,21 @@
 
 ### 預估時間 35 分鐘
 
+### 補充說明 流量管理員設定檔 與 負戴平衡器 (Server Load Balancer) 的比較
+
+| 特性       |  流量管理員設定檔        | 負戴平衡器 | 
+|----------------|----------------|-------------------------------|
+| 核心功能 | DNS 層級的流量導流 (Global Traffic Routing) | 傳輸層 (Layer 4) 或應用程式層 (Layer 7) 的負載平衡 (Local Load Balancing) |
+| 作用範圍 | 全球 (Global) | 區域 (Regional) |
+| 負載平衡機制 | 基於 DNS 的路由策略 (例如：效能、地理位置、加權、優先順序、子網路) | 基於健康檢查和分發演算法 (例如：五元組雜湊、會話持續性) |
+| 使用案例 | 多區域服務部署： 將不同地區的使用者導向最近的資料中心，提升效能。災難復原： 在主要區域故障時，將流量無縫切換到備援區域。藍綠部署/A/B 測試： 逐步將流量導向新版本或不同版本。 | 應用程式負載平衡： 在同一區域內的多個伺服器之間分配應用程式流量，提高應用程式的可用性和回應能力。內部負載平衡： 在虛擬網路內部平衡流量，例如在應用程式層和資料庫層之間。前端負載平衡： 將來自網際網路的流量分發到後端伺服器。 |
+
+
 ### 任務 1：建立 Web 應用程式
 
 1. 前往 [Azure 入口網站] ，點選搜尋資源、服務及文件 (G+/)，輸入 應用程式服務。
 
-![應用程式服務](./image/m4u6/1-1-1-application-servcies.jpg)
-
 2. 點 **建立**，選 Web 應用程式。於基本頁面，依照下表設定 。
-
-![Web應用程式服務](./image/m4u6/1-1-2-application-servcies.jpg)
 
 | Setting | Value |
 |---------|--------|
@@ -55,17 +61,9 @@
 | Windows 方案 Canada Central)| 建立新項目，名稱 ContosoAppServicePlanEastUS |
 | 定價方案 | Standard S1 100 total ACU, 1.75-GB memory |
 
-![基本頁面](./image/m4u6/1-2-1-web-application-basic.jpg)
-![基本頁面2](./image/m4u6/1-2-2-web-application-basic.jpg)
-
 3. 點 **監視器+安全** 頁面，選 **否**，啟用 Application Insights。
 
-![監視頁面](./image/m4u6/1-3-1-web-application-monitor.jpg)
-
 4. 點 **檢閱+建立**
-
-![Review](./image/m4u6/1-4-1-web-application-review.jpg)
-![Review2](./image/m4u6/1-4-2-web-application-review.jpg)
 
 5. 點 **建立**，當 Web 應用程式成功佈建，會建立一個預設網站。
 
@@ -80,20 +78,15 @@
 | 地區 | West Europe |
 | Windows 方案 (Canada Central) | 建立新項目，名稱 ContosoAppServicePlanWestEurope |
 
-![Review](./image/m4u6/1-6-1-web-application-review.jpg)
-![Review2](./image/m4u6/1-4-2-web-application-review.jpg)
 
 ![應用程式服務](./image/m4u6/1-6-2-web-application-service-list.jpg)
+
 
 ### 任務 2: 建立 流量管理員設定檔
 
 1. 前往 [Azure 入口網站] ，點選搜尋資源、服務及文件 (G+/)，輸入 流量管理。
 
-![搜尋結果](./image/m4u6/2-1-1-traffic-manager-profile.jpg)
-
 2. 點 建立。
-
-![建立](./image/m4u6/2-2-1-traffic-manager-create.jpg)
 
 3. 使用下表建立流量管理員設定檔
 
@@ -105,20 +98,13 @@
 | 資源群組 | Contoso-RG-TM1 |
 | Resource group location | East US |
 
-![基本頁面](./image/m4u6/2-3-1-traffic-manager-basic.jpg)
-
 4. 點 建立。
-![review](./image/m4u6/2-4-1-traffic-manager-review.jpg)
 
 ### 任務 3: 新增 流量管理員端點
 
 1. 在 Azure 入口網站首頁上，點 所有資源。在資源列表內 點選 Contoso-TMProfilexx
 
-![你的流量管理員設定檔](./image/m4u6/3-1-1-traffic-manager-profiles.jpg)
-
 2. 在 settings 下選擇端點。
-
-![端點](./image/m4u6/3-2-1-traffic-manager-profiles.jpg)
 
 3. 點選新增，依照下表資訊新增端點。
 
@@ -130,8 +116,6 @@
 | 目標資源 | ContosoWebAppEastUSxx (East US) |
 | 優先順序 | 1 |
 
-![端點](./image/m4u6/3-3-1-traffic-manager-profiles.jpg)
-
 4. 選新增。
 
 5. 重復步驟 2~4 建立 failover 端點。使用相同設定，除下表之資訊。
@@ -142,13 +126,9 @@
 | 目標資源 | ContosoWebAppWestEuropexx (West Europe) |
 | 優先順序 | 2 |
 
-![端點](./image/m4u6/3-5-1-traffic-manager-profiles.jpg)
-
 6. 優先順序 2 指當設定的主要端點不建康時，流量會轉送到 failover 端點。
 
 7. 在 settings 下，選擇 Configuration，更新端點監視設定的通訊協定為 HTTPS, 連接埠為 443，然後儲存。
-
-![監視設定](./image/m4u6/3-7-1-traffic-manager-profiles.jpg)
 
 8. 在流量管理員設定檔裡會看到兩個新的端點。需要注意的是，在數分鐘後監視狀態應該變成 Online。
 
@@ -161,41 +141,27 @@
 
 2. 在 概觀 頁面，複製 DNS 名稱(或保存在某處)。
 
-![概觀](./image/m4u6/4-2-1-traffic-manager-overview.jpg)
-
 3. 打開一個瀏覽器分頁貼上 DNS 名稱到網址列，按下 Enter。
 
 4. 預設的網頁應用程式應該會顯示出來。如果你看到 404 網址沒有找到的訊息，從 Contoso-TMProfilexx 流量管理員的概觀頁面，先 Disable profile 再 Enable profile。然後重新整理網頁。
 
-![概觀](./image/m4u6/4-4-1-traffic-manager-overview.jpg)
-
 5. 因為網頁沒有使用安全憑證，所以你會看到 chrome 警告你「你的連線不是私人連線」。
-
-![不安全網站](./image/m4u6/4-5-1-web-page.jpg)
 
 6. 此時點進階後，點下方的 繼續前往 (你的DNS名稱) 網站(不安全)。即可看到畫面。
 
-![不安全網站](./image/m4u6/4-6-1-web-page.jpg)
-
 7. 目前所有的流量都被送到設定優先順序設定為 1 的 主要端點。
-
-![Web應用程式](./image/m4u6/4-7-1-web-application.jpg)
 
 8. 為了測試 failover 端點正常運作，你需要停用主網站端點。
 
 9. 在 Contoso-TMProfileabc 頁面上的 Setting 下的端點，選擇 myPrimaryEndpoint 最右邊的筆編輯。
 
-![Web應用程式](./image/m4u6/4-9-1-web-application.jpg)
-
 10. 在 myPrimaryEndpoint 頁面，取消勾選啟用端點，接著按儲存。
-
-![Web應用程式](./image/m4u6/4-10-1-web-application.jpg)
 
 11. 關閉 myPrimaryEndpoint 頁面。
 
 12. 在 Contoso-TMProfileabc 頁面上的 Setting 下的端點，應可以看到 myPrimaryEndpoint 的監視狀態是 Disabled。
 
-![Web應用程式](./image/m4u6/4-12-1-web-application.jpg)
+![Web應用程式監視狀態](./image/m4u6/4-12-1-web-application.jpg)
 
 13. 打開一個新的瀏覽器分頁，貼上同樣的 DNS 名稱到網址列，按下 Enter。
 
