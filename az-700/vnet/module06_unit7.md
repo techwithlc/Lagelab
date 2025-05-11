@@ -72,6 +72,8 @@
 
 **上傳 `firewall.json` 與 `firewall.parameters.json` 檔案** 
 1. 在 Cloud Shell 窗格的工具列中，選擇 **「管理檔案」** ，在下拉式選單中選擇 **「上傳」** ，並將下列檔案 **firewall.json** 和 **firewall.parameters.json從來源資料夾F:\Allfiles\Exercises\M06** 逐一上傳到 Cloud Shell 主目錄中
+![upload](./image/m6u7/14_upload.jpg)
+![upload](./image/m6u7/15_upload.jpg)
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
@@ -83,6 +85,10 @@
    $RGName = "Test-FW-RG"
    New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile firewall.json -TemplateParameterFile firewall.parameters.json
    ```
+
+   >**注意**: 
+   + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
+   + 使用微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**需修改 **vmsize** ，不然後續執行會出現該區域不支援之錯誤
 
 4. 部署完成後記下虛擬機私有 IP（例如：10.0.2.4）。
 
