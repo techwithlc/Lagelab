@@ -132,7 +132,7 @@
 
    ![Create a new firewall policy](./image/m6u7/27_FW_setting.jpg)
    ![Create a new firewall policy](./image/m6u7/28_FW_setting.jpg)
-1.我們不使用防火牆管理器，因此**取消**選取**啟用防火牆管理 NIC **的方塊 **
+1.我們不使用防火牆管理器，因此**取消**選取**啟用防火牆管理 NIC **的方塊
    ![Cancel enable NIC](./image/m6u7/30.jpg)
 
    | 選擇虛擬網絡 | **使用現有的**                         |
