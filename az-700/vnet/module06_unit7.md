@@ -4,6 +4,8 @@
 
 你是 Contoso 公司網路安全小組的一員，負責建立防火牆規則來允許或拒絕對特定網站的存取。本練習將引導你完成環境建立（建立資源群組、虛擬網路與子網路、虛擬機器），接著部署 Azure Firewall 與防火牆原則，設定預設路由、應用程式規則、網路規則、DNAT 規則，最後進行測試。
 
+地區以**UK South**為例
+
 ## 架構圖 
 ![架構圖](./image/m6u7/7-exercise-deploy-configure-azure-firewall-using-azure-portal.png)
 
@@ -18,8 +20,6 @@
 8. 設定目的地 NAT (DNAT) 規則  
 9. 修改虛擬機網路介面的 DNS 設定  
 10. 測試防火牆規則  
-
-**預計完成時間：60 分鐘**
 
 ---
 
@@ -90,10 +90,10 @@
 ![vm](./image/m6u7/17_admin.jpg)
 
    >**注意**: 
-   + 執行前需修改微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**內之**vmsize** ，不然後續執行會出現該區域不支援之錯誤
+   + 執行前需修改微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**內之**vmsize** ，不然後續執行會出現該區域/地區不支援之錯誤
    + 錯誤畫面
    ![error](./image/m6u7/18_error.jpg)
-   + 確認區域虛擬機器大小
+   + 確認地區可用虛擬機器大小
    ![vmsize](./image/m6u7/19_check_region_vmsize.jpg)
    + 修改內容位置
    ![vmsize](./image/m6u7/20_change_vmsize.jpg)
@@ -101,16 +101,60 @@
 部署成功
 ![vm](./image/m6u7/21_deploy_vm_success.jpg)
 
-**部署完成後記下虛擬機私有 IP（例如：10.0.2.4）**
+**部署完成後記下虛擬機器私有 IP（例如：10.0.2.4）**
 ![vm_ip](./image/m6u7/22_vm_overview.jpg)
 ![vm_ip](./image/m6u7/23_srv-wrok_ip.jpg)
 
 ## 任務 4：部署防火牆與防火牆原則
+建立名稱為 `Test-FW01` 的 Azure Firewall，選擇 SKU 為 Standard。  
+建立新的防火牆原則 `fw-test-pol`。  
+指定虛擬網路為 `Test-FW-VN`，新增公用 IP：`fw-pip`。  
+記下防火牆的私有 IP（例如：10.0.1.4）與公用 IP（例如：172.166.159.224）。
 
-1. 建立名稱為 `Test-FW01` 的 Azure Firewall，選擇 SKU 為 Standard。  
-2. 建立新的防火牆原則 `fw-test-pol`。  
-3. 指定虛擬網路為 `Test-FW-VN`，新增公用 IP：`fw-pip`。  
-4. 記下防火牆的私有 IP（例如：10.0.1.4）與公用 IP（例如：20.90.136.51）。
+在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路
+
+1.在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入  **「防火牆」** 並在出現時選擇 **「防火牆」** 
+
+1. **在防火牆** 頁面上，選擇 **建立**.
+
+1.  **在「基本資訊」** 標籤上，使用下表中的資訊建立防火牆
+
+   | **設定**          | **值**                                                    |
+   | -------------------- | ------------------------------------------------------------ |
+   | 訂閱         | 選擇你的訂閱                                     |
+   | 資源群組       | **Test-FW-RG**                                               |
+   | 防火牆名稱        | **Test-FW01**                                                |
+   | 地區               | UK South                                                  |
+   | 防火牆  SKU        | **標準**                                                 |
+   | 防火牆管理  | **使用防火牆策略來管理此防火牆**            |
+   | 防火牆原則      | 點選**新增**<br />Name: **fw-test-pol**<br />地區: **UK South** |
+
+   ![Create a new firewall policy](../media/create-firewall-policy.png)
+
+   | Choose a virtual network | **Use existing**                         |
+   | ------------------------ | ---------------------------------------- |
+   | Virtual network          | **Test-FW-VN**                           |
+   | Public IP address        | Select **Add new**<br />Name: **fw-pip** |
+
+   ![Add public IP address to firewall](../media/assign-public-ip-to-firewall.png)
+
+1. We are not using the Firewall Manager so uncheck the box for **Enable Firewall Management NIC**. 
+
+1. Review your settings. 
+
+   ![Create a firewall - review settings](../media/review-all-configurations-for-firewall.png)
+
+1. Proceed to **Review + create** and then **Create**.
+
+1. Wait for the firewall deployment to complete.
+
+1. When deployment of the firewall is completed, select **Go to resource**.
+
+1. On the **Overview** page of **Test-FW01**, on the right of the page, take a note of the **Firewall private IP** for this firewall (e.g., **10.0.1.4**).
+
+1. In the menu on the left, under **Settings**, select **Public IP configuration**.
+
+1. Take a note of the address under **IP Address** for the **fw-pip** public IP configuration (e.g., **20.90.136.51**).
 
 ## 任務 5：建立預設路由
 
