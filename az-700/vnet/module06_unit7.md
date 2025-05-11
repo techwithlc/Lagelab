@@ -45,11 +45,11 @@
 
 **修改預設子網路為 `AzureFirewallSubnet`，子網段 `10.0.1.0/26`**  
 1. 選擇 **下一步: IP 位址**。 如果預設尚未輸入 IPv4 位址空間 10.0.0.0/16，請輸入該位址空間。
+![建立虛擬子網路](./image/m6u7/5_建立虛擬網路.jpg)
 1. **在子網路名稱**下，選擇**Azure Firewall**. **(這邊與微軟原先的選擇不一樣)**
 1. **在「編輯子網路」** 對話方塊中，名稱會自動設定為**AzureFirewallSubnet**.
 1. **將子網路位址範圍**變更為**10.0.1.0/26**.
 1. 點選 **儲存**.
-![建立虛擬子網路](./image/m6u7/5_建立虛擬網路.jpg)
 ![建立虛擬子網路](./image/m6u7/7_建立子網路_AzureFirewallSubnet.jpg)
 
 **新增子網路 `Workload-SN`，子網段 `10.0.2.0/24`**
@@ -60,6 +60,16 @@
 ![建立虛擬子網路](./image/m6u7/11_create.jpg)
 
 ## 任務 3：建立虛擬機器
+
+在此任務中，您將建立工作負載虛擬機器並將其放置在先前建立的 Workload-SN 子網路中。
+1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。如果需要，配置 shell。  
+    + 選擇 **PowerShell**.
+    + 選擇 **不需要任何儲存體帳戶**和您的**訂閱**然後選擇 **套用**.
+    + 等待終端機建立並顯示提示 
+![powershell](./image/m6u7/12_powershell.jpg)
+![powershell](./image/m6u7/13_powershell.jpg)
+
+1. In the toolbar of the Cloud Shell pane, select the **Manage files** icon, in the drop-down menu, select **Upload** and upload the following files **firewall.json** and **firewall.parameters.json** into the Cloud Shell home directory one by one from the source folder **F:\Allfiles\Exercises\M06**.
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
