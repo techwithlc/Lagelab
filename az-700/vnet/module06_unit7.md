@@ -113,11 +113,16 @@
 
 在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路
 
-1.在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入  **「防火牆」** 並在出現時選擇 **「防火牆」** 
+1. 在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入  **「防火牆」** 並在出現時選擇 **「防火牆」** 
+
 ![create_rss](./image/m6u7/24_create_rss.jpg)
-1.**在防火牆** 頁面上，選擇 **建立**
+
+1. **在防火牆** 頁面上，選擇 **建立**
+
 ![FW](./image/m6u7/26_network_firewall.jpg)
-1.**在「基本資訊」** 標籤上，使用下表中的資訊建立防火牆
+
+1. **在「基本資訊」** 標籤上，使用下表中的資訊建立防火牆
+
 
 
    | **設定**          | **值**                                                    |
@@ -132,7 +137,9 @@
 
    ![Create a new firewall policy](./image/m6u7/27_FW_setting.jpg)
    ![Create a new firewall policy](./image/m6u7/28_FW_setting.jpg)
-1.我們不使用防火牆管理器，因此**取消**選取**啟用防火牆管理 NIC **的方塊
+
+1. 我們不使用防火牆管理器，因此 **取消** 選取 **啟用防火牆管理 NIC** 的方塊
+ 
    ![Cancel enable NIC](./image/m6u7/30.jpg)
 
    | 選擇虛擬網絡 | **使用現有的**                         |
@@ -144,7 +151,7 @@
 
 
 
-1.檢查設定 
+1. 檢查設定 
 
    ![Create a firewall - review settings](../media/review-all-configurations-for-firewall.png)
 
