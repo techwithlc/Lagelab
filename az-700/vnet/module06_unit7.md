@@ -88,14 +88,16 @@
    New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile firewall.json -TemplateParameterFile firewall.parameters.json
    ```
 ![vm](./image/m6u7/17_admin.jpg)
+
    >**注意**: 
    + 執行前需修改微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**內之**vmsize** ，不然後續執行會出現該區域不支援之錯誤
-   +錯誤畫面
+   + 錯誤畫面
    ![error](./image/m6u7/18_error.jpg)
-   +確認區域虛擬機器大小
+   + 確認區域虛擬機器大小
    ![vmsize](./image/m6u7/19_check_region_vmsize.jpg)
    +修改內容位置
    ![vmsize](./image/m6u7/20_change_vmsize.jpg)
+
 部署成功
 ![vm](./image/m6u7/21_deploy_vm_success.jpg)
 
