@@ -61,6 +61,7 @@
 
 ## 任務 3：建立虛擬機器
 
+**開啟 Cloud Shell，選擇 PowerShell**  
 在此任務中，您將建立工作負載虛擬機器並將其放置在先前建立的 Workload-SN 子網路中。
 1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。如果需要，配置 shell。  
     + 選擇 **PowerShell**.
@@ -69,14 +70,14 @@
 ![powershell](./image/m6u7/12_powershell.jpg)
 ![powershell](./image/m6u7/13_powershell.jpg)
 
-1. In the toolbar of the Cloud Shell pane, select the **Manage files** icon, in the drop-down menu, select **Upload** and upload the following files **firewall.json** and **firewall.parameters.json** into the Cloud Shell home directory one by one from the source folder **F:\Allfiles\Exercises\M06**.
+**上傳 `firewall.json` 與 `firewall.parameters.json` 檔案** 
+1. 在 Cloud Shell 窗格的工具列中，選擇 **「管理檔案」** ，在下拉式選單中選擇 **「上傳」** ，並將下列檔案 **firewall.json** 和 **firewall.parameters.json從來源資料夾F:\Allfiles\Exercises\M06** 逐一上傳到 Cloud Shell 主目錄中
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
-   
-1. 開啟 Cloud Shell，選擇 PowerShell。  
-2. 上傳 `firewall.json` 與 `firewall.parameters.json` 檔案。  
-3. 執行下列命令部署 VM：
+   + 使用微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**需修改 **vmsize** ，不然後續執行會出現該區域不支援之錯誤
+    
+**執行下列命令部署 VM**
 
    ```powershell
    $RGName = "Test-FW-RG"
