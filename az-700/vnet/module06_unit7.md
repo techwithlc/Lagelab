@@ -77,20 +77,29 @@
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
-   + 使用微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**需修改 **vmsize** ，不然後續執行會出現該區域不支援之錯誤
+   
     
 **執行下列命令部署 VM**
+部署以下 ARM 範本來建立此練習所需的 VM： (複製以下code至powershell執行)
+   >**注意**: 系統將提示您提供管理員密碼。 (需要 **設定大小寫特殊符號**之密碼，ex:Admin1234!)
 
    ```powershell
    $RGName = "Test-FW-RG"
    New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile firewall.json -TemplateParameterFile firewall.parameters.json
    ```
-
+![vm](./image/m6u7/17_admin.jpg)
    >**注意**: 
-   + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
-   + 使用微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**需修改 **vmsize** ，不然後續執行會出現該區域不支援之錯誤
+   + 執行前需修改微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**內之**vmsize** ，不然後續執行會出現該區域不支援之錯誤
+   +錯誤畫面
+   ![error](./image/m6u7/18_error.jpg)
+   +確認區域虛擬機器大小
+   ![vmsize](./image/m6u7/19_check_region_vmsize.jpg)
+   +修改內容位置
+   ![vmsize](./image/m6u7/20_change_vmsize.jpg)
+部署成功
+![vm](./image/m6u7/21_deploy_vm_success.jpg)
 
-4. 部署完成後記下虛擬機私有 IP（例如：10.0.2.4）。
+**部署完成後記下虛擬機私有 IP（例如：10.0.2.4）**
 
 ## 任務 4：部署防火牆與防火牆原則
 
