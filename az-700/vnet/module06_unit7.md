@@ -27,10 +27,10 @@
 
 1. 登入 Azure 入口網站。  
 2. 選擇「資源群組」>「建立」。  
-![建立資源群組](./image/m6u7/1_建立資源群組.jpg)
+   ![建立資源群組](./image/m6u7/1_建立資源群組.jpg)
 3. 輸入資源群組名稱：`Test-FW-RG`，選擇區域 UK South。  
 4. 點選「檢閱 + 建立」>「建立」。
-![資源群組](./image/m6u7/2_建立資源群組內容.jpg)
+   ![資源群組](./image/m6u7/2_建立資源群組內容.jpg)
 
 
 ## 任務 2：建立虛擬網路與子網路
@@ -38,26 +38,32 @@
 **建立名稱為 `Test-FW-VN` 的虛擬網路，地址空間為 `10.0.0.0/16`。** 
 1. 在 Azure 入口網站主頁的搜尋框中，輸入  **虛擬網絡** ，然後在出現時選擇 **「虛擬網路」** 
 1. 選擇 **建立**
-![建立虛擬網路](./image/m6u7/3_建立虛擬網路.jpg)
+   ![建立虛擬網路](./image/m6u7/3_建立虛擬網路.jpg)
 1. 選擇您先前建立的**Test-FW-RG**
 1. 在**名稱** 中, 輸入 **Test-FW-VN**
-![建立虛擬網路](./image/m6u7/4_建立虛擬網路.jpg)
+   ![建立虛擬網路](./image/m6u7/4_建立虛擬網路.jpg)
 
 **修改預設子網路為 `AzureFirewallSubnet`，子網段 `10.0.1.0/26`**  
 1. 選擇 **下一步: IP 位址**。 如果預設尚未輸入 IPv4 位址空間 10.0.0.0/16，請輸入該位址空間。
-![建立虛擬子網路](./image/m6u7/5_建立虛擬網路.jpg)
+   ![建立虛擬子網路](./image/m6u7/5_建立虛擬網路.jpg)
 1. **在子網路名稱**下，選擇**Azure Firewall**. **(這邊與微軟原先的選擇不一樣)**
 1. **在「編輯子網路」** 對話方塊中，名稱會自動設定為**AzureFirewallSubnet**.
 1. **將子網路位址範圍**變更為**10.0.1.0/26**.
 1. 點選 **儲存**.
-![建立虛擬子網路](./image/m6u7/7_建立子網路_AzureFirewallSubnet.jpg)
+   ![建立虛擬子網路](./image/m6u7/7_建立子網路_AzureFirewallSubnet.jpg)
 
 **新增子網路 `Workload-SN`，子網段 `10.0.2.0/24`**
 1. 點選 **新增子網路**，建立另一個子網，將託管您即將建立的工作負載伺服器
-![建立虛擬子網路](./image/m6u7/8_add_subnet.jpg)
-![建立虛擬子網路](./image/m6u7/9_add_subnet_Workload-SN.jpg)
-![建立虛擬子網路](./image/m6u7/10_review_create.jpg)
-![建立虛擬子網路](./image/m6u7/11_create.jpg)
+   ![建立虛擬子網路](./image/m6u7/8_add_subnet.jpg)
+1. 在 **編輯子網路** 對話方塊中，將名稱變更為 **Workload-SN**
+1. **將子網路位址範圍** 變更為 **10.0.2.0/24**.
+1. 點選 **新增**.
+   ![建立虛擬子網路](./image/m6u7/9_add_subnet_Workload-SN.jpg)
+1. 點選 **檢閱+ 建立**.
+   ![建立虛擬子網路](./image/m6u7/10_review_create.jpg)
+1. 點選 **建立**.
+   ![建立虛擬子網路](./image/m6u7/11_create.jpg)
+
 
 ## 任務 3：建立虛擬機器
 
@@ -67,13 +73,13 @@
     + 選擇 **PowerShell**.
     + 選擇 **不需要任何儲存體帳戶**和您的**訂閱**然後選擇 **套用**.
     + 等待終端機建立並顯示提示 
-![powershell](./image/m6u7/12_powershell.jpg)
-![powershell](./image/m6u7/13_powershell.jpg)
+   ![powershell](./image/m6u7/12_powershell.jpg)
+   ![powershell](./image/m6u7/13_powershell.jpg)
 
 **上傳 `firewall.json` 與 `firewall.parameters.json` 檔案** 
 1. 在 Cloud Shell 窗格的工具列中，選擇 **「管理檔案」** ，在下拉式選單中選擇 **「上傳」** ，並將下列檔案 **firewall.json** 和 **firewall.parameters.json從來源資料夾F:\Allfiles\Exercises\M06** 逐一上傳到 Cloud Shell 主目錄中
-![upload](./image/m6u7/14_upload.jpg)
-![upload](./image/m6u7/15_upload.jpg)
+   ![upload](./image/m6u7/14_upload.jpg)
+   ![upload](./image/m6u7/15_upload.jpg)
 
    >**注意**: 
    + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
@@ -87,7 +93,7 @@
    $RGName = "Test-FW-RG"
    New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile firewall.json -TemplateParameterFile firewall.parameters.json
    ```
-![vm](./image/m6u7/17_admin.jpg)
+   ![vm](./image/m6u7/17_admin.jpg)
 
    >**注意**: 
    + 執行前需修改微軟連結所提供的**firewall.json** 和 **firewall.parameters.json**內之**vmsize** ，不然後續執行會出現該區域/地區不支援之錯誤
@@ -99,11 +105,11 @@
    ![vmsize](./image/m6u7/20_change_vmsize.jpg)
 
 部署成功
-![vm](./image/m6u7/21_deploy_vm_success.jpg)
+   ![vm](./image/m6u7/21_deploy_vm_success.jpg)
 
 **部署完成後記下虛擬機器私有 IP（例如：10.0.2.4）**
-![vm_ip](./image/m6u7/22_vm_overview.jpg)
-![vm_ip](./image/m6u7/23_srv-wrok_ip.jpg)
+   ![vm_ip](./image/m6u7/22_vm_overview.jpg)
+   ![vm_ip](./image/m6u7/23_srv-wrok_ip.jpg)
 
 ## 任務 4：部署防火牆與防火牆原則
 建立名稱為 `Test-FW01` 的 Azure Firewall，選擇 SKU 為 Standard。  
