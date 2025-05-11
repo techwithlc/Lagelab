@@ -95,13 +95,15 @@
    ![error](./image/m6u7/18_error.jpg)
    + 確認區域虛擬機器大小
    ![vmsize](./image/m6u7/19_check_region_vmsize.jpg)
-   +修改內容位置
+   + 修改內容位置
    ![vmsize](./image/m6u7/20_change_vmsize.jpg)
 
 部署成功
 ![vm](./image/m6u7/21_deploy_vm_success.jpg)
 
 **部署完成後記下虛擬機私有 IP（例如：10.0.2.4）**
+![vm_ip](./image/m6u7/22_vm_overview.jpg)
+![vm_ip](./image/m6u7/23_srv-wrok_ip.jpg)
 
 ## 任務 4：部署防火牆與防火牆原則
 
