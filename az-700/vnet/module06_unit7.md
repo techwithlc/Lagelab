@@ -44,9 +44,19 @@
 ![建立虛擬網路](./image/m6u7/4_建立虛擬網路.jpg)
 
 **修改預設子網路為 `AzureFirewallSubnet`，子網段 `10.0.1.0/26`。**  
+1. 選擇 **下一步: IP 位址**。 如果預設尚未輸入 IPv4 位址空間 10.0.0.0/16，請輸入該位址空間。
+1. **在子網路名稱**下，選擇**Azure Firewall**. **(這邊與微軟原先的選擇不一樣)**
+1. **在「編輯子網路」** 對話方塊中，名稱會自動設定為**AzureFirewallSubnet**.
+1. Change the **Subnet address range** to **10.0.1.0/26**.
+1. Select **Save**.
+1. Select **Add subnet**, to create another subnet, which will host the workload server that you will create shortly.
 ![建立虛擬子網路](./image/m6u7/5_建立虛擬網路.jpg)
-![建立虛擬子網路](./image/m6u7/6_建立子網路.jpg)
+![建立虛擬子網路](./image/m6u7/7_建立子網路_AzureFirewallSubnet.jpg)
 **新增子網路 `Workload-SN`，子網段 `10.0.2.0/24`。**
+![建立虛擬子網路](./image/m6u7/8_add_subnet.jpg)
+![建立虛擬子網路](./image/m6u7/9_add_subnet_Workload-SN.jpg)
+![建立虛擬子網路](./image/m6u7/10_review_create.jpg)
+![建立虛擬子網路](./image/m6u7/11_create.jpg)
 
 ## 任務 3：建立虛擬機器
 
