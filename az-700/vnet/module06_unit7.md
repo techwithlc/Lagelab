@@ -114,10 +114,11 @@
 在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路
 
 1.在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入  **「防火牆」** 並在出現時選擇 **「防火牆」** 
+![create_rss](./image/m6u7/24_create_rss.jpg)
+1.**在防火牆** 頁面上，選擇 **建立**
+![FW](./image/m6u7/26_network_firewall.jpg)
+1.**在「基本資訊」** 標籤上，使用下表中的資訊建立防火牆
 
-1. **在防火牆** 頁面上，選擇 **建立**.
-
-1.  **在「基本資訊」** 標籤上，使用下表中的資訊建立防火牆
 
    | **設定**          | **值**                                                    |
    | -------------------- | ------------------------------------------------------------ |
@@ -127,20 +128,23 @@
    | 地區               | UK South                                                  |
    | 防火牆  SKU        | **標準**                                                 |
    | 防火牆管理  | **使用防火牆策略來管理此防火牆**            |
-   | 防火牆原則      | 點選**新增**<br />Name: **fw-test-pol**<br />地區: **UK South** |
+   | 防火牆原則      | 點選**新增**<br />名稱: **fw-test-pol**<br />地區: **UK South** |
 
-   ![Create a new firewall policy](../media/create-firewall-policy.png)
+   ![Create a new firewall policy](./image/m6u7/27_FW_setting.jpg)
+   ![Create a new firewall policy](./image/m6u7/28_FW_setting.jpg)
+1.我們不使用防火牆管理器，因此**取消**選取**啟用防火牆管理 NIC **的方塊 **
+   ![Cancel enable NIC](./image/m6u7/30.jpg)
 
-   | Choose a virtual network | **Use existing**                         |
+   | 選擇虛擬網絡 | **使用現有的**                         |
    | ------------------------ | ---------------------------------------- |
-   | Virtual network          | **Test-FW-VN**                           |
-   | Public IP address        | Select **Add new**<br />Name: **fw-pip** |
+   | 虛擬網絡          | **Test-FW-VN**                           |
+   | 公用 IP 位址        | 點選**新增**<br />名稱: **fw-pip** |
 
    ![Add public IP address to firewall](../media/assign-public-ip-to-firewall.png)
 
-1. We are not using the Firewall Manager so uncheck the box for **Enable Firewall Management NIC**. 
 
-1. Review your settings. 
+
+1.檢查設定 
 
    ![Create a firewall - review settings](../media/review-all-configurations-for-firewall.png)
 
