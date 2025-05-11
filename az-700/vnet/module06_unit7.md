@@ -115,11 +115,11 @@
 
 1. 在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入  **「防火牆」** 並在出現時選擇 **「防火牆」** 
 
-![create_rss](./image/m6u7/24_create_rss.jpg)
+   ![create_rss](./image/m6u7/24_create_rss.jpg)
 
 1. **在防火牆** 頁面上，選擇 **建立**
 
-![FW](./image/m6u7/26_network_firewall.jpg)
+   ![FW](./image/m6u7/26_network_firewall.jpg)
 
 1. **在「基本資訊」** 標籤上，使用下表中的資訊建立防火牆
 
@@ -147,25 +147,21 @@
    | 虛擬網絡          | **Test-FW-VN**                           |
    | 公用 IP 位址        | 點選**新增**<br />名稱: **fw-pip** |
 
-   ![Add public IP address to firewall](../media/assign-public-ip-to-firewall.png)
-
-
+   ![Add public IP address to firewall](./image/m6u7/29_FW_setting.jpg)
 
 1. 檢查設定 
 
-   ![Create a firewall - review settings](../media/review-all-configurations-for-firewall.png)
+   ![Create a firewall - review settings](./image/m6u7/31_FW_all_settings.jpg)
 
-1. Proceed to **Review + create** and then **Create**.
-
-1. Wait for the firewall deployment to complete.
-
-1. When deployment of the firewall is completed, select **Go to resource**.
-
-1. On the **Overview** page of **Test-FW01**, on the right of the page, take a note of the **Firewall private IP** for this firewall (e.g., **10.0.1.4**).
-
-1. In the menu on the left, under **Settings**, select **Public IP configuration**.
-
-1. Take a note of the address under **IP Address** for the **fw-pip** public IP configuration (e.g., **20.90.136.51**).
+1. 繼續 **檢閱 + 建立**，然後 **建立**.
+   ![Create a firewall - review settings](./image/m6u7/32_create_FW.jpg)
+1. 等待防火牆部署完成
+1. 防火牆部署完成後，選擇**「前往資源」**.
+1. 在**Test-FW01**的**概覽**頁面上，在頁面右側，記下此防火牆的 **防火牆私有 IP** (例如，**10.0.1.4**).
+   ![Create a firewall - review settings](./image/m6u7/33_Test-FW01_ip.jpg)
+1. 在左側選單中，在 **「設定」**下，選擇 **「公用 IP 配置」**.
+1. **記下fw-pip** 公用 IP 配置的 **IP 位址** (例如，**172.166.159.224**).
+   ![Create a firewall - review settings](./image/m6u7/35_fw_pip.jpg)
 
 ## 任務 5：建立預設路由
 
