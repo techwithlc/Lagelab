@@ -1,0 +1,127 @@
+# M06-單元 7：使用 Azure 入口網站部署與設定 Azure 防火牆
+
+## 練習情境
+
+你是 Contoso 公司網路安全小組的一員，負責建立防火牆規則來允許或拒絕對特定網站的存取。本練習將引導你完成環境建立（建立資源群組、虛擬網路與子網路、虛擬機器），接著部署 Azure Firewall 與防火牆原則，設定預設路由、應用程式規則、網路規則、DNAT 規則，最後進行測試。
+
+## 架構圖 
+![架構圖](./image/m6u7/7-exercise-deploy-configure-azure-firewall-using-azure-portal.png)
+
+### 練習目標：
+1. 建立資源群組  
+2. 建立虛擬網路與子網路  
+3. 建立虛擬機器  
+4. 部署防火牆與防火牆原則  
+5. 建立預設路由  
+6. 設定應用程式規則  
+7. 設定網路規則  
+8. 設定目的地 NAT (DNAT) 規則  
+9. 修改虛擬機網路介面的 DNS 設定  
+10. 測試防火牆規則  
+
+**預計完成時間：60 分鐘**
+
+---
+
+## 任務 1：建立資源群組
+
+1. 登入 Azure 入口網站。  
+2. 選擇「資源群組」>「建立」。  
+![建立資源群組](./image/m6u7/1_建立資源群組.jpg)
+3. 輸入資源群組名稱：`Test-FW-RG`，選擇區域 UK South。  
+4. 點選「檢閱 + 建立」>「建立」。
+![資源群組](./image/m6u7/2_建立資源群組內容.jpg)
+
+
+## 任務 2：建立虛擬網路與子網路
+在此任務中，您將建立一個包含兩個子網路的虛擬網路。
+**建立名稱為 `Test-FW-VN` 的虛擬網路，地址空間為 `10.0.0.0/16`。** 
+1. 在 Azure 入口網站主頁的搜尋框中，輸入  **虛擬網絡** ，然後在出現時選擇 **「虛擬網路」** 
+1. 選擇 **創建**.
+1. 選擇您先前建立的**Test-FW-RG**
+1. In the **Name** box, enter **Test-FW-VN**.
+
+**修改預設子網路為 `AzureFirewallSubnet`，子網段 `10.0.1.0/26`。**  
+**新增子網路 `Workload-SN`，子網段 `10.0.2.0/24`。**
+
+## 任務 3：建立虛擬機器
+
+   >**注意**: 
+   + 檔案下載網址: https://github.com/MicrosoftLearning/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/archive/master.zip
+   
+1. 開啟 Cloud Shell，選擇 PowerShell。  
+2. 上傳 `firewall.json` 與 `firewall.parameters.json` 檔案。  
+3. 執行下列命令部署 VM：
+
+   ```powershell
+   $RGName = "Test-FW-RG"
+   New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile firewall.json -TemplateParameterFile firewall.parameters.json
+   ```
+
+4. 部署完成後記下虛擬機私有 IP（例如：10.0.2.4）。
+
+## 任務 4：部署防火牆與防火牆原則
+
+1. 建立名稱為 `Test-FW01` 的 Azure Firewall，選擇 SKU 為 Standard。  
+2. 建立新的防火牆原則 `fw-test-pol`。  
+3. 指定虛擬網路為 `Test-FW-VN`，新增公用 IP：`fw-pip`。  
+4. 記下防火牆的私有 IP（例如：10.0.1.4）與公用 IP（例如：20.90.136.51）。
+
+## 任務 5：建立預設路由
+
+1. 建立名稱為 `Firewall-route` 的路由表，並與 `Workload-SN` 子網路關聯。  
+2. 新增路由：  
+   - 名稱：`fw-dg`  
+   - 地址前綴：`0.0.0.0/0`  
+   - 下一跳類型：虛擬設備  
+   - 下一跳位址：防火牆私有 IP（10.0.1.4）
+
+## 任務 6：設定應用程式規則
+
+1. 編輯防火牆原則 `fw-test-pol` > Application Rules > 新增規則集。  
+2. 規則名稱：`App-Coll01`，來源 `10.0.2.0/24`，協定 `http, https`，目的地：`www.google.com`。
+
+## 任務 7：設定網路規則
+
+1. 編輯防火牆原則 `fw-test-pol` > Network Rules > 新增規則集。  
+2. 規則名稱：`Net-Coll01`，來源 `10.0.2.0/24`，目的地 `209.244.0.3, 209.244.0.4`，協定 UDP 53。
+
+## 任務 8：設定 DNAT 規則
+
+1. 編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
+2. 將公用 IP (如 20.90.136.51) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
+
+## 任務 9：修改虛擬機 DNS 設定
+
+1. 選擇 VM 的網路介面，在「DNS 伺服器」中選擇「自訂」。  
+2. 主 DNS：209.244.0.3，次 DNS：209.244.0.4  
+3. 儲存後重啟虛擬機。
+
+## 任務 10：測試防火牆規則
+
+1. 使用遠端桌面連線至防火牆的公用 IP（如 20.90.136.51:3389）。  
+2. 登入 `Srv-Work`，開啟瀏覽器瀏覽 `https://www.google.com`（應可開啟）。  
+3. 嘗試瀏覽 `https://www.microsoft.com`（應被封鎖）。
+
+## 清除資源
+
+```powershell
+Remove-AzResourceGroup -Name 'Test-FW-RG' -Force -AsJob
+```
+
+## Copilot 牛刀小試
+
+- Firewall 常見使用情境有哪些？  
+- Azure Firewall 各 SKU 的比較表  
+- Azure Firewall 三種規則差異（Application、Network、NAT）
+
+## 延伸學習
+
+- [Azure Firewall 簡介](https://learn.microsoft.com/training/modules/introduction-azure-firewall/)  
+- [Azure Firewall Manager 簡介](https://learn.microsoft.com/training/modules/intro-to-azure-firewall-manager/)
+
+## 重點整理
+
+- Azure Firewall 是雲端防火牆服務，常與 Hub-Spoke 網路架構搭配使用。  
+- 提供 Application、Network、NAT 三種規則。  
+- 支援 Standard、Premium、Basic 三種 SKU。
