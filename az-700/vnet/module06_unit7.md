@@ -2,7 +2,7 @@
 
 ## 練習情境
 
-你是 Contoso 公司網路安全小組的一員，負責建立防火牆規則來允許或拒絕對特定網站的存取。本練習將引導你完成環境建立（建立資源群組、虛擬網路與子網路、虛擬機器），接著部署 Azure Firewall 與防火牆原則，設定預設路由、應用程式規則、網路規則、DNAT 規則，最後進行測試。
+你是 Contoso 公司網路安全小組的一員，負責建立防火牆規則來允許或拒絕對特定網站的存取。本練習將引導你完成環境建立（建立資源群組、虛擬網路與子網路、虛擬機器），接著部署 Azure Firewall 與防火牆原則，設定預設路由、應用程式規則、網路規則、目的NAT(DNAT) 規則，最後進行測試。
 
 地區以**UK South**為例
 
@@ -24,7 +24,7 @@
 ---
 
 ## 任務 1：建立資源群組
-
+在此任務中，您將建立一個新的資源組
 1. 登入 Azure 入口網站。  
 2. 選擇「資源群組」>「建立」。  
    ![建立資源群組](./image/m6u7/1_建立資源群組.jpg)
@@ -66,9 +66,8 @@
 
 
 ## 任務 3：建立虛擬機器
-
-**開啟 Cloud Shell，選擇 PowerShell**  
 在此任務中，您將建立工作負載虛擬機器並將其放置在先前建立的 Workload-SN 子網路中。
+**開啟 Cloud Shell，選擇 PowerShell**  
 1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。如果需要，配置 shell。  
     + 選擇 **PowerShell**.
     + 選擇 **不需要任何儲存體帳戶**和您的**訂閱**然後選擇 **套用**.
@@ -112,12 +111,11 @@
    ![vm_ip](./image/m6u7/23_srv-wrok_ip.jpg)
 
 ## 任務 4：部署防火牆與防火牆原則
+在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路
 建立名稱為 `Test-FW01` 的 Azure Firewall，選擇 SKU 為 Standard。  
 建立新的防火牆原則 `fw-test-pol`。  
 指定虛擬網路為 `Test-FW-VN`，新增公用 IP：`fw-pip`。  
 記下防火牆的私有 IP（例如：10.0.1.4）與公用 IP（例如：172.166.159.224）。
-
-在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路
 
 1. 在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入  **「防火牆」** 並在出現時選擇 **「防火牆」** 
 
@@ -150,6 +148,7 @@
 
    ![Add public IP address to firewall](./image/m6u7/29_FW_setting.jpg)
 1. 檢查設定 
+
    ![Create a firewall - review settings](./image/m6u7/31_FW_all_settings.jpg)
 1. 繼續 **檢閱 + 建立**，然後 **建立**.
    ![Create a firewall - review settings](./image/m6u7/32_create_FW.jpg)
@@ -162,15 +161,13 @@
    ![Create a firewall - review settings](./image/m6u7/35_fw_pip.jpg)
 
 ## 任務 5：建立預設路由
-
+在此任務中，在 Workload-SN 子網路上，您將設定出站預設路由以穿過防火牆
 1. 建立名稱為 `Firewall-route` 的路由表，並與 `Workload-SN` 子網路關聯。  
 2. 新增路由：  
    - 名稱：`fw-dg`  
    - 地址前綴：`0.0.0.0/0`  
    - 下一跳類型：虛擬設備  
    - 下一跳位址：防火牆私有 IP（10.0.1.4）
-
-在此任務中，在 Workload-SN 子網路上，您將設定出站預設路由以穿過防火牆
 
 1. 在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入**路由**並在出現時選擇 **「路由表」**
    ![Create rss](./image/m6u7/36_create_rss.jpg)
@@ -185,6 +182,8 @@
    | 地區                   | UK South              |
    | 名稱                     | **Firewall-route**       |
    | 傳播閘道路由 | **Yes**                  |
+
+
    ![Create a route table](./image/m6u7/38_route_settings.jpg)
 1. 點選 **檢閱 + 建立**
 1. 點選 **建立**
@@ -209,9 +208,40 @@
     ![Add firewall route](./image/m6u7/43_route.jpg)
 
 ## 任務 6：設定應用程式規則
-
+在此任務中，您將新增允許出站存取 <www.google.com> 的應用程式規則。
 1. 編輯防火牆原則 `fw-test-pol` > Application Rules > 新增規則集。  
 2. 規則名稱：`App-Coll01`，來源 `10.0.2.0/24`，協定 `http, https`，目的地：`www.google.com`。
+
+
+
+1. On the Azure portal home page, select **All resources**.
+
+1. In the list of resources, select your firewall policy, **fw-test-pol**.
+
+1. Under **Settings**, select **Application Rules**.
+
+1. Select **Add a rule collection**.
+
+1. On the **Add a rule collection** page, create a new application rule using the information in the table below.
+
+   | **Setting**            | **Value**                                 |
+   | ---------------------- | ----------------------------------------- |
+   | Name                   | **App-Coll01**                            |
+   | Rule collection type   | **Application**                           |
+   | Priority               | **200**                                   |
+   | Rule collection action | **Allow**                                 |
+   | Rule collection group  | **DefaultApplicationRuleCollectionGroup** |
+   | **Rules Section**      |                                           |
+   | Name                   | **Allow-Google**                          |
+   | Source type            | **IP Address**                            |
+   | Source                 | **10.0.2.0/24**                           |
+   | Protocol               | **http,https**                            |
+   | Destination type       | **FQDN**                                  |
+   | Destination            | **<www.google.com>**                        |
+
+   ![Add an application rule collection](../media/add-an-application-rule-for-firewall.png)
+
+1. Select **Add**.
 
 ## 任務 7：設定網路規則
 
