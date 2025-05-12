@@ -157,10 +157,10 @@
 1. 繼續 **檢閱 + 建立**，然後 **建立**.
    ![Create a firewall - review settings](./image/m6u7/32_create_FW.jpg)
 1. 等待防火牆部署完成
-1. 防火牆部署完成後，選擇**「前往資源」**.
-1. 在**Test-FW01**的**概覽**頁面上，在頁面右側，記下此防火牆的 **防火牆私有 IP** (例如，**10.0.1.4**).
+1. 防火牆部署完成後，選擇  **「前往資源」**
+1. 在 **Test-FW01** 的 **概覽** 頁面上，在頁面右側，記下此防火牆的 **防火牆私有 IP** (例如，**10.0.1.4**).
    ![Create a firewall - review settings](./image/m6u7/33_Test-FW01_ip.jpg)
-1. 在左側選單中，在 **「設定」**下，選擇 **「公用 IP 配置」**.
+1. 在左側選單中，在 **「設定」** 下，選擇 **「公用 IP 配置」**.
 1. **記下fw-pip** 公用 IP 配置的 **IP 位址** (例如，**172.166.159.224**).
    ![Create a firewall - review settings](./image/m6u7/35_fw_pip.jpg)
 
@@ -196,14 +196,14 @@
 
 1. 部署完成後，選擇 **「前往資源」**
    ![rss overview](./image/m6u7/40_rss_overview.jpg)
-1. 在 **防火牆路由頁面的「設定」**下，選擇 **「子網路」**，然後選擇 **「關聯」**
+1. 在 **防火牆路由頁面的「設定」** 下，選擇 **「子網路」**，然後選擇 **「關聯」**
 1. 在 **虛擬網路**上，選擇 **Test-FW-VN**
 1. 在 **子網路上**，選擇**Workload-SN**。確保僅為該路由選擇 Workload-SN 子網，否則防火牆將無法正常運作
 1. 點選 **確定**.
    ![FW-route subnet associate](./image/m6u7/41_FW_route_subnet_associate.jpg)
    ![FW-route subnet associate](./image/m6u7/42_result.jpg)
 
-1. 在左邊欄位 **設定**下，點選 **路由**，然後點選 **新增**
+1. 在左邊欄位 **設定** 下，點選 **路由**，然後點選 **新增**
 1. 在**路由名稱**欄位輸入 **fw-dg**
 1. 在**目的地類型**選擇 **IP位址**
 1. 在**目的地IP位址/CIDR範圍(位址前綴目標)**，輸入**0.0.0.0/0**
@@ -271,24 +271,20 @@
    | 協定               | **UDP**                                                      |
    | 目的地連接埠      | **53**                                                       |
    | 目的地類型       | **IP 位址**                                               |
-   | 目的地            | **209.244.0.3, 209.244.0.4**<br />These are public DNS servers operated by Century Link |
+   | 目的地            | **209.244.0.3, 209.244.0.4**<br />這些是由 Century Link 營運的公共 DNS 伺服器 |
 
 1. 點選 **新增**.
   ​ ![Add a network rule collection](./image/m6u7/48_add_network_rule_collection.jpg)
 
-## 任務 8：設定 DNAT 規則
+## 任務 8：設定目的 NAT (DNAT) 規則
 **在此任務中，您將新增一條 DNAT 規則，讓您可以透過防火牆將遠端桌面連接到 Srv-Work 虛擬機器。**
 
 編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
 將公用 IP (如 172.166.159.224) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
 
-In this task, you will add a DNAT rule that allows you to connect a remote desktop to the Srv-Work virtual machine through the firewall.
-
-1. On the **fw-test-pol** page, under **Settings**, select **DNAT Rules**.
-
-1. Select **Add a rule collection**.
-
-1. On the **Add a rule collection** page, create a new DNAT rule using the information in the table below.
+1. 在 **fw-test-pol頁的「規則」** 下，選擇 **「DNAT 規則」**.
+1. 點選 **新增規則集合**.
+1. **在「新增規則集合」** 頁面上，使用下表中的資訊建立新的 DNAT 規則
 
    | **Setting**           | **Value**                                                    |
    | --------------------- | ------------------------------------------------------------ |
