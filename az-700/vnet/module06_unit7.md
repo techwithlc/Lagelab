@@ -122,14 +122,10 @@
 1. 在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入  **「防火牆」** 並在出現時選擇 **「防火牆」** 
 
    ![create_rss](./image/m6u7/24_create_rss.jpg)
-
 1. **在防火牆** 頁面上，選擇 **建立**
 
    ![FW](./image/m6u7/26_network_firewall.jpg)
-
 1. **在「基本資訊」** 標籤上，使用下表中的資訊建立防火牆
-
-
 
    | **設定**          | **值**                                                    |
    | -------------------- | ------------------------------------------------------------ |
@@ -143,7 +139,6 @@
 
    ![Create a new firewall policy](./image/m6u7/27_FW_setting.jpg)
    ![Create a new firewall policy](./image/m6u7/28_FW_setting.jpg)
-
 1. 我們不使用防火牆管理器，因此 **取消** 選取 **啟用防火牆管理 NIC** 的方塊
  
    ![Cancel enable NIC](./image/m6u7/30.jpg)
@@ -154,11 +149,8 @@
    | 公用 IP 位址        | 點選**新增**<br />名稱: **fw-pip** |
 
    ![Add public IP address to firewall](./image/m6u7/29_FW_setting.jpg)
-
 1. 檢查設定 
-
    ![Create a firewall - review settings](./image/m6u7/31_FW_all_settings.jpg)
-
 1. 繼續 **檢閱 + 建立**，然後 **建立**.
    ![Create a firewall - review settings](./image/m6u7/32_create_FW.jpg)
 1. 等待防火牆部署完成
@@ -178,6 +170,44 @@
    - 下一跳類型：虛擬設備  
    - 下一跳位址：防火牆私有 IP（10.0.1.4）
 
+在此任務中，在 Workload-SN 子網路上，您將設定出站預設路由以穿過防火牆
+
+1. 在 Azure 入口網站首頁上，選擇 **「建立資源」**，然後在搜尋方塊中輸入**路由**並在出現時選擇 **「路由表」**
+   ![Create rss](./image/m6u7/36_create_rss.jpg)
+1. 在 **路由表** 頁面上，選擇 **建立**
+   ![Create a route table](./image/m6u7/37_create_default_route.jpg)
+1. **在「基本資訊」** 標籤上，使用下表中的資訊建立一個新的路由表
+
+   | **設定**              | **值**                |
+   | ------------------------ | ------------------------ |
+   | 訂閱             | 選擇你的訂閱 |
+   | 資源群組           | **Test-FW-RG**           |
+   | 地區                   | UK South              |
+   | 名稱                     | **Firewall-route**       |
+   | 傳播閘道路由 | **Yes**                  |
+   ![Create a route table](./image/m6u7/38_route_settings.jpg)
+1. 點選 **檢閱 + 建立**
+1. 點選 **建立**
+   ![Create a route table](./image/m6u7/39_create_route.jpg)
+
+1. 部署完成後，選擇 **「前往資源」**
+   ![rss overview](./image/m6u7/40_rss_overview.jpg)
+1. 在 **防火牆路由頁面的「設定」**下，選擇 **「子網路」**，然後選擇 **「關聯」**
+1. 在 **虛擬網路**上，選擇 **Test-FW-VN**
+1. 在 **子網路上**，選擇**Workload-SN**。確保僅為該路由選擇 Workload-SN 子網，否則防火牆將無法正常運作
+1. 點選 **確定**.
+   ![FW-route subnet associate](./image/m6u7/41_FW_route_subnet_associate.jpg)
+   ![FW-route subnet associate](./image/m6u7/42_result.jpg)
+
+1. 在左邊欄位 **設定**下，點選 **路由**，然後點選 **新增**
+1. 在**路由名稱**欄位輸入 **fw-dg**
+1. 在**目的地類型**選擇 **IP位址**
+1. 在**目的地IP位址/CIDR範圍/位址前綴目標**，輸入**0.0.0.0/0**
+1. 在**下一跳/下一個躍點類型**中，選擇 **虛擬設備**
+1. 在**下一跳/下一個躍點位址**上，輸入您先前記下的防火牆的私人 IP 位址（例如，**10.0.1.4**)
+1. 點選**新增**
+    ![Add firewall route](./image/m6u7/43_route.jpg)
+
 ## 任務 6：設定應用程式規則
 
 1. 編輯防火牆原則 `fw-test-pol` > Application Rules > 新增規則集。  
@@ -191,7 +221,7 @@
 ## 任務 8：設定 DNAT 規則
 
 1. 編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
-2. 將公用 IP (如 20.90.136.51) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
+2. 將公用 IP (如 172.166.159.224) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
 
 ## 任務 9：修改虛擬機 DNS 設定
 
@@ -201,7 +231,7 @@
 
 ## 任務 10：測試防火牆規則
 
-1. 使用遠端桌面連線至防火牆的公用 IP（如 20.90.136.51:3389）。  
+1. 使用遠端桌面連線至防火牆的公用 IP（如 172.166.159.224:3389）。  
 2. 登入 `Srv-Work`，開啟瀏覽器瀏覽 `https://www.google.com`（應可開啟）。  
 3. 嘗試瀏覽 `https://www.microsoft.com`（應被封鎖）。
 
