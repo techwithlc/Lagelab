@@ -282,36 +282,60 @@
 編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
 將公用 IP (如 172.166.159.224) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
 
-1. 在 **fw-test-pol頁的「規則」** 下，選擇 **「DNAT 規則」**.
-1. 點選 **新增規則集合**.
+1. 在 **fw-test-pol頁的「規則」** 下，選擇 **「DNAT 規則」**
+1. 點選 **新增規則集合**
+​  ![Add a DNAT rule collection](./image/m6u7/49_DNAT_rule_collection.jpg)
+
 1. **在「新增規則集合」** 頁面上，使用下表中的資訊建立新的 DNAT 規則
 
-   | **Setting**           | **Value**                                                    |
+   | **設定**           | **值**                                                    |
    | --------------------- | ------------------------------------------------------------ |
-   | Name                  | **rdp**                                                      |
-   | Rule collection type  | **DNAT**                                                     |
-   | Priority              | **200**                                                      |
-   | Rule collection group | **DefaultDnatRuleCollectionGroup**                           |
-   | **Rules Section**     |                                                              |
-   | Name                  | **rdp-nat**                                                  |
-   | Source type           | **IP Address**                                               |
-   | Source                | *                                                            |
-   | Protocol              | **TCP**                                                      |
-   | Destination Ports     | **3389**                                                     |
-   | Destination Type      | **IP Address**                                               |
-   | Destination           | Enter the firewall public IP address from **fw-pip** that you noted earlier.<br />**e.g. - 20.90.136.51** |
-   | Translated address    | Enter the private IP address from **Srv-Work** that you noted earlier.<br />**e.g. - 10.0.2.4** |
-   | Translated port       | **3389**                                                     |
+   | 名稱                  | **rdp**                                                      |
+   | 規則集合類型  | **DNAT**                                                     |
+   | 優先順序              | **200**                                                      |
+   | 規則集合群組 | **DefaultDnatRuleCollectionGroup**                           |
+   | **規則部分**     |                                                              |
+   | 名稱                  | **rdp-nat**                                                  |
+   | 來源類型           | **IP 位址**                                               |
+   | 來源                | *                                                            |
+   | 協定              | **TCP**                                                      |
+   | 目的地連接埠     | **3389**                                                     |
+   | 目的地類型      | **IP 位址**                                               |
+   | 目的地(防火牆IP位址)           | 輸入您之前記下的 **fw-pip** 防火牆公用 IP 位址。<br />**例如 - 172.166.159.224** |
+   | 已轉譯的位址或 FQDN    | 輸入您之前記下的 **Srv-Work** 的私人 IP 位址。<br />**例如 - 10.0.2.4** |
+   | 已轉譯連接埠       | **3389**                                                     |
 
-​  ![Add a DNAT rule collection](../media/add-a-dnat-rule.png)
-
-1. Select **Add**.
+1. 點選 **新增**
+​  ![Add a DNAT rule collection](./image/m6u7/50_DNAT_rule_collection_1.jpg)
+​  ![Add a DNAT rule collection](./image/m6u7/51_DNAT_rule_collection_2.jpg)
 
 ## 任務 9：修改虛擬機 DNS 設定
 
 1. 選擇 VM 的網路介面，在「DNS 伺服器」中選擇「自訂」。  
 2. 主 DNS：209.244.0.3，次 DNS：209.244.0.4  
 3. 儲存後重啟虛擬機。
+
+For testing purposes in this exercise, in this task, you will configure the Srv-Work server's primary and secondary DNS addresses. However, this is not a general Azure Firewall requirement.
+
+1. On the Azure portal home page, select **Resource groups**.
+
+1. In the list of resource groups, select your resource group, **Test-FW-RG**.
+
+1. In the list of resources in this resource group, select the network interface for the **Srv-Work** virtual machine (e.g., **srv-work350**).
+
+   ![Select NIC in resource group](../media/change-dns-servers-srv-work-nic-1.png)
+
+1. Under **Settings**, select **DNS servers**.
+
+1. Under **DNS servers**, select **Custom**.
+
+1. enter **209.244.0.3** in the **Add DNS server** text box, and **209.244.0.4** in the next text box.
+
+1. Select **Save**.
+
+   ![Change DNS servers on NIC](../media/change-dns-servers-srv-work-nic-2.png)
+
+1. Restart the **Srv-Work** virtual machine.
 
 ## 任務 10：測試防火牆規則
 
