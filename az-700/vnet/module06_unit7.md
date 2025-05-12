@@ -24,7 +24,7 @@
 ---
 
 ## 任務 1：建立資源群組
-在此任務中，您將建立一個新的資源組
+**在此任務中，您將建立一個新的資源群組**
 1. 登入 Azure 入口網站。  
 2. 選擇「資源群組」>「建立」。  
    ![建立資源群組](./image/m6u7/1_建立資源群組.jpg)
@@ -34,7 +34,7 @@
 
 
 ## 任務 2：建立虛擬網路與子網路
-在此任務中，您將建立一個包含兩個子網路的虛擬網路。
+**在此任務中，您將建立一個包含兩個子網路的虛擬網路。**
 **建立名稱為 `Test-FW-VN` 的虛擬網路，地址空間為 `10.0.0.0/16`。** 
 1. 在 Azure 入口網站主頁的搜尋框中，輸入  **虛擬網絡** ，然後在出現時選擇 **「虛擬網路」** 
 1. 選擇 **建立**
@@ -66,7 +66,7 @@
 
 
 ## 任務 3：建立虛擬機器
-在此任務中，您將建立工作負載虛擬機器並將其放置在先前建立的 Workload-SN 子網路中。
+**在此任務中，您將建立工作負載虛擬機器並將其放置在先前建立的 Workload-SN 子網路中。**
 **開啟 Cloud Shell，選擇 PowerShell**  
 1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。如果需要，配置 shell。  
     + 選擇 **PowerShell**.
@@ -111,7 +111,7 @@
    ![vm_ip](./image/m6u7/23_srv-wrok_ip.jpg)
 
 ## 任務 4：部署防火牆與防火牆原則
-在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路
+**在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路**
 建立名稱為 `Test-FW01` 的 Azure Firewall，選擇 SKU 為 Standard。  
 建立新的防火牆原則 `fw-test-pol`。  
 指定虛擬網路為 `Test-FW-VN`，新增公用 IP：`fw-pip`。  
@@ -161,9 +161,9 @@
    ![Create a firewall - review settings](./image/m6u7/35_fw_pip.jpg)
 
 ## 任務 5：建立預設路由
-在此任務中，在 Workload-SN 子網路上，您將設定出站預設路由以穿過防火牆
-1. 建立名稱為 `Firewall-route` 的路由表，並與 `Workload-SN` 子網路關聯。  
-2. 新增路由：  
+**在此任務中，在 Workload-SN 子網路上，您將設定出站預設路由以穿過防火牆**
+建立名稱為 `Firewall-route` 的路由表，並與 `Workload-SN` 子網路關聯。  
+新增路由：  
    - 名稱：`fw-dg`  
    - 地址前綴：`0.0.0.0/0`  
    - 下一跳類型：虛擬設備  
@@ -208,50 +208,70 @@
     ![Add firewall route](./image/m6u7/43_route.jpg)
 
 ## 任務 6：設定應用程式規則
-在此任務中，您將新增允許出站存取 <www.google.com> 的應用程式規則。
-1. 編輯防火牆原則 `fw-test-pol` > Application Rules > 新增規則集。  
-2. 規則名稱：`App-Coll01`，來源 `10.0.2.0/24`，協定 `http, https`，目的地：`www.google.com`。
+**在此任務中，您將新增允許出站存取 <www.google.com> 的應用程式規則。**
+編輯防火牆原則 `fw-test-pol` > Application Rules > 新增規則集。  
+規則名稱：`App-Coll01`，來源 `10.0.2.0/24`，協定 `http, https`，目的地：`www.google.com`。
 
+1. 在 Azure 入口網站首頁上，選擇 **「所有資源」**
+1. 在資源清單中，選擇您的防火牆原則 **fw-test-pol**
+   ![Add an application rule collection](./image/m6u7/44_fw-test-pol.jpg)
+1. 在**規則**下，選擇 **應用程式規則**
+1. 點選 **“新增規則集合”**
+   ![Add an application rule collection](./image/m6u7/45_fw-test-pol-rule.jpg)
 
+1. **在「新增規則集合」**頁面上，使用下表中的資訊建立一個新的應用程式規則
 
-1. On the Azure portal home page, select **All resources**.
-
-1. In the list of resources, select your firewall policy, **fw-test-pol**.
-
-1. Under **Settings**, select **Application Rules**.
-
-1. Select **Add a rule collection**.
-
-1. On the **Add a rule collection** page, create a new application rule using the information in the table below.
-
-   | **Setting**            | **Value**                                 |
+   | **設定**            | **值**                                 |
    | ---------------------- | ----------------------------------------- |
-   | Name                   | **App-Coll01**                            |
-   | Rule collection type   | **Application**                           |
-   | Priority               | **200**                                   |
-   | Rule collection action | **Allow**                                 |
-   | Rule collection group  | **DefaultApplicationRuleCollectionGroup** |
-   | **Rules Section**      |                                           |
-   | Name                   | **Allow-Google**                          |
-   | Source type            | **IP Address**                            |
-   | Source                 | **10.0.2.0/24**                           |
-   | Protocol               | **http,https**                            |
-   | Destination type       | **FQDN**                                  |
-   | Destination            | **<www.google.com>**                        |
+   | 名稱                   | **App-Coll01**                            |
+   | 規則集合類型   | **應用程式**                           |
+   | 優先順序               | **200**                                   |
+   | 規則集合動作 | **允許**                                 |
+   | 規則集合群組  | **DefaultApplicationRuleCollectionGroup** |
+   | **規則部分**      |                                           |
+   | 名稱                   | **Allow-Google**                          |
+   | 來源類型            | **IP 位址**                            |
+   | 來源                 | **10.0.2.0/24**                           |
+   | 協定               | **http,https**                            |
+   | 目的地類型       | **FQDN**                                  |
+   | 目的地            | **<www.google.com>**                        |
 
-   ![Add an application rule collection](../media/add-an-application-rule-for-firewall.png)
-
-1. Select **Add**.
+1. Select **新增**
+   ![Add an application rule collection](./image/m6u7/46_add_rule_collection.jpg)
 
 ## 任務 7：設定網路規則
-
-1. 編輯防火牆原則 `fw-test-pol` > Network Rules > 新增規則集。  
-2. 規則名稱：`Net-Coll01`，來源 `10.0.2.0/24`，目的地 `209.244.0.3, 209.244.0.4`，協定 UDP 53。
+**在此任務中，您將新增一個網路規則，允許對連接埠 53（DNS）的兩個 IP 位址進行出站存取。**
+編輯防火牆原則 `fw-test-pol` > Network Rules > 新增規則集。  
+規則名稱：`Net-Coll01`，來源 `10.0.2.0/24`，目的地 `209.244.0.3, 209.244.0.4`，協定 UDP 53。
 
 ## 任務 8：設定 DNAT 規則
+編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
+將公用 IP (如 172.166.159.224) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
 
-1. 編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
-2. 將公用 IP (如 172.166.159.224) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
+1. 在 **fw-test-pol頁面的「規則」** 下，選擇 **「網路規則」**.
+1. 點選 **新增規則集合**.
+  ![Add a network rule collection](./image/m6u7/47_network_ruleset.jpg)
+
+1. **在「新增規則集合」** 頁面上，使用下表中的資訊建立新的網路規則
+
+   | **設定**            | **值**                                                    |
+   | ---------------------- | ------------------------------------------------------------ |
+   | 名稱                   | **Net-Coll01**                                               |
+   | 規則集合類型   | **網路**                                                  |
+   | 優先順序               | **200**                                                      |
+   | 規則集合動作 | **允許**                                                    |
+   | 規則集合群組  | **DefaultNetworkRuleCollectionGroup**                        |
+   | **規則部分**      |                                                              |
+   | 名稱                   | **Allow-DNS**                                                |
+   | 來源類型            | **IP 位址**                                               |
+   | 來源                 | **10.0.2.0/24**                                              |
+   | 協定               | **UDP**                                                      |
+   | 目的地連接埠      | **53**                                                       |
+   | 目的地類型       | **IP 位址**                                               |
+   | 目的地            | **209.244.0.3, 209.244.0.4**<br />These are public DNS servers operated by Century Link |
+
+1. Select **Add**.
+  ​ ![Add a network rule collection](./image/m6u7/48_add_network_rule_collection.jpg)
 
 ## 任務 9：修改虛擬機 DNS 設定
 
