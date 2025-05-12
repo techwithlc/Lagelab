@@ -25,6 +25,7 @@
 
 ## 任務 1：建立資源群組
 **在此任務中，您將建立一個新的資源群組**
+
 1. 登入 Azure 入口網站。  
 2. 選擇「資源群組」>「建立」。  
    ![建立資源群組](./image/m6u7/1_建立資源群組.jpg)
@@ -35,6 +36,7 @@
 
 ## 任務 2：建立虛擬網路與子網路
 **在此任務中，您將建立一個包含兩個子網路的虛擬網路。**
+
 **建立名稱為 `Test-FW-VN` 的虛擬網路，地址空間為 `10.0.0.0/16`。** 
 1. 在 Azure 入口網站主頁的搜尋框中，輸入  **虛擬網絡** ，然後在出現時選擇 **「虛擬網路」** 
 1. 選擇 **建立**
@@ -67,6 +69,7 @@
 
 ## 任務 3：建立虛擬機器
 **在此任務中，您將建立工作負載虛擬機器並將其放置在先前建立的 Workload-SN 子網路中。**
+
 **開啟 Cloud Shell，選擇 PowerShell**  
 1. 在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。如果需要，配置 shell。  
     + 選擇 **PowerShell**.
@@ -112,6 +115,7 @@
 
 ## 任務 4：部署防火牆與防火牆原則
 **在此任務中，您將把防火牆部署到配置了防火牆策略的虛擬網路**
+
 建立名稱為 `Test-FW01` 的 Azure Firewall，選擇 SKU 為 Standard。  
 建立新的防火牆原則 `fw-test-pol`。  
 指定虛擬網路為 `Test-FW-VN`，新增公用 IP：`fw-pip`。  
@@ -162,6 +166,7 @@
 
 ## 任務 5：建立預設路由
 **在此任務中，在 Workload-SN 子網路上，您將設定出站預設路由以穿過防火牆**
+
 建立名稱為 `Firewall-route` 的路由表，並與 `Workload-SN` 子網路關聯。  
 新增路由：  
    - 名稱：`fw-dg`  
@@ -201,14 +206,15 @@
 1. 在左邊欄位 **設定**下，點選 **路由**，然後點選 **新增**
 1. 在**路由名稱**欄位輸入 **fw-dg**
 1. 在**目的地類型**選擇 **IP位址**
-1. 在**目的地IP位址/CIDR範圍/位址前綴目標**，輸入**0.0.0.0/0**
+1. 在**目的地IP位址/CIDR範圍(位址前綴目標)**，輸入**0.0.0.0/0**
 1. 在**下一跳/下一個躍點類型**中，選擇 **虛擬設備**
 1. 在**下一跳/下一個躍點位址**上，輸入您先前記下的防火牆的私人 IP 位址（例如，**10.0.1.4**)
-1. 點選**新增**
+1. 點選 **新增**
     ![Add firewall route](./image/m6u7/43_route.jpg)
 
 ## 任務 6：設定應用程式規則
 **在此任務中，您將新增允許出站存取 <www.google.com> 的應用程式規則。**
+
 編輯防火牆原則 `fw-test-pol` > Application Rules > 新增規則集。  
 規則名稱：`App-Coll01`，來源 `10.0.2.0/24`，協定 `http, https`，目的地：`www.google.com`。
 
@@ -219,7 +225,7 @@
 1. 點選 **“新增規則集合”**
    ![Add an application rule collection](./image/m6u7/45_fw-test-pol-rule.jpg)
 
-1. **在「新增規則集合」**頁面上，使用下表中的資訊建立一個新的應用程式規則
+1. **在「新增規則集合」** 頁面上，使用下表中的資訊建立一個新的應用程式規則
 
    | **設定**            | **值**                                 |
    | ---------------------- | ----------------------------------------- |
@@ -236,17 +242,14 @@
    | 目的地類型       | **FQDN**                                  |
    | 目的地            | **<www.google.com>**                        |
 
-1. Select **新增**
+1. 點選 **新增**
    ![Add an application rule collection](./image/m6u7/46_add_rule_collection.jpg)
 
 ## 任務 7：設定網路規則
 **在此任務中，您將新增一個網路規則，允許對連接埠 53（DNS）的兩個 IP 位址進行出站存取。**
+
 編輯防火牆原則 `fw-test-pol` > Network Rules > 新增規則集。  
 規則名稱：`Net-Coll01`，來源 `10.0.2.0/24`，目的地 `209.244.0.3, 209.244.0.4`，協定 UDP 53。
-
-## 任務 8：設定 DNAT 規則
-編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
-將公用 IP (如 172.166.159.224) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
 
 1. 在 **fw-test-pol頁面的「規則」** 下，選擇 **「網路規則」**.
 1. 點選 **新增規則集合**.
@@ -270,8 +273,43 @@
    | 目的地類型       | **IP 位址**                                               |
    | 目的地            | **209.244.0.3, 209.244.0.4**<br />These are public DNS servers operated by Century Link |
 
-1. Select **Add**.
+1. 點選 **新增**.
   ​ ![Add a network rule collection](./image/m6u7/48_add_network_rule_collection.jpg)
+
+## 任務 8：設定 DNAT 規則
+**在此任務中，您將新增一條 DNAT 規則，讓您可以透過防火牆將遠端桌面連接到 Srv-Work 虛擬機器。**
+
+編輯防火牆原則 `fw-test-pol` > DNAT Rules > 新增規則集。  
+將公用 IP (如 172.166.159.224) 的 TCP 3389 導向內部虛擬機的 IP (如 10.0.2.4) 的 TCP 3389。
+
+In this task, you will add a DNAT rule that allows you to connect a remote desktop to the Srv-Work virtual machine through the firewall.
+
+1. On the **fw-test-pol** page, under **Settings**, select **DNAT Rules**.
+
+1. Select **Add a rule collection**.
+
+1. On the **Add a rule collection** page, create a new DNAT rule using the information in the table below.
+
+   | **Setting**           | **Value**                                                    |
+   | --------------------- | ------------------------------------------------------------ |
+   | Name                  | **rdp**                                                      |
+   | Rule collection type  | **DNAT**                                                     |
+   | Priority              | **200**                                                      |
+   | Rule collection group | **DefaultDnatRuleCollectionGroup**                           |
+   | **Rules Section**     |                                                              |
+   | Name                  | **rdp-nat**                                                  |
+   | Source type           | **IP Address**                                               |
+   | Source                | *                                                            |
+   | Protocol              | **TCP**                                                      |
+   | Destination Ports     | **3389**                                                     |
+   | Destination Type      | **IP Address**                                               |
+   | Destination           | Enter the firewall public IP address from **fw-pip** that you noted earlier.<br />**e.g. - 20.90.136.51** |
+   | Translated address    | Enter the private IP address from **Srv-Work** that you noted earlier.<br />**e.g. - 10.0.2.4** |
+   | Translated port       | **3389**                                                     |
+
+​  ![Add a DNAT rule collection](../media/add-a-dnat-rule.png)
+
+1. Select **Add**.
 
 ## 任務 9：修改虛擬機 DNS 設定
 
