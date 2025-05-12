@@ -21,6 +21,7 @@
 9. 修改虛擬機網路介面的 DNS 設定  
 10. 測試防火牆規則  
 
+   >**注意**: 可以使用 **[互動式實驗室模擬](https://mslabs.cloudguides.com/guides/AZ-700%20Lab%20Simulation%20-%20Deploy%20and%20configure%20Azure%20Firewall%20using%20the%20Azure%20portal)** ，以便您按照自己的步調點擊實驗室。您可能會發現互動式模擬和託管實驗室之間存在細微的差別，但所展示的核心概念和想法是相同的。
 ---
 
 ## 任務 1：建立資源群組
@@ -273,7 +274,7 @@
    | 目的地類型       | **IP 位址**                                               |
    | 目的地            | **209.244.0.3, 209.244.0.4**<br />這些是由 Century Link 營運的公共 DNS 伺服器 |
 
-1. 點選 **新增**.
+1. 點選 **新增**
   ​ ![Add a network rule collection](./image/m6u7/48_add_network_rule_collection.jpg)
 
 ## 任務 8：設定目的 NAT (DNAT) 規則
@@ -309,51 +310,150 @@
 ​  ![Add a DNAT rule collection](./image/m6u7/50_DNAT_rule_collection_1.jpg)
 ​  ![Add a DNAT rule collection](./image/m6u7/51_DNAT_rule_collection_2.jpg)
 
-## 任務 9：修改虛擬機 DNS 設定
+## 任務 9：修改虛擬機器 DNS 設定(主 DNS 位址和輔助 DNS 位址)
+**為了在本練習中進行測試，在此任務中，您將設定 Srv-Work 伺服器的主 DNS 位址和輔助 DNS 位址。但是，這不是 Azure 防火牆的一般要求。**
 
-1. 選擇 VM 的網路介面，在「DNS 伺服器」中選擇「自訂」。  
-2. 主 DNS：209.244.0.3，次 DNS：209.244.0.4  
-3. 儲存後重啟虛擬機。
+選擇 VM 的網路介面，在「DNS 伺服器」中選擇「自訂」。  
+主 DNS：209.244.0.3，次 DNS：209.244.0.4  
+儲存後重啟虛擬機器。
 
-For testing purposes in this exercise, in this task, you will configure the Srv-Work server's primary and secondary DNS addresses. However, this is not a general Azure Firewall requirement.
+1. 在 Azure 入口網站首頁上，選擇 **「資源群組」**
 
-1. On the Azure portal home page, select **Resource groups**.
+1. 在資源組清單中，選擇您的資源群組 **Test-FW-RG**
 
-1. In the list of resource groups, select your resource group, **Test-FW-RG**.
+1. 在此資源組的資源清單中，選擇 **Srv-Work** 虛擬機器的網路介面 (例如， **srv-work350**)
 
-1. In the list of resources in this resource group, select the network interface for the **Srv-Work** virtual machine (e.g., **srv-work350**).
+   ![Select NIC in resource group](./image/m6u7/52_srv-work-nic.jpg)
 
-   ![Select NIC in resource group](../media/change-dns-servers-srv-work-nic-1.png)
+1. **在「設定」** 下，選擇 **DNS 伺服器**
+1. **伺服器**  下，選擇 **自訂**
+1. **在新增 DNS 伺服器** 文字方塊中輸入 **209.244.0.3** ，在下一個文字方塊中輸入 **209.244.0.4** 
+1. 點選 **儲存**
+   ![Change DNS servers on NIC](./image/m6u7/53_nic_dns_settings.jpg)
 
-1. Under **Settings**, select **DNS servers**.
-
-1. Under **DNS servers**, select **Custom**.
-
-1. enter **209.244.0.3** in the **Add DNS server** text box, and **209.244.0.4** in the next text box.
-
-1. Select **Save**.
-
-   ![Change DNS servers on NIC](../media/change-dns-servers-srv-work-nic-2.png)
-
-1. Restart the **Srv-Work** virtual machine.
+1. 重新啟動 **Srv-Work** 虛擬機器，目的:讓設定生效
+   ![Change DNS servers on NIC](./image/m6u7/54_srv-work_restart.jpg)
 
 ## 任務 10：測試防火牆規則
+**在此最後任務中，您將測試防火牆以驗證規則是否正確配置並按預期工作。此設定將使您能夠透過防火牆的公用 IP 位址將遠端桌面連線穿過防火牆連線至 Srv-Work 虛擬機器。**
 
-1. 使用遠端桌面連線至防火牆的公用 IP（如 172.166.159.224:3389）。  
-2. 登入 `Srv-Work`，開啟瀏覽器瀏覽 `https://www.google.com`（應可開啟）。  
-3. 嘗試瀏覽 `https://www.microsoft.com`（應被封鎖）。
+使用遠端桌面連線至防火牆的公用 IP（如 172.166.159.224:3389）。  
+登入 `Srv-Work`，開啟瀏覽器瀏覽 `https://www.google.com`（應可開啟）。  
+嘗試瀏覽 `https://www.microsoft.com`（應被封鎖）。
+
+1. 在您的電腦上開啟 **遠端桌面連線(Remote Desktop Connection)** (可以在Windows開始搜尋欄位搜尋rdp)
+   ![RDP](./image/m6u7/55_rdp.jpg)
+   ![RDP](./image/m6u7/56_rdp.jpg)
+
+1. 在電腦框中，輸入防火牆的公共 IP 位址（例如， **20.90.136.51**) ，後面接著 **:3389** (例如， **20.90.136.51:3389**).
+1. 在 **使用者名稱** 中，輸入 **TestUser**
+1. 點選 **連線**
+
+   ![RDP connection to firewall's public IP address](./image/m6u7/57_rdp.jpg)
+
+1. 在 **輸入您的認證** 中，使用您在部署期間提供的密碼登入 **Srv-Work** 伺服器虛擬機器。
+`(密碼:Admin1234!)` ，點選確定
+   ![RDP](./image/m6u7/58_rdp.jpg)
+
+1. 在憑證訊息上選擇 **「是」**
+   ![RDP](./image/m6u7/59_rdp.jpg)
+
+1. 遠端桌面連線登入後，開啟 Internet Explorer 並瀏覽至 **<https://www.google.com>**
+1. **在「安全警報」** 對話方塊中，選擇 **確定**
+1. 在可能彈出的 Internet Explorer 安全性警報上選擇 **「關閉」**
+1. 應該會看到 Google 主頁。
+
+    ![RDP session on Srv-work server - browser on google.com](./image/m6u7/60_google.jpg)
+
+1. 瀏覽至 **<https://www.microsoft.com>**
+1. 應該會看到被防火牆封鎖了
+    ![RDP session on Srv-work server - browser blocked on microsoft.com](./image/m6u7/61_microsoft_block.jpg)
 
 ## 清除資源
+
+   >**注意** : 請記得刪除任何不再使用的新建立的 Azure 資源。刪除未使用的資源可確保您不會看到意外的費用。
+
+1. 在 Azure 入口網站上，開啟**Cloud Shell**窗格中的**PowerShell**工作階段。
+1. 透過執行以下命令刪除您在本模組的實驗中所建立的所有資源組：
 
 ```powershell
 Remove-AzResourceGroup -Name 'Test-FW-RG' -Force -AsJob
 ```
+   >**注意**: 此命令非同步執行（由 -AsJob 參數決定），因此雖然您可以在同一個 PowerShell 會話中立即執行另一個 PowerShell 命令，但實際刪除資源組之前需要幾分鐘的時間。
 
 ## Copilot 牛刀小試
+Copilot 可以幫助您學習如何使用 Azure 腳本工具。 Copilot 還可以協助您完成實驗室未涉及的領域或需要更多資訊的領域。開啟 Edge 瀏覽器並選擇 Copilot（右上）或導覽至copilot.microsoft.com。花幾分鐘試試這些提示。
 
 - Firewall 常見使用情境有哪些？  
 - Azure Firewall 各 SKU 的比較表  
-- Azure Firewall 三種規則差異（Application、Network、NAT）
+- Azure Firewall 三種規則差異（Application、Network、DNAT）
+
+### - Firewall 常見使用情境有哪些？
+
+防火牆作為網路安全的基本組成部分，其常見的使用情境包括：
+
+* **邊界安全 (Perimeter Security)**：這是最經典的用途，防火牆部署在組織內部網路與外部不信任網路（如網際網路）之間，用於控制進出流量，防止未經授權的存取和惡意攻擊。
+* **內部網路區隔 (Internal Network Segmentation)**：大型組織會將內部網路劃分為不同的區域（例如，伺服器區、使用者區、開發區等），並在這些區域之間部署防火牆，以限制東西向流量。這樣做可以防止一旦某個區域被入侵，攻擊者可以輕易橫向移動到其他重要區域，實現「微切分」的安全策略。
+* **應用程式安全 (Application Security)**：現代防火牆（如應用程式防火牆）能夠理解特定應用程式層級的流量，例如 HTTP/HTTPS。這使得它們可以提供更精細的控制，例如基於網址 (URL)、FQDN (完全合格網域名稱) 或應用程式類型來允許或拒絕流量。
+* **遠端存取安全 (Secure Remote Access)**：通過設定 VPN (虛擬私人網路) 與防火牆整合，可以為遠端使用者或分支機構提供安全的連線回公司內部網路，並對這些連線的流量進行安全檢查和控制。
+* **保護伺服器/服務 (Protecting Servers/Services)**：將提供特定服務（如網站伺服器、郵件伺服器）的伺服器放置在一個稱為「非軍事區」(DMZ) 的隔離網路中，並使用防火牆嚴格控制進出 DMZ 的流量，只允許必要的通訊協定和埠，以降低風險。
+* **記錄與監控 (Logging and Monitoring)**：防火牆可以記錄所有通過或被拒絕的流量，這些日誌對於安全事件分析、入侵偵測和合規性審計至關重要。
+
+### - Azure Firewall 各 SKU 的比較表
+
+Azure Firewall 提供不同 SKU (Standard, Premium, Basic) 以滿足不同規模和安全需求的組織。以下是它們主要功能的比較表：
+
+| 功能 / SKU           | Basic                                       | Standard                                       | Premium                                         |
+| :------------------- | :------------------------------------------ | :--------------------------------------------- | :---------------------------------------------- |
+| **目標使用情境** | 中小型企業、開發/測試環境                  | 大部分企業工作負載、需要基本防火牆功能       | 高安全性、需要進階威脅防護的企業環境          |
+| **定價** | 最低                                        | 中等                                           | 最高                                            |
+| **擴充性** | 高 (可根據流量自動擴充)                   | 高 (可根據流量自動擴充)                      | 高 (可根據流量自動擴充)                       |
+| **可用性** | 內建高可用性                                | 內建高可用性                                   | 內建高可用性                                    |
+| **網路流量篩選** | 支援網路規則 (基於 IP, Port, Protocol)       | 支援網路規則 (基於 IP, Port, Protocol)         | 支援網路規則 (基於 IP, Port, Protocol)          |
+| **應用程式流量篩選** | 支援應用程式規則 (基於 FQDN, 應用程式類型)     | 支援應用程式規則 (基於 FQDN, 應用程式類型)     | 支援應用程式規則 (基於 FQDN, 應用程式類型)      |
+| **DNAT (目的地 NAT)**| 支援                                        | 支援                                           | 支援                                            |
+| **SNAT (來源 NAT)** | 支援                                        | 支援                                           | 支援                                            |
+| **威脅情報** | 支援 (警示模式)                           | 支援 (警示模式)                              | 支援 (警示和拒絕模式)                         |
+| **TLS 檢查 (TLS Inspection)** | 不支援                                      | 不支援                                         | 支援 (解密和重新加密 TLS 流量以進行檢查)      |
+| **入侵偵測與防護 (IDPS)** | 不支援                                      | 不支援                                         | 支援 (根據已知惡意活動的簽章進行偵測與阻擋)   |
+| **網址篩選 (URL Filtering)** | 不支援                                      | 不支援                                         | 支援 (篩選 HTTP/HTTPS 流量中的網址)            |
+| **Web 分類 (Web Categories)** | 不支援                                      | 不支援                                         | 支援 (允許或拒絕存取特定類別的網站，如賭博網站) |
+| **集中管理** | 可透過 Azure Firewall Manager 管理          | 可透過 Azure Firewall Manager 管理             | 可透過 Azure Firewall Manager 管理              |
+
+請注意：這是一個簡化的比較表，實際功能和限制請參考 Azure 官方文件以獲得最準確的資訊。
+
+### - Azure Firewall 三種規則差異（Application、Network、DNAT）
+
+Azure Firewall 主要使用三種類型的規則來控制網路流量，它們在檢查和過濾流量的層級和目的上有所不同：
+
+**應用程式規則 (Application Rules)**：
+
+* **作用層級**：基於應用程式層 (L7)，例如 HTTP, HTTPS, MSSQL。
+* **過濾依據**：允許您根據完全合格網域名稱 (FQDN)（例如 www.google.com）、URL 或應用程式類型（例如 Azure Update, Windows Updates）來允許或拒絕流量。
+* **目的**：用於控制應用程式層級的輸出流量存取。例如，允許虛擬機器存取特定的網站或雲端服務端點。
+* **NAT**：應用程式規則執行 SNAT (來源 NAT)，將來自您內部網路的私人 IP 位址轉換為防火牆的公用 IP 位址，以便流量能夠路由到網際網路。DNAT 不適用於應用程式規則。
+
+**網路規則 (Network Rules)**：
+
+* **作用層級**：基於網路層 (L3) 和傳輸層 (L4)，例如 IP, TCP, UDP。
+* **過濾依據**：允許您根據來源 IP 位址/範圍、目的地 IP 位址/範圍、通訊協定 (如 TCP, UDP, ICMP, Any) 和目的地埠來允許或拒絕流量。
+* **目的**：用於控制網路層級的流量，包括輸出、輸入以及 VNet 之間的流量。例如，允許特定子網路的機器通過 SSH (TCP 埠 22) 連線到另一個子網路的伺服器，或允許從內部網路向外部特定 IP 位址進行 DNS 查詢 (UDP 埠 53)。
+* **NAT**：網路規則通常執行 SNAT，類似於應用程式規則。
+
+**DNAT 規則 (Destination NAT Rules)**：
+
+* **作用層級**：基於網路層 (L3) 和傳輸層 (L4)。
+* **過濾依據**：允許您根據來源 IP 位址/範圍、通訊協定 (如 TCP, UDP)、目的地埠和目的地 IP 位址（防火牆的公用 IP）來匹配傳入流量。
+* **目的**：用於將傳入到防火牆公用 IP 位址和特定埠的流量，轉換其目的地 IP 位址和埠，重新導向到內部虛擬網路中的特定資源（例如，將傳入到防火牆公用 IP 的 RDP 流量導向到內部伺服器的私人 IP）。
+* **NAT**：DNAT 規則執行目的地 NAT，將流量的目的地 IP 位址和埠從防火牆的公用 IP 和埠轉換為內部資源的私人 IP 和埠。DNAT 規則也隱含地執行 SNAT，以便內部資源的響應流量能夠正確地返回到原始的外部來源。
+
+**總結來說：**
+
+* **應用程式規則**：用於基於 FQDN/URL/應用程式類型的**輸出**流量控制。
+* **網路規則**：用於基於 IP/Port/Protocol 的**輸出、輸入和 VNet 間**流量控制。
+* **DNAT 規則**：用於將傳入到防火牆**公用 IP** 的流量**重新導向**到內部資源。
+
+Azure Firewall 會按照優先順序處理規則，首先檢查 DNAT 規則，然後是網路規則，最後是應用程式規則。流量匹配到允許規則後會被放行，如果沒有匹配到任何允許規則且沒有明確的拒絕規則，則會根據預設行為（通常是拒絕）來處理。
 
 ## 延伸學習
 
