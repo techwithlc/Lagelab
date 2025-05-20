@@ -273,13 +273,13 @@
     | ----------- | ------------------- |
     | 訂閱        | 選擇您的訂閱。      |
     | 虛擬網路    | 選擇 CoreServicesVNet。 |
-    | 子網        | 選擇私人。          |
+    | 子網        | 選擇Private。          |
 
 5.  選擇 **“新增”**。
 
 6.  選擇 **保存**。
 
-![Storage Account Vnet Compelte](./image/m7u5/storage-account-vnet-complete.png)
+![Storage Account Vnet Complete](./image/m7u5/storageaccount-vnet-complete.png)
 
 7.  在儲存帳戶的「安全性和網路」下，選擇 **「存取金鑰」**。
 
@@ -292,10 +292,15 @@
 若要測試對儲存帳戶的網路訪問，請向每個子網路部署一個 VM。
 
 1.  在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。如果需要，配置 shell。
+
 2.  選擇 **PowerShell**。
+
 3.  選擇 **「無需儲存帳戶」** 和您的 **訂閱**，然後選擇 **「套用」**。
+
 4.  等待終端機建立並顯示提示。
+
 5.  在 Cloud Shell 窗格的工具列中，選擇「管理檔案」圖標，在下拉式選單中選擇 **「上傳」**，然後將下列檔案 **VMs.json** 和 **VMs.parameters.json** 從來源資料夾 **F:\\Allfiles\\Exercises\\M07** 逐一上傳到 Cloud Shell 主目錄中。
+
 6.  部署以下 ARM 範本來建立本練習所需的 VM：
     > **注意**：系統將提示您提供管理員密碼。
     ```powershell
@@ -312,45 +317,63 @@
 ### 任務 10：確認對儲存帳戶的存取權限
 
 1.  ContosoPrivate VM 完成建立後，選擇 **「前往資源」** 開啟 VM 的側邊欄標籤。選擇 **“連接”** 按鈕，然後選擇 **“RDP”**。
+
 2.  選擇 **「連線」** 按鈕和 RDP 後，選擇 **「下載 RDP 檔案」** 按鈕。將建立遠端桌面協定 (.rdp) 檔案並將其下載到您的電腦。
 ![VM Private Connect RDP](./image/m7u5/vm-private-connect-rdp.png)
+
 3.  開啟下載的 rdp 檔案。如果出現提示，請選擇 **「連線」**。輸入建立虛擬機器時指定的使用者名稱和密碼。您可能需要選擇更多選擇，然後選擇使用其他帳戶，以指定您在建立 VM 時輸入的憑證。
+
 4.  選擇 **“確定”**。
+
 5.  您可能會在登入過程中收到憑證警告。如果收到警告，請選擇 **「是」** 或 **「繼續」** 以繼續連線。
 ![VM Private Login RDP](./image/m7u5/vm-private-rdp-login.png)
+
 6.  在 ContosoPrivate VM 上，使用 PowerShell 將 Azure 檔案共用對應到磁碟機 Z。在運行以下命令之前，請替換 `<storage-account-key>`，`<storage-account-name>`（即 contosostoragexx）和 `my-file-share`（即 marketing），其值與您在建立儲存帳戶任務中提供和檢索的值相同。
     ```powershell
     $acctKey = ConvertTo-SecureString -String "<storage-account-key>" -AsPlainText -Force
     $credential = New-Object System.Management.Automation.PSCredential -ArgumentList "Azure\<storage-account-name>", $acctKey
     New-PSDrive -Name Z -PSProvider FileSystem -Root "\\<storage-account-name>.file.core.windows.net\marketing" -Credential $credential
     ```
+
 7.  Azure 檔案共用已成功對應到 Z 磁碟機。
+
 8.  透過命令提示字元確認虛擬機器沒有與 Internet 的出站連線：
     ```powershell
     ping bing.com
     ```
     您不會收到任何回复，因為與私人子網路關聯的網路安全群組不允許出站存取網際網路。
+    
 ![VM Private Cmd](./image/m7u5/vm-private-cmd.png)
-9.  關閉與 ContosoPrivate VM 的遠端桌面會話。
+
+10.  關閉與 ContosoPrivate VM 的遠端桌面會話。
 
 #### 確認拒絕存取儲存帳戶
 
 1.  在入口網站頂部的搜尋資源、服務和文件框中輸入 **ContosoPublic** 。
+
 2.  當ContosoPublic出現在搜尋結果中時，選擇它。
 ![VM Public Connect RDP](./image/m7u5/vm-public-connect-rdp.png)
 ![VM Private Login RDP](./image/m7u5/vm-public-rdp-login.png)
-4.  完成 ContosoPublic VM 的確認存取儲存帳戶任務中的步驟 1-6。
-    短暫等待後，您會收到 New-PSDrive：存取被拒絕錯誤。由於 ContosoPublic VM 部署在公用子網路中，因此存取被拒絕。公用子網路沒有為 Azure 儲存體啟用服務終端。儲存帳戶僅允許從私人子網路進行網路訪問，而不允許從公共子網路進行網路存取。
-5.  透過命令提示字元確認公用虛擬機器確實具有到網際網路的出站連線：
+
+3.  完成 ContosoPublic VM 的確認存取儲存帳戶任務中的步驟 1-6。
+
+> 短暫等待後，您會收到 New-PSDrive：存取被拒絕錯誤。由於 ContosoPublic VM 部署在公用子網路中，因此存取被拒絕。公用子網路沒有為 Azure 儲存體啟用服務終端。儲存帳戶僅允許從私人子網路進行網路訪問，而不允許從公共子網路進行網路存取。
+
+4.  透過命令提示字元確認公用虛擬機器確實具有到網際網路的出站連線：
     ```powershell
     ping bing.com
     ```
 ![VM Public Cmd](./image/m7u5/vm-public-cmd.png)
+
 5.  關閉與 ContosoPublic VM 的遠端桌面會話。
+
 6.  從您的電腦瀏覽至 Azure 入口網站。
+
 7.  在搜尋資源、服務和文件方塊中輸入您建立的儲存帳戶的名稱。當您的儲存帳戶名稱出現在搜尋結果中時，請選擇它。
+
 8.  選擇文件共享，然後選擇行銷文件共享。
     您收到以下螢幕截圖中顯示的錯誤：
+
     存取被拒絕，因為您的電腦不在 CoreServicesVNet 虛擬網路的私有子網路中。
 
 > **警告**：繼續之前您應該刪除本實驗使用的所有資源。為此，請在 Azure 入口網站上選擇資源組。選擇您建立的任何資源組。在資源組側邊欄標籤上，選擇“刪除資源組”，輸入資源組名稱，然後選擇“刪除”。對您可能建立的任何其他資源組重複此程序。不這樣做可能會對其他實驗室帶來問題。
@@ -364,6 +387,7 @@
 > **注意**：請記得刪除任何不再使用的新建立的 Azure 資源。刪除未使用的資源可確保您不會看到意外的費用。
 
 1.  在 Azure 入口網站上，開啟Cloud Shell窗格中的PowerShell工作階段。
+
 2.  透過執行以下命令刪除您在本模組的實驗中所建立的所有資源組：
     ```powershell
     Remove-AzResourceGroup -Name 'myResourceGroup' -Force -AsJob
@@ -372,13 +396,46 @@
 
 -----
 
-## 使用 Copilot 擴展您的學習
+## 擴展學習
 
-Copilot 可以幫助您學習如何使用 Azure 腳本工具。 Copilot 還可以協助您完成實驗室未涉及的領域或需要更多資訊的領域。開啟 Edge 瀏覽器並選擇 Copilot（右上）或導覽至copilot.microsoft.com。花幾分鐘試試這些提示。
+### Azure 服務端點和私有端點之間有什麼區別？
 
-  * Azure 服務端點和私有端點之間有什麼區別？
-  * 哪些 Azure 服務可以使用服務終點？
-  * 使用服務端點限制對 Azure 儲存體的存取有哪些步驟？
+| 項目           | **Azure 服務端點**                                                                                                                        | **Azure 私有端點**                                                                                                                            |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **定義**       | 將虛擬網路（VNet）延伸到 Azure 公共服務中，儘管服務本身保有公共端點，但可藉由識別來源子網來限制存取。                           | 利用 Azure Private Link 將目標 Azure 服務映射到 VNet 中的私有 IP 地址，實現全私有化連線，完全不透過公共網路。                                   |
+| **流量路徑**   | 流量透過 Azure 骨幹網路從指定子網直達服務，但服務端點本身仍屬於公共端點。                                                                | 連線完全在內部網路中通過私有 IP 進行，使流量永遠不會進入公共網路。                                                                             |
+| **配置複雜度** | 配置較為簡單，只需在 VNet 子網上啟用對應的服務端點；無需配置每個資源的專用 IP。                                                       | 需要在 VNet 中為每個私有端點分配並配置專用 IP，設置與管理相對更繁瑣。                                                                           |
+| **安全性**     | 提升存取控制：可限定只有來自已啟用服務端點的子網之流量存取服務，但公共端點依然存在。                                                      | 安全隔離更強：服務完全私有化後，不會暴露於公共網路，大幅降低攻擊面，適合安全需求極高的場景。                                                        |
+| **適用場景**   | 適用於希望簡單限制來自指定 VNet 子網的存取情境，不要求完全隱藏服務本身的情況。                                                           | 適用於必須避免一切公共存取，要求徹底封閉連線來源的應用環境，例如金融或嚴格遵循合規要求的系統。                                                    |
+
+
+### 哪些 Azure 服務可以使用服務終點？
+
+| 服務分類       | 服務範例                                                                                                                           |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **資料儲存服務**   | Azure 儲存體（Blob、Queue、Table、File）                                                                                          |
+| **資料庫服務**     | Azure SQL Database、Azure Synapse Analytics、Azure Database for PostgreSQL、MySQL、MariaDB                                       |
+| **NoSQL 與安全服務** | Azure Cosmos DB、Azure Key Vault                                                                                                   |
+| **訊息與事件服務**   | Azure Service Bus、Azure Event Hubs                                                                                                 |
+| **應用程式服務**   | Azure App Service、Azure Cognitive Services                                                                                        |
+| **其他**       | Azure Container Registry                                                                                                             |
+
+
+### 使用服務端點限制對 Azure 儲存體的存取有哪些步驟？
+
+1. **建立或選擇虛擬網路與子網**  
+   首先，確保您已有（或建立）一個虛擬網路以及至少一個子網，這將用來配置服務端點。
+
+2. **啟用服務端點**  
+   在所選子網的設定中啟用針對 Azure 儲存體（即 Microsoft.Storage）的服務端點。這一步可以透過 Azure Portal、CLI 或 PowerShell 完成。啟用之後，子網內的所有資源發出的連線將自動經由 Azure 骨幹網路前往 Azure 儲存體。 
+
+3. **配置儲存體帳戶存取規則**  
+   進入您的 Azure 儲存體帳戶，在「防火牆與虛擬網路」設定中：
+   - 將存取模式設為只允許來自您剛剛啟用了服務端點的虛擬網路或子網。
+   - 如有需要，也可以設定其他 IP 規則以進一步細化存取控制。
+   
+4. **驗證連線**  
+   從該子網中的虛擬機（或其他資源）測試連線 Azure 儲存體，確認來自該子網的流量能夠正常進入；而不在允許範圍內的請求則應被拒絕。
 
 -----
 
