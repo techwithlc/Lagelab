@@ -6,25 +6,32 @@
 
 虛擬網路服務終端使你能夠將某些 Azure 服務資源的網路存取權限限製到虛擬網路子網路。您也可以刪除對資源的網路存取。服務終端提供從虛擬網路到支援的 Azure 服務的直接連接，讓您可以使用虛擬網路的私人位址空間來存取 Azure 服務。透過服務端點傳送往 Azure 資源的流量始終停留在 Microsoft Azure 主幹網路上。
 
-服務端點架構圖。
- *[(architecture diagram)](https://microsoftlearning.github.io/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/Instructions/media/5-exercise-restrict-network-paas-resources-virtual-network-service-endpoints.png)*
+## 架構圖
+![(architecture diagram)](https://microsoftlearning.github.io/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/Instructions/media/5-exercise-restrict-network-paas-resources-virtual-network-service-endpoints.png)
 
 **預計時間：** 35 分鐘
 
 ### 在本練習中，您將：
 
 **任務 1：** 建立虛擬網絡
-**任務 2：** 啟用服務端點
-**任務 3：** 限制子網路的網路訪問
-**任務 4：** 新增其他出站規則
-**任務 5：** 允許 RDP 連線訪問
-**任務 6：** 限制資源的網路訪問
-**任務 7：** 在儲存帳戶中建立文件共享
-**任務 8：** 限制對子網路的網路訪問
-**任務 9：** 建立虛擬機
-**任務 10：** 確認對儲存帳戶的存取權限
 
-> **注意**：可以使用互動式實驗室模擬，以便您按照自己的步調點擊實驗室。您可能會發現互動式模擬和託管實驗室之間存在細微的差別，但所展示的核心概念和想法是相同的。
+**任務 2：** 啟用服務端點
+
+**任務 3：** 限制子網路的網路訪問
+
+**任務 4：** 新增其他出站規則
+
+**任務 5：** 允許 RDP 連線訪問
+
+**任務 6：** 限制資源的網路訪問
+
+**任務 7：** 在儲存帳戶中建立文件共享
+
+**任務 8：** 限制對子網路的網路訪問
+
+**任務 9：** 建立虛擬機
+
+**任務 10：** 確認對儲存帳戶的存取權限
 
 -----
 
@@ -50,7 +57,7 @@
     | 環境             | 價值            |
     | ---------------- | --------------- |
     | 地址空間         | 10.0.0.0/16     |
-    | 子網路名稱       | 民眾            |
+    | 子網路名稱       | Public            |
     | 子網路位址範圍   | 10.0.0.0/24     |
 
 6.  選擇 **“安全性”** 標籤並輸入以下值：
@@ -77,7 +84,7 @@
 
     | 環境                 | 價值                |
     | -------------------- | ------------------- |
-    | 姓名                 | 私人的              |
+    | 姓名                 | Private              |
     | 地址範圍             | 10.0.1.0/24         |
     | 服務端點：服務       | 選擇Microsoft.Storage |
 
