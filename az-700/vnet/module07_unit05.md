@@ -1,0 +1,396 @@
+# M07-Unit 5 使用虛擬網路服務端點限制對 PaaS 資源的網路存取
+
+# M07-Unit 5 Restrict network access to PaaS resources with virtual network service endpoints
+
+## 演習場景
+
+虛擬網路服務終端使你能夠將某些 Azure 服務資源的網路存取權限限製到虛擬網路子網路。您也可以刪除對資源的網路存取。服務終端提供從虛擬網路到支援的 Azure 服務的直接連接，讓您可以使用虛擬網路的私人位址空間來存取 Azure 服務。透過服務端點傳送往 Azure 資源的流量始終停留在 Microsoft Azure 主幹網路上。
+
+## 架構圖
+![(architecture diagram)](https://microsoftlearning.github.io/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/Instructions/media/5-exercise-restrict-network-paas-resources-virtual-network-service-endpoints.png)
+
+**預計時間：** 35 分鐘
+
+### 在本練習中，您將：
+
+**任務 1：** 建立虛擬網絡
+
+**任務 2：** 啟用服務端點
+
+**任務 3：** 限制子網路的網路訪問
+
+**任務 4：** 新增其他出站規則
+
+**任務 5：** 允許 RDP 連線訪問
+
+**任務 6：** 限制資源的網路訪問
+
+**任務 7：** 在儲存帳戶中建立文件共享
+
+**任務 8：** 限制對子網路的網路訪問
+
+**任務 9：** 建立虛擬機
+
+**任務 10：** 確認對儲存帳戶的存取權限
+
+-----
+
+### 任務 1：建立虛擬網絡
+
+1.  登入 Azure 入口網站。
+
+2.  在 Azure 入口網站主頁上，搜尋虛擬網絡，然後從結果中選擇 **虛擬網路**。
+
+3.  選擇 **+ 創建**。
+
+4.  輸入或選擇以下資訊：
+
+    | 環境        | 價值                     |
+    | ----------- | ------------------------ |
+    | 訂閱        | 選擇您的訂閱             |
+    | 資源組      | （新）myResourceGroup     |
+    | 姓名        | 核心服務虛擬網絡         |
+    | 地點        | 選擇“US East”           |
+
+5.  選擇 **“IP 位址”** 標籤並輸入以下值（選擇預設值以變更子網路名稱）：
+
+    | 環境             | 價值            |
+    | ---------------- | --------------- |
+    | 地址空間         | 10.0.0.0/16     |
+    | 子網路名稱       | Public            |
+    | 子網路位址範圍   | 10.0.0.0/24     |
+
+6.  選擇 **“安全性”** 標籤並輸入以下值：
+
+    | 環境             | 價值        |
+    | ---------------- | ----------- |
+    | 堡壘主機         | 已停用      |
+    | DDoS 網路保護    | 已停用      |
+    | 防火牆           | 已停用      |
+
+7.  選擇 **“審閱 + 建立”**。驗證資源後，選擇 **“建立”**。
+
+![Vnet Complete](./image/m7u5/vnet-complete.png)
+
+-----
+
+### 任務 2：啟用服務端點
+
+服務端點是按服務、按子網路啟用的。建立子網路並為子網路啟用服務端點。
+
+1.  在入口網站頂部的「搜尋資源、服務和文件」方塊中，輸入 **CoreServicesVNet**。當 CoreServicesVNet 出現在搜尋結果中時，選擇它。
+
+2.  在虛擬網路中新增子網路。在「設定」下，選擇「子網路」，然後選擇「+ 子網路」。
+
+3.  在新增子網路下，選擇或輸入以下資訊：
+
+    | 環境                 | 價值                |
+    | -------------------- | ------------------- |
+    | 姓名                 | Private              |
+    | 地址範圍             | 10.0.1.0/24         |
+    | 服務端點：服務       | 選擇Microsoft.Storage |
+
+4.  選擇 **保存**。
+
+現在您應該已經配置了兩個子網路。
+
+![Subnet Complete](./image/m7u5/subnet-complete.png)
+
+-----
+
+### 任務 3：限制子網路的網路訪問
+
+預設情況下，子網路中的所有虛擬機器都可以與所有資源通訊。您可以透過建立網路安全群組並將其關聯到子網路來限制與子網路中所有資源的通訊。
+
+1.  在入口網站頂部的搜尋資源、服務和文件框中，輸入 **安全性群組**。當網路安全群組出现在搜尋結果中時，請選擇它。
+
+2.  在網路安全群組中，選擇 **+ 建立**。
+
+3.  輸入或選擇以下資訊：
+
+    | 環境        | 價值                |
+    | ----------- | ------------------- |
+    | 訂閱        | 選擇您的訂閱        |
+    | 資源組      | myResourceGroup     |
+    | 姓名        | ContosoPrivateNSG   |
+    | 地點        | 選擇“US East”      |
+
+4.  選擇 **「檢視 + 建立」**，然後選擇 **「建立」**。
+
+5.  建立 ContosoPrivateNSG 網路安全群組後，選擇 **「前往資源」**。
+
+![NSG Complete](./image/m7u5/nsg-complete.png)
+
+6.  在「設定」下，選擇 **「出站安全規則」**。
+
+7.  選擇 **+ 新增**。
+
+![Outbound Allow Create](./image/m7u5/outbound-rule-allow-create.png)
+
+8.  建立允許與 Azure 儲存服務進行出站通訊的規則。輸入或選擇以下資訊：
+
+    | 環境               | 價值              |
+    | ------------------ | ----------------- |
+    | 來源               | 選擇服務標籤      |
+    | 來源服務標籤       | 選擇虛擬網絡      |
+    | 來源連接埠範圍     | \* |
+    | 目的地             | 選擇服務標籤      |
+    | 目標服務標籤       | 選擇儲存          |
+    | 服務               | 自訂              |
+    | 目標連接埠範圍     | \* |
+    | 協定               | 任何              |
+    | 行動               | 允許              |
+    | 優先事項           | 100               |
+    | 姓名               | 允許儲存全部      |
+
+9.  選擇 **新增**。
+
+![Outbound Allow Complete](./image/m7u5/outbound-rule-allow-complete.png)
+
+-----
+
+### 任務 4：新增其他出站規則
+
+建立另一個拒絕與網路通訊的出站安全規則。此規則將覆寫所有網路安全群組中允許出站 Internet 通訊的預設規則。
+
+1.  在「出站安全規則」下選擇 **「+新增」**。
+
+![Outbound Deny Create](./image/m7u5/outbound-rule-deny-create.png)
+
+2.  輸入或選擇以下資訊：
+
+    | 環境               | 價值              |
+    | ------------------ | ----------------- |
+    | 來源               | 選擇服務標籤      |
+    | 來源服務標籤       | 選擇虛擬網絡      |
+    | 來源連接埠範圍     | \* |
+    | 目的地             | 選擇服務標籤      |
+    | 目標服務標籤       | 選擇“Internet”   |
+    | 服務               | 風俗              |
+    | 目標連接埠範圍     | \* |
+    | 協定               | 任何              |
+    | 行動               | 否定              |
+    | 優先事項           | 110               |
+    | 姓名               | 拒絕所有互聯網    |
+
+3.  選擇 **“新增”**。
+
+![Outbound Deny Complete](./image/m7u5/outbound-rule-deny-complete.png)
+
+-----
+
+### 任務 5：允許 RDP 連線訪問
+
+建立入站安全規則，允許遠端桌面協定 (RDP) 流量從任何位置進入子網路。此規則將覆蓋拒絕所有來自網際網路的入站流量的預設安全規則。允許遠端桌面連接到子網，以便可以在後續步驟中測試連接性。
+
+1.  在 ContosoPrivateNSG 上，於「設定」下，選擇 **「入站安全規則」**。
+
+2.  選擇 **+ 新增**。
+
+3.  在「新增入站安全規則」中，輸入以下值：
+
+    | 環境               | 價值             |
+    | ------------------ | ---------------- |
+    | 來源               | 任何             |
+    | 來源連接埠範圍     | \* |
+    | 目的地             | 選擇虛擬網絡     |
+    | 服務               | 自訂             |
+    | 目標連接埠範圍     | 3389             |
+    | 協定               | 任何             |
+    | 行動               | 允許             |
+    | 優先事項           | 120              |
+    | 姓名               | 允許-RDP-全部    |
+
+4.  然後選擇 **新增**。
+
+    > **警告**：RDP 連接埠 3389 已暴露於網際網路。這僅建議用於測試。對於生產環境，我們建議使用 VPN 或私人連線。
+
+![Inbound Allow Complete](./image/m7u5/inbound-rule-allow-complete.png)
+
+5.  在「設定」下，選擇 **「子網路」**。
+
+6.  選擇 **+ 關聯**。
+
+7.  在關聯子網下，選擇虛擬網絡，然後在選擇虛擬網路下選擇 **CoreServicesVNet**。
+
+8.  在「選擇子網路」下，選擇 **「私有」**，然後選擇 **「確定」**。
+
+![Subnet Associate Create](./image/m7u5/subnet-associate-create.png)
+
+-----
+
+### 任務 6：限制資源的網路訪問
+
+限制透過為服務終端啟用的 Azure 服務所建立的資源的網路存取所需的步驟因服務而異。請參閱各個服務的文件以了解每個服務的特定步驟。作為範例，本練習的其餘部分包括限制 Azure 儲存體帳戶的網路存取的步驟。
+
+1.  在 Azure 入口網站上，選擇 **「儲存帳戶」**。
+
+2.  選擇 **“+創建”**。
+
+3.  輸入或選擇以下資訊並接受其餘的預設值：
+
+    | 環境        | 價值                                                |
+    | ----------- | --------------------------------------------------- |
+    | 訂閱        | 選擇您的訂閱                                        |
+    | 資源組      | myResourceGroup                                     |
+    | 姓名        | 輸入 contosostoragexx（其中 xx 是您的姓名首字母，以使其唯一） |
+    | 表現        | 標準儲存V2（通用v2）                                |
+    | 地點        | 選擇“US East”                                      |
+    | 複製        | 本地冗餘儲存 (LRS)                                   |
+
+4.  選擇 **「審閱」**，然後選擇 **「建立」**。
+
+![Storage Account Compelte](./image/m7u5/storageaccount-complete.png)
+
+-----
+
+### 任務 7：在儲存帳戶中建立文件共享
+
+1.  建立儲存帳戶後，在入口網站頂部的「搜尋資源、服務和文件」方塊中輸入儲存帳戶的名稱。當您的儲存帳戶名稱出現在搜尋結果中時，請選擇它。
+2.  選擇 **「檔案共享」**。
+3.  選擇 **+ 檔案共享**。
+4.  在名稱下輸入 **行銷**，然後選擇 **下一步：備份**。
+5.  取消勾選 **啟用備份**。
+6.  選擇 **“審閱 + 建立”**。驗證資源後，選擇 **“建立”**。
+
+![File Share Compelte](./image/m7u5/file-share-complete.png)
+
+-----
+
+### 任務 8：限制對子網路的網路訪問
+
+預設情況下，儲存帳戶接受來自任何網路（包括 Internet）中的用戶端的網路連線。拒絕來自 Internet 以及所有虛擬網路中所有其他子網路（CoreServicesVNet 虛擬網路中的私有子網路除外）的網路存取。
+
+1.  在儲存帳戶的「安全性 + 網路」下，選擇 **「網路」**。
+
+2.  從選定的虛擬網路和 IP 位址中選擇 **「啟用」** 。
+
+3.  選擇 **“+新增現有虛擬網路”**。
+
+4.  在「新增網路」下，選擇以下值：
+
+    | 環境        | 價值                |
+    | ----------- | ------------------- |
+    | 訂閱        | 選擇您的訂閱。      |
+    | 虛擬網路    | 選擇 CoreServicesVNet。 |
+    | 子網        | 選擇私人。          |
+
+5.  選擇 **“新增”**。
+
+6.  選擇 **保存**。
+
+![Storage Account Vnet Compelte](./image/m7u5/storage-account-vnet-complete.png)
+
+7.  在儲存帳戶的「安全性和網路」下，選擇 **「存取金鑰」**。
+
+8.  選擇 **“顯示關鍵點”**。記下Key值，因為在將檔案共用對應到 VM 中的磁碟機號碼時，您必須在後續步驟中手動輸入它。
+
+-----
+
+### 任務 9：建立虛擬機
+
+若要測試對儲存帳戶的網路訪問，請向每個子網路部署一個 VM。
+
+1.  在 Azure 入口網站中，選擇 Cloud Shell 圖示（右上角）。如果需要，配置 shell。
+2.  選擇 **PowerShell**。
+3.  選擇 **「無需儲存帳戶」** 和您的 **訂閱**，然後選擇 **「套用」**。
+4.  等待終端機建立並顯示提示。
+5.  在 Cloud Shell 窗格的工具列中，選擇「管理檔案」圖標，在下拉式選單中選擇 **「上傳」**，然後將下列檔案 **VMs.json** 和 **VMs.parameters.json** 從來源資料夾 **F:\\Allfiles\\Exercises\\M07** 逐一上傳到 Cloud Shell 主目錄中。
+6.  部署以下 ARM 範本來建立本練習所需的 VM：
+    > **注意**：系統將提示您提供管理員密碼。
+    ```powershell
+    $RGName = "myResourceGroup"
+    New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile VMs.json -TemplateParameterFile VMs.parameters.json
+    ```
+![cmd1](./image/m7u5/cmd1.png)
+![cmd2](./image/m7u5/cmd2.png)
+
+7.  部署完成後，請前往 Azure 入口網站主頁，然後選擇 **「虛擬機器」**。
+
+-----
+
+### 任務 10：確認對儲存帳戶的存取權限
+
+1.  ContosoPrivate VM 完成建立後，選擇 **「前往資源」** 開啟 VM 的側邊欄標籤。選擇 **“連接”** 按鈕，然後選擇 **“RDP”**。
+2.  選擇 **「連線」** 按鈕和 RDP 後，選擇 **「下載 RDP 檔案」** 按鈕。將建立遠端桌面協定 (.rdp) 檔案並將其下載到您的電腦。
+![VM Private Connect RDP](./image/m7u5/vm-private-connect-rdp.png)
+3.  開啟下載的 rdp 檔案。如果出現提示，請選擇 **「連線」**。輸入建立虛擬機器時指定的使用者名稱和密碼。您可能需要選擇更多選擇，然後選擇使用其他帳戶，以指定您在建立 VM 時輸入的憑證。
+4.  選擇 **“確定”**。
+5.  您可能會在登入過程中收到憑證警告。如果收到警告，請選擇 **「是」** 或 **「繼續」** 以繼續連線。
+![VM Private Login RDP](./image/m7u5/vm-private-rdp-login.png)
+6.  在 ContosoPrivate VM 上，使用 PowerShell 將 Azure 檔案共用對應到磁碟機 Z。在運行以下命令之前，請替換 `<storage-account-key>`，`<storage-account-name>`（即 contosostoragexx）和 `my-file-share`（即 marketing），其值與您在建立儲存帳戶任務中提供和檢索的值相同。
+    ```powershell
+    $acctKey = ConvertTo-SecureString -String "<storage-account-key>" -AsPlainText -Force
+    $credential = New-Object System.Management.Automation.PSCredential -ArgumentList "Azure\<storage-account-name>", $acctKey
+    New-PSDrive -Name Z -PSProvider FileSystem -Root "\\<storage-account-name>.file.core.windows.net\marketing" -Credential $credential
+    ```
+7.  Azure 檔案共用已成功對應到 Z 磁碟機。
+8.  透過命令提示字元確認虛擬機器沒有與 Internet 的出站連線：
+    ```powershell
+    ping bing.com
+    ```
+    您不會收到任何回复，因為與私人子網路關聯的網路安全群組不允許出站存取網際網路。
+![VM Private Cmd](./image/m7u5/vm-private-cmd.png)
+9.  關閉與 ContosoPrivate VM 的遠端桌面會話。
+
+#### 確認拒絕存取儲存帳戶
+
+1.  在入口網站頂部的搜尋資源、服務和文件框中輸入 **ContosoPublic** 。
+2.  當ContosoPublic出現在搜尋結果中時，選擇它。
+![VM Public Connect RDP](./image/m7u5/vm-public-connect-rdp.png)
+![VM Private Login RDP](./image/m7u5/vm-public-rdp-login.png)
+4.  完成 ContosoPublic VM 的確認存取儲存帳戶任務中的步驟 1-6。
+    短暫等待後，您會收到 New-PSDrive：存取被拒絕錯誤。由於 ContosoPublic VM 部署在公用子網路中，因此存取被拒絕。公用子網路沒有為 Azure 儲存體啟用服務終端。儲存帳戶僅允許從私人子網路進行網路訪問，而不允許從公共子網路進行網路存取。
+5.  透過命令提示字元確認公用虛擬機器確實具有到網際網路的出站連線：
+    ```powershell
+    ping bing.com
+    ```
+![VM Public Cmd](./image/m7u5/vm-public-cmd.png)
+5.  關閉與 ContosoPublic VM 的遠端桌面會話。
+6.  從您的電腦瀏覽至 Azure 入口網站。
+7.  在搜尋資源、服務和文件方塊中輸入您建立的儲存帳戶的名稱。當您的儲存帳戶名稱出現在搜尋結果中時，請選擇它。
+8.  選擇文件共享，然後選擇行銷文件共享。
+    您收到以下螢幕截圖中顯示的錯誤：
+    存取被拒絕，因為您的電腦不在 CoreServicesVNet 虛擬網路的私有子網路中。
+
+> **警告**：繼續之前您應該刪除本實驗使用的所有資源。為此，請在 Azure 入口網站上選擇資源組。選擇您建立的任何資源組。在資源組側邊欄標籤上，選擇“刪除資源組”，輸入資源組名稱，然後選擇“刪除”。對您可能建立的任何其他資源組重複此程序。不這樣做可能會對其他實驗室帶來問題。
+
+結果：您現在已經完成了這個實驗。
+
+-----
+
+## 清理資源
+
+> **注意**：請記得刪除任何不再使用的新建立的 Azure 資源。刪除未使用的資源可確保您不會看到意外的費用。
+
+1.  在 Azure 入口網站上，開啟Cloud Shell窗格中的PowerShell工作階段。
+2.  透過執行以下命令刪除您在本模組的實驗中所建立的所有資源組：
+    ```powershell
+    Remove-AzResourceGroup -Name 'myResourceGroup' -Force -AsJob
+    ```
+    > **注意**：此命令非同步執行（由 -AsJob 參數決定），因此雖然您可以在同一個 PowerShell 會話中立即執行另一個 PowerShell 命令，但實際刪除資源組之前需要幾分鐘的時間。
+
+-----
+
+## 使用 Copilot 擴展您的學習
+
+Copilot 可以幫助您學習如何使用 Azure 腳本工具。 Copilot 還可以協助您完成實驗室未涉及的領域或需要更多資訊的領域。開啟 Edge 瀏覽器並選擇 Copilot（右上）或導覽至copilot.microsoft.com。花幾分鐘試試這些提示。
+
+  * Azure 服務端點和私有端點之間有什麼區別？
+  * 哪些 Azure 服務可以使用服務終點？
+  * 使用服務端點限制對 Azure 儲存體的存取有哪些步驟？
+
+-----
+
+## 透過自主學習模式學習更多
+
+  * [使用網路安全群組和服務終端點來保護和隔離對 Azure 資源的存取](https://learn.microsoft.com/training/modules/secure-and-isolate-with-nsg-and-service-endpoints/)。在本模組中，您將學習如何使用虛擬網路服務端點來控制往返 Azure 服務的網路流量。
+
+-----
+
+## 關鍵要點
+
+  * 虛擬網路服務端點透過提供與 Azure 服務的直接連線來擴充 Azure 中的私有位址空間。
+  * 服務端點讓您將 Azure 資源僅保護到您的虛擬網路。服務流量將保留在 Azure 主幹網路上，不會傳出到網際網路。
+  * Azure 服務終端適用於許多服務，例如：Azure 儲存空間、Azure SQL 資料庫和 Azure Cosmos DB。
+  * 預設情況下，虛擬網路服務端點不能從本機網路存取。若要從本機網路存取資源，請使用 NAT IP。
