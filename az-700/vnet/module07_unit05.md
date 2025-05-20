@@ -70,6 +70,8 @@
 
 7.  選擇 **“審閱 + 建立”**。驗證資源後，選擇 **“建立”**。
 
+![Vnet Complete](./image/m7u5/vnet-complete.png)
+
 -----
 
 ### 任務 2：啟用服務端點
@@ -91,6 +93,8 @@
 4.  選擇 **保存**。
 
 現在您應該已經配置了兩個子網路。
+
+![Subnet Complete](./image/m7u5/subnet-complete.png)
 
 -----
 
@@ -115,9 +119,13 @@
 
 5.  建立 ContosoPrivateNSG 網路安全群組後，選擇 **「前往資源」**。
 
+![NSG Complete](./image/m7u5/nsg-complete.png)
+
 6.  在「設定」下，選擇 **「出站安全規則」**。
 
 7.  選擇 **+ 新增**。
+
+![Outbound Allow Create](./image/m7u5/outbound-rule-allow-create.png)
 
 8.  建立允許與 Azure 儲存服務進行出站通訊的規則。輸入或選擇以下資訊：
 
@@ -128,7 +136,7 @@
     | 來源連接埠範圍     | \* |
     | 目的地             | 選擇服務標籤      |
     | 目標服務標籤       | 選擇儲存          |
-    | 服務               | 風俗              |
+    | 服務               | 自訂              |
     | 目標連接埠範圍     | \* |
     | 協定               | 任何              |
     | 行動               | 允許              |
@@ -137,6 +145,8 @@
 
 9.  選擇 **新增**。
 
+![Outbound Allow Complete](./image/m7u5/outbound-rule-allow-complete.png)
+
 -----
 
 ### 任務 4：新增其他出站規則
@@ -144,6 +154,8 @@
 建立另一個拒絕與網路通訊的出站安全規則。此規則將覆寫所有網路安全群組中允許出站 Internet 通訊的預設規則。
 
 1.  在「出站安全規則」下選擇 **「+新增」**。
+
+![Outbound Deny Create](./image/m7u5/outbound-rule-deny-create.png)
 
 2.  輸入或選擇以下資訊：
 
@@ -163,6 +175,8 @@
 
 3.  選擇 **“新增”**。
 
+![Outbound Deny Complete](./image/m7u5/outbound-rule-deny-complete.png)
+
 -----
 
 ### 任務 5：允許 RDP 連線訪問
@@ -180,7 +194,7 @@
     | 來源               | 任何             |
     | 來源連接埠範圍     | \* |
     | 目的地             | 選擇虛擬網絡     |
-    | 服務               | 風俗             |
+    | 服務               | 自訂             |
     | 目標連接埠範圍     | 3389             |
     | 協定               | 任何             |
     | 行動               | 允許             |
@@ -191,6 +205,8 @@
 
     > **警告**：RDP 連接埠 3389 已暴露於網際網路。這僅建議用於測試。對於生產環境，我們建議使用 VPN 或私人連線。
 
+![Inbound Allow Complete](./image/m7u5/inbound-rule-allow-complete.png)
+
 5.  在「設定」下，選擇 **「子網路」**。
 
 6.  選擇 **+ 關聯**。
@@ -198,6 +214,8 @@
 7.  在關聯子網下，選擇虛擬網絡，然後在選擇虛擬網路下選擇 **CoreServicesVNet**。
 
 8.  在「選擇子網路」下，選擇 **「私有」**，然後選擇 **「確定」**。
+
+![Subnet Associate Create](./image/m7u5/subnet-associate-create.png)
 
 -----
 
@@ -222,6 +240,8 @@
 
 4.  選擇 **「審閱」**，然後選擇 **「建立」**。
 
+![Storage Account Compelte](./image/m7u5/storageaccount-complete.png)
+
 -----
 
 ### 任務 7：在儲存帳戶中建立文件共享
@@ -232,6 +252,8 @@
 4.  在名稱下輸入 **行銷**，然後選擇 **下一步：備份**。
 5.  取消勾選 **啟用備份**。
 6.  選擇 **“審閱 + 建立”**。驗證資源後，選擇 **“建立”**。
+
+![File Share Compelte](./image/m7u5/file-share-complete.png)
 
 -----
 
@@ -257,6 +279,8 @@
 
 6.  選擇 **保存**。
 
+![Storage Account Vnet Compelte](./image/m7u5/storage-account-vnet-complete.png)
+
 7.  在儲存帳戶的「安全性和網路」下，選擇 **「存取金鑰」**。
 
 8.  選擇 **“顯示關鍵點”**。記下Key值，因為在將檔案共用對應到 VM 中的磁碟機號碼時，您必須在後續步驟中手動輸入它。
@@ -278,6 +302,9 @@
     $RGName = "myResourceGroup"
     New-AzResourceGroupDeployment -ResourceGroupName $RGName -TemplateFile VMs.json -TemplateParameterFile VMs.parameters.json
     ```
+![cmd1](./image/m7u5/cmd1.png)
+![cmd2](./image/m7u5/cmd2.png)
+
 7.  部署完成後，請前往 Azure 入口網站主頁，然後選擇 **「虛擬機器」**。
 
 -----
@@ -286,9 +313,11 @@
 
 1.  ContosoPrivate VM 完成建立後，選擇 **「前往資源」** 開啟 VM 的側邊欄標籤。選擇 **“連接”** 按鈕，然後選擇 **“RDP”**。
 2.  選擇 **「連線」** 按鈕和 RDP 後，選擇 **「下載 RDP 檔案」** 按鈕。將建立遠端桌面協定 (.rdp) 檔案並將其下載到您的電腦。
+![VM Private Connect RDP](./image/m7u5/vm-private-connect-rdp.png)
 3.  開啟下載的 rdp 檔案。如果出現提示，請選擇 **「連線」**。輸入建立虛擬機器時指定的使用者名稱和密碼。您可能需要選擇更多選擇，然後選擇使用其他帳戶，以指定您在建立 VM 時輸入的憑證。
 4.  選擇 **“確定”**。
 5.  您可能會在登入過程中收到憑證警告。如果收到警告，請選擇 **「是」** 或 **「繼續」** 以繼續連線。
+![VM Private Login RDP](./image/m7u5/vm-private-rdp-login.png)
 6.  在 ContosoPrivate VM 上，使用 PowerShell 將 Azure 檔案共用對應到磁碟機 Z。在運行以下命令之前，請替換 `<storage-account-key>`，`<storage-account-name>`（即 contosostoragexx）和 `my-file-share`（即 marketing），其值與您在建立儲存帳戶任務中提供和檢索的值相同。
     ```powershell
     $acctKey = ConvertTo-SecureString -String "<storage-account-key>" -AsPlainText -Force
@@ -301,18 +330,22 @@
     ping bing.com
     ```
     您不會收到任何回复，因為與私人子網路關聯的網路安全群組不允許出站存取網際網路。
+![VM Private Cmd](./image/m7u5/vm-private-cmd.png)
 9.  關閉與 ContosoPrivate VM 的遠端桌面會話。
 
 #### 確認拒絕存取儲存帳戶
 
 1.  在入口網站頂部的搜尋資源、服務和文件框中輸入 **ContosoPublic** 。
 2.  當ContosoPublic出現在搜尋結果中時，選擇它。
-3.  完成 ContosoPublic VM 的確認存取儲存帳戶任務中的步驟 1-6。
+![VM Public Connect RDP](./image/m7u5/vm-public-connect-rdp.png)
+![VM Private Login RDP](./image/m7u5/vm-public-rdp-login.png)
+4.  完成 ContosoPublic VM 的確認存取儲存帳戶任務中的步驟 1-6。
     短暫等待後，您會收到 New-PSDrive：存取被拒絕錯誤。由於 ContosoPublic VM 部署在公用子網路中，因此存取被拒絕。公用子網路沒有為 Azure 儲存體啟用服務終端。儲存帳戶僅允許從私人子網路進行網路訪問，而不允許從公共子網路進行網路存取。
-4.  透過命令提示字元確認公用虛擬機器確實具有到網際網路的出站連線：
+5.  透過命令提示字元確認公用虛擬機器確實具有到網際網路的出站連線：
     ```powershell
     ping bing.com
     ```
+![VM Public Cmd](./image/m7u5/vm-public-cmd.png)
 5.  關閉與 ContosoPublic VM 的遠端桌面會話。
 6.  從您的電腦瀏覽至 Azure 入口網站。
 7.  在搜尋資源、服務和文件方塊中輸入您建立的儲存帳戶的名稱。當您的儲存帳戶名稱出現在搜尋結果中時，請選擇它。
