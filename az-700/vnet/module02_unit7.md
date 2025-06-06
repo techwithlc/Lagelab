@@ -10,6 +10,10 @@
 ---
 ![虛擬網路 WAN 架構圖。](./image/m2u7/architecture.png)
 
+實際上 VWAN 應用場景架構圖
+
+![VWAN](./image/m2u7/virtual-wan-diagram.png)
+git 
 
 在本練習中，您將:
 
