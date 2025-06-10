@@ -47,7 +47,7 @@
 5.  等待部署完成，然後選擇 **前往資源**。
 6.  驗證該區域已建立。
 
-![T1 Complete](./image/m1u6/t1-private-dns-zone-complete.png)
+![T1 Complete](./image/m1u6/t1-private-dns-create-complete.png)
 
 -----
 
