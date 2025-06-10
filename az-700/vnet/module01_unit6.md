@@ -7,7 +7,7 @@
 在本單元中，您將為 Contoso Ltd. 設定 DNS 名稱解析。您將建立一個名為 contoso.com 的私有 DNS 區域，連結 VNet 以進行註冊和解析，然後建立兩台虛擬機器並測試設定。
 
 ## 架構圖
-![(architecture diagram)]([https://microsoftlearning.github.io/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/Instructions/media/5-exercise-restrict-network-paas-resources-virtual-network-service-endpoints.png](https://microsoftlearning.github.io/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/Instructions/media/6-exercise-configure-domain-name-servers-configuration-azure.png))
+![(architecture diagram)](https://microsoftlearning.github.io/AZ-700-Designing-and-Implementing-Microsoft-Azure-Networking-Solutions/Instructions/media/5-exercise-restrict-network-paas-resources-virtual-network-service-endpoints.png)
 
 **預計時間：** 25 分鐘
 
